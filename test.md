@@ -3,5 +3,9 @@
 ## 여준 H2
 
 
-<code> def paragraph 
-coco = asdok </code>
+<p>Here is an example of Apple Script:</p>
+
+<pre><code>tell application "Foo"
+    beep
+end tell
+</code></pre>
