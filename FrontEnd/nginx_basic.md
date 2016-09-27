@@ -1,6 +1,6 @@
 # NGINX의 역할
 
-### nginx.conf
+
 ### nginx.conf : 메인 설정 파일.
 ### fcgi.conf : FastCGI 환경설정 파일
 ### sites-enabled : 활성화된 사이트들의 설정 파일들이 위치. 아파치에서는 Virtual host의 설정에 해당한다. 기본적으로 존재하지 않을수도 있다. 이 디렉토리를 직접 만들어서 사용하는 방법은 가상 호스팅편에서 알아본다.
@@ -11,26 +11,26 @@ worker_processes와 같은 지시자 설정 파일 최상단에 위치하면서
 nginx의 기본적인 동작 방식을 정의한다
 
 nginx는 1개의 master process와 worker processes를 가진다
-master process의 주 목적
- read and evaluate configuration
- worker precesses 유지하기
+  master process의 주 목적
+  - read and evaluate configuration
+  - worker processes 유지하기
 
 worker processes
  실제 요청 처리
 
-NGINX는
- 이벤트 기반 모델( 아파치는 프로세스나 쓰레드 방식, 비동기 이벤트 + 단일 쓰레드 방식 작동->블록킹(프로세스or쓰레드에서 발생)에 의한 지연 및 자원 소모 적어 가볍고 빠른 속도)
- worker processes에게 효율적으로 요청을 분배하기 위해 OS-기반 메커니즘
- worker process는 configuration file에서 정의되고
- 주어진 configuration에서 수정되거나
- 가용 가능한 CPU core의 양에 따라 자동으로 조정됨
+### NGINX는
+ - 이벤트 기반 모델(아파치는 프로세스나 쓰레드 방식, 비동기 이벤트 + 단일 쓰레드 방식 작동->블록킹(프로세스or쓰레드에서 발생)에 의한 지연 및 자원 소모 적어 가볍고 빠른 속도)
+ - worker processes에게 효율적으로 요청을 분배하기 위해 OS-기반 메커니즘
+ - worker process는 configuration file에서 정의되고
+ - 주어진 configuration에서 수정되거나
+ - 가용 가능한 CPU core의 양에 따라 자동으로 조정됨
 
-  var/run/ 이 안에는 실행 중인 앱이다.
+var/run/ 이 안에는 실행 중인 앱이다.
  시스템운용중에 생성되었다가 삭제되는 데이터를 일시적으로 저장하기 위한 디렉토리.
  거의 모든 시스템로그파일은 /var/log 에 저장되고, DNS 의 zone 설정파일은 /var/named 에 저장되고, 메일파일은 /var/spool/mail 에 저장되며, 크론설정파일은 /var/spool/cron 디렉토리에 각각 저장됨.
 
 
-> upstream my_app {
+ upstream my_app {
 >  server unix:///var/run/my_app.sock;
 >  this is socket for puma server and this address will be used
    같은 호스트에 설치되서 소켓을 통해 통신
@@ -67,22 +67,22 @@ NGINX는
 
 
 ## configuration File's Structure
-
+(위에서 worker process 정의한다고 말함)
 nginx는 directives에 의해 제어되는 모듈로 구성된다.
-Directives는 simple sirective와 block directive로 나뉜다
+Directives는 simple directive와 block directive로 나뉜다
 
-simple directive
- 세미콜론으로 끝나고 space에 의해 분리된 파라미터와 이름으로 구성
+1 simple directive
+- 세미콜론으로 끝나고 space에 의해 분리된 파라미터와 이름으로 구성
 
-block directive
- simple과 동일 구조
- 하지만 semicolon 대신에 {} 사용
- {} 안에 다른 directive를 가진다면 context라고 불림(events, http, server, and location)
+2 block directive
+- simple과 동일 구조
+- 하지만 semicolon 대신에 {} 사용
+- {} 안에 다른 directive를 가진다면 context라고 불림(events, http, server, and location)
 
 context 밖의 configuration file에 위치한 directive는
 main context다.
 *events* and *http* directives는 *main* context안에
-*server* in *http*, and *location* in *server*
+*server* 는 in *http*, and *location* 은 in *server*
 
 ## Serving Static Content
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta http-equiv="contentType" type="text/html" charset="utf-8" />
+</head>
+
+<body>
+  <p>
+    p 태그는 hTML의 문단
+  </p>
+  <scrip>
+
+  </script>
+  <p>
+    그 밖의 다른 태그 올 수 있다.
+  </p>
+
+  <script>
+    function debug(msg) {
+      //id 속성을 사용하여 문서에서 디버깅을 위한 영역 검색
+      var log = document.getElementById("debuglog");
+
+      // id가 debuglog인 얘 없으면 임의 생성
+      if(!log) {
+        log = document.createElement("div");
+        log.id = "debuglog";
+
+        log.innerHTML = "<h1>Debug Log</h1>"
+
+        document.body.appendChild(log);
+      }
+      // 메시지를 <pre> 엘리먼트의 텍스트 노드로 설정 후, 디버깅 영역에 출력
+
+      var pre = document.createElement("pre");
+      var text = document.createTextNode(msg);
+
+      pre.appendChild(text);
+      log.appendChild(pre); // <pre> element를 디버깅 영역에 추가
+
+
+    }
+  </script>
+</body>
+</html>

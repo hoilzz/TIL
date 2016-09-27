@@ -4,18 +4,18 @@
 #### CSS3 Media Queries
 
 Media 쿼리는 CSS2 media types idea를 확장한다
--  device type을 찾는 것 대신에, 그들은 device의 capability를 본다
+- device type을 찾는 것 대신에, 그들은 device의 capability를 본다
 
 Media 쿼리는 많은 것을 확인 하는데 사용된다
 - width and height of the viewport
 - width and height of the device
 - orientation (is the tablet/phone in landscape or portrait mode?)
+  기기의 방향, landspace (가로 모드), portrait(세로 모드)
 - resolution
 
 media 쿼리를 사용하는 것은 타블렛, 아이폰 그리고 안드로이드에 딱 맞는 style sheet을 전달하는 유명한 기법이다.
 
 #### Media Query Syntax
-
 - media query는 media type을 구성하고 1개 이상의 표현을 포함한다.
 - 이것은 true or false로 resolve 한다.
 
