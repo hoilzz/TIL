@@ -43,3 +43,8 @@ javascript는 prototype base 언어다.
 
 
 var o = new Sub();와 var o = {}는 같다. 왜냐면 빈객체를 반환하니까. 하지만 왜 new Sub를 쓰냐?
+
+
+## Summary
+- 프로토타입안에 있는 프로퍼티는 공통으로 쓸 메서드와 변수만 사용하기 (클래스 변수와 비슷)
+- 상속은 프로토타입만 됨?

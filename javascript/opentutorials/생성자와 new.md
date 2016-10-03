@@ -11,7 +11,7 @@
                         // new가 붙어있는 함수는 생성자. 즉 객체의 생성자.
 
   함수에 new를 붙이면 리턴값으로 객체를 생성.
-
+````
   function Person(){}
   var p1 = new Person();
   p1.name = 'egoing';
@@ -27,8 +27,9 @@
   }
   document.write(p2.introduce());
 
+````  
   따로 이름 정하지 말고 생성자 호출하자마자 초기화로 개선
-
+````
   function Person(name){
     this.name = name;
     this.introduce = function(){
@@ -40,3 +41,4 @@
 
   var p2 = new Person('leezche');
   document.write(p2.introduce());
+````
