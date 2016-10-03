@@ -32,9 +32,8 @@ var person = {}
 ```javascript
 function display (args) {
   var output = "";
-  if (typeof args.name == "string") {
-    output+= "Name: " + args.name + "\n";
-  }
+  if (typeof args.name == "string") output+= "Name: " + args.name + "\n";
+  
   if (typeof args.age == "number") {
     output+= "Age: " + args.age + "\n";"
   }
