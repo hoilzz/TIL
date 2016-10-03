@@ -1,31 +1,3 @@
-# map
-Map object는 key/value map이다. 객체와 primitive value 어떤 값이든 key 혹은 value로 사용될 수 있다.
-
-## syntax
-> new Map([iterable])
-
-### Parameters
-iterable
-: Iterable은 배열 or 엘리먼트가 key-value pair인 iterable object다. 각 key-value pair는 new Map에 추가된다. null은 undefined로 다뤄진다.
-
-## Description
-A Map object는 추가된 순서대로 element를 순회한다. for...of loop는 각 iteration마다 [key, value] 배열을 리턴한다.
-
-object의 map인 Map (특히 dictionary of dictionaries)는 object 추가 순서대로 map할 것이다.
-It should be noted that a Map that is a map of an object, especially a dictionary of dictionaries, will only map to the object's insertion order -- which is random and not ordered.  
-
-### Key equality
-Key 동등성은 "same-value" 알고리즘 기반이다: Nan은 Nan과 같다 (Nan !== Nan 이다 원래) 그리고 모든 다른 값은 === operator의 문법에 따라 동등한 것으로 간주된다.
-
-## Objects and maps compared
-
-너가 key와 값을 모두 세팅하고, 값을 불러내고, key를 삭제하고, key에 무언가 저장되어있는지 아닌지 detect 한다는 면에서 Objects는 Maps와 동등하다. 이거 때문에 Objects는 Maps로 사용되곤 한다 : 그러나 중요한 차이점이 있고 Map을 이용했을 때 더 나은 점이 있다.
-- Object는 prototype을 가진다. 그래서 map안에 default key가 있다. ES5 이래로 `map = object.create(null)`을 이용하여 우회하는 방식을 이용한다. 하지만 이 방법은 거의 이용안한다
-- Object의 Key는 String이고 Symbols이다. (Map에선 어떠한 값도 key가 될 수 있다)
-- Map의 사이즈를 쉽게 알 수 있다. 반면에 object의 경우 사이즈 기록을 유지해야한다.
-
-<hr><hr>
-
 # Array.prototype.map()
 
 ## Summary
