@@ -13,6 +13,6 @@ TIL은 Markdown documents 입니다.
 - 예시 코드
 
 - 몇가지 팁
-i
+
 
 TIL 소식을 받아보려면 [slowsteadywin.tistory.com](http://slowsteadywin.tistory.com) 을 참고하세요. (아직은 관리 안합니다..)
