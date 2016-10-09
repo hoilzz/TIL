@@ -12,7 +12,7 @@
 - 성능에도 안좋음
 
 ## Ex
-
+```
   class Counter.. {
     constructor (props) {
       super(props);
@@ -40,10 +40,14 @@
     }
   }
 
+```
 
 
-
-constructor 메서드의 파라미터는 props다. 이 props는 나중에 이 class counter가 만들어질 때 전달받을 props다. super를 통해 상속받은 클래스인 React.component 즉 패런트의 생성자 메서드를 먼저 실행하고 우리가 할 작업들을 한다. super(props)를 해야 이 메서드 안에서 this.state, props 접근 가능.
+constructor 메서드의 파라미터는 props다.
+- 이 props는 나중에 이 class counter가 만들어질 때 전달받을 props다.
+- super를 통해 상속받은 클래스인 React.component
+- 즉 패런트의 생성자 메서드를 먼저 실행하고 우리가 할 작업들을 한다.
+- super(props)를 해야 이 메서드 안에서 this.state, props 접근 가능.
 
 onClick, onChanged와 같은 js 이벤트 이용 가능. 근데 버튼 눌러도 안됨. 정상이다. js 컴포넌트에서 메서드 실행시 해당 메서드에서 this가 뭔지 모른다.
 

@@ -1,60 +1,160 @@
-# 객체
+# CH 6 객체 지향 프로그래밍
+> 객체 프로퍼티의 이해
+> 객체의 이해와 생성
+> 상속의 이해
 
-객체가 가진 프로퍼티 유지하는 것 외에 `프로토타입`이라고 하는 다른 객체의 프로퍼티를 상속받는다.
-객체의 메서드들은 일반적으로 상속받은 프로퍼티이고, 이를 `프로토타입 상속`이라고 한다.
-자바스크립트의 객체는 `정적 객체`를 흉내낼 수도 있고, 정적 타입 언어에서의 구조체처럼 사용할 수 있다.
+객체지향 언어
+- 클래스를 통해 같은 프로퍼티와 메서드를 가지는 객체를 여러개 만듬
+- 하지만 ECMAScript에는 클래스라는 개념이 없다.
 
-## 모든 객체는 3가지 속성을 갖는다
-- prototype은 상속받은 프로퍼티들을 가진 객체를 참조
-- class는 객체의 자료형(타입)을 특정짓는 문자열
-- extensible 속성은 객체에 새 프로퍼티를 추가할 수 있는지 결정
-이 3가지는 ch 6에서 자세히 다룰께
+ECMAScript 객체를 해시 테이블이라고 생각하자
+- 객체를 `프로퍼티의 순서 없는 컬렉션이며 각 프로퍼티는 원시 값이나 객체, 함수를 포함`한다고 정의 by ECMA-262
 
-## 자바스크립트 객체와 프로퍼티 종류
-1 native object : Array, Function, Date
-2 host object   : HTMLElement
-3 user defined object
+## 6.1 객체에 대한 이해
 
-1 own property  : 객체에 직접 정의
-2 inherited property : 객체의 `prototype` 객체가 정의한 프로퍼티
+### 6.2.3 프로토타입 패턴
+
+모든 함수는 prototype 프로퍼티를 가진다.
+- 이 프로퍼티는 해당 참조 타입의 인스턴스가 가져야 할 프로퍼티와 메서드를 담고 있는 객체
+- **이 객체는 생성자를 호출할 때 생성되는 객체의, 문자 그대로 프로토타입**
+- **프로토타입의 프로퍼티와 메서드는 객체 인스턴스 전체에서 공유된다는 점이 프로토타입의 장점**
+- **객체 정보를 생성자에 할당하는 대신 직접 프로토타입에 할당**
+
+```javascript
+function Person(){
+}
+
+Person.prototype.name = "Nicholas";
+Person.prototype.age = 29;
+Person.prototype.job = "Software Engineer";
+Person.prototype.sayName = function() {
+  alert(this.name);
+};
+
+var person1 = new Person();
+person1.sayName(); // "Nicholas"
+
+var person2 = new Person();
+person2.sayName(); // "Nicholas"
+
+alert(person1.sayName == person2.sayName) // true
+
+```
+
+- **생성자 함수가 비어있지만, 생성자를 호출해 만든 객체에도 프로퍼티와 메서드 존재**
+
+*프로토타입은 어떻게 동작하는가*
+- 모든 프로토타입은 자동으로 `constructor 프로퍼티`를 갖는다.
+  + 이 프로퍼티는 해당 프로토타입이 프로퍼티로서 소속된 함수를 가리킨다.
+  + ex. Person.prototype.constructor 는 Person을 가리킨다.
+
+- **인스턴스와 직접 연결되는 것은 생성자의 프로토타입이지 생성자 자체가 아님을 이해해야함**
+- person.prototype은 프로토타입 객체를 가리키지만
+- Person.prototype.constructor는 Person을 가리킨다.
+
+객체에서 프로퍼티 읽을 때 마다 해당 프로퍼티 이름을 찾으려고 검색한다.
+- 검색은 객체 인스턴스 자체에서 시작.
+- 못찾으면 포인터를 프로토타입으로 올려서 검색
+
+- 객체 인스턴스에서 프로토타입 값 읽기 가능 / 수정 불가능
+- **프로토타입과 같은 이름의 프로퍼티를 인스턴스에 추가하면 해당 프로퍼티는 인스턴스에 추가되며** 프로토타입까지 올라가지 않는다.
+- 인스턴스에 프로퍼티 추가시 해당 프로퍼티는 프로토타입에 존재하는 같은 이름의 프로퍼티 가린다
+- delete 연산자로 인스턴스 프로퍼티 삭제하여 prototype에 다시 접근 가능
+
+```javascript
+Person() {}
+Person.prototype.name = "Nicholas";
+
+var person1 = new Person();
+person1.name = "kkk";
+
+delete person1.name
+```
 
 
-## 6.1 객체 생성하기
-1 new 키워드
-2 Object.create // ECMAScript5
+*프로토타입 in 연산자*
+- 주어진 이름의 프로퍼티를 객체에서 접근할 수 있을 때
+- 프로퍼티가 인스턴스든 프로토타입이든 존재하면 true 반환
 
-### 6.1.1 객체 리터럴
-{}안에, 이름과 값을 :으로 구분한 순서쌍을 쉼표로 연결한 리스트
+```javascript
+var person1 = new Person();
+alert("name" in person1);
+```
 
-  var point = {x:0, y:0};
+*프로토타입 대체 문법*
+이전 예제에서 Person.prototype을 매 프로퍼티와 메서드마다 기입해야 했다.
+- 다음과 같이 프로퍼티오 메서드를 담은 객체 리터럴로 프로토타입을 덮어써서 반복을 줄이고 프로토타입에 기능을 더 가독성 있게 캡슐화 하는 패턴 유행
 
-- 평가될 때마다 새로운 객체 생성하고 초기화하는 표현식
+```javascript
+function Person(){}
 
-### 6.1.2 new
-객체를 만들고, 초기화함
-- new 다음에는 반드시 함수 호출문 와야한다.
-- 이것은 생성자라고 한다.
+Person.prototype = {
+  name : "Nicholas",
+  age : 29,
+  sayName : function() {
+    alert(this.name);
+  }
+};
+```
+- 이 예제는 Person.prototype 프로퍼티에 객체 리터럴로 생성한 객체를 덮어씀
+- 위와같이 하면 constructor 프로퍼티가 Person을 가리키지 않는다는 점만 차이
+- 결과적으로 constructor 프로퍼티는 함수 자체가 아닌 완전히 새로운 객체 생성자(Object)와 같다.
 
-  var o = new Object();
-  var k = new Array();
+*프로토타입 동적 성질*
 
-### 6.1.3 프로토타입
-- 자바스크립트의 모든 객체는 또 다른 객체와 연관되어있다.
-- 두 번째 객체는 prototype으로 알려져있고, 이 때 객체는 프로토타입으로부터 프로퍼티들을 상속받음
-- 객체 리터럴로 생성된 객체 프로토타입 객체가 같으며, 자바스크립트 코드에서 이 프로토타입 객체는 Object.prototype으로 참조 가능
+프로토타입에서 값을 찾는 작업은 런타임 검색이므로 프로토타입 바뀌면 즉시 인스턴스에도 반영됨. 심지어는 프로토타입이 바뀌기 전에 빠져나온 인스턴스도 바뀐 내용 반영
 
-| 생성방식 | prototype     |
-| :------------- | :------------- |
-| 리터럴           | 모든 객체의 프로토타입 객체가 같다. Object.prototype으로 참조 가능       |
-| new 키워드       | 생성자 함수의 프로토타입이 생성된 객체의 프로토타입이 된다.
-                    - ex. new Object로 생성된 객체는 {}로 생성된 객체와 마찬가지로 Object.prototype 상속 받음
-                    - new Array()로 생성된 객체는 Array.prototype을 상속받음 |
+```javascript
+var friend = new Person();
 
-### 6.1.4 Object.create()
-이 메서드의 첫번째 인자 : 프로토타입 객체
+Person.prototype.sayHi = function(){
+  alert("hi");
+}
+friend.sayHi(); // hi 동작
+```
+- Person 인스턴스 생성하여 friend에 저장
+- sayHi()라는 메서드를 Person.prototype에 추가
+- friend 인스턴스는 sayHi() 추가 되기 전에 만들어졌는데 이 메서드에 접근 가능
+  + 인스턴스와 프로토타입의 느슨한 연결 때문
+  + friend.sayHi() 호출시 인스턴스의 sayHi 프로퍼티 검색
+  + 찾을 수 없으면 검색 범위를 프로토타입으로 옮김
+  + **인스턴스와 프로토타입은 포인터를 통해 연결되었을 뿐 인스턴스 생성시 sayHi없는 프로토타입을 복사한것이 아니다.**
+- **인스턴스는 프로토타입을 가리키는 포인터를 가질 뿐 생성자와 연결된 것이 아님**
 
-  var o1 = Object.create({x:1, y:2}); // o1은 x,y 프로퍼티를 상속받는다.
+*프로토타입의 문제점*
+- 초기화 매개변수를 생성자에 전달할 수 없으므로 모든 인스턴스가 디폴트로 같은 프로퍼티 값을 가진다
+- 더 큰 문제는 공유라는 성질
+  + 인스턴스 프로퍼티에 값을 할당하면 프로토타입 프로퍼티 값을 가릴 수 있음
 
-만약 {} 또는 new Object()가 만들어내는 것과 같은 일반적인 빈 객체 만들고 싶다면, 함수에 Object.prototype을 전달
+```
+function Person(){
+}
+Person.prototype = {
+  constructor: Person,
+  name : ...,
+  friends : ["Shelby", "Court"]
+}
+var person1 = new Person();
+var person2 = new Person();
 
-  var o3 = Object.create(Object.prototype) // o3는 {} 또는 new Object()와 같은 객체다.
+Person1.friends.push("van");
+
+person1.friends; // shelby, court, van
+person2.friends; // shelby, court, van
+```
+
+## Summary
+- 인스턴스와 prototype은 포인터를 통해 연결되어있을 뿐이다.
+- 인스턴스는 prototype을 가리키는 포인터를 가진 것이다.
+- 프로토타입의 프로퍼티와 메서드는 객체 인스턴스 전체에서 공유된다는 점이 프로토타입의 장점
+- 객체 정보를 생성자에 할당하는 대신 직접 프로토타입에 할당
+
+
+### 6.2.4 생성자 패턴과 프로토타입 패턴 조합
+### 6.2.5 동적 프로토타입 패턴
+### 6.2.6 기생 생성자 패턴
+### 6.2.7 방탄 생성자 패턴
+## 6.3 상속
+### 6.3.1 프로토타입 체인
+### 6.3.4 프로토타입 상속
+## Summary
