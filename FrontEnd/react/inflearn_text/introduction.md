@@ -21,7 +21,7 @@
 - 페북 같은 곳에서 DOM에 직접 접근하여 변경하면 성능상 이슈 발생
 
 > NOTE
-> DOM 자체는 빠르다. DOM을 읽고 쓸 때의 성응은 js 객체를 처리 할 때의 성능과 비교해서 다를게 없다. 단 브라우저 단에서 DOM 변화 발생시, 브라우저가 CSS를 다시 연산, 레이아웃 구성, 웹 페이지 리페인트하는데 시간이 오래걸림
+> DOM 자체는 빠르다. DOM을 읽고 쓸 때의 성능은 js 객체를 처리 할 때의 성능과 비교해서 다를게 없다. 단 브라우저 단에서 DOM 변화 발생시, 브라우저가 CSS를 다시 연산, 레이아웃 구성, 웹 페이지 리페인트하는데 시간이 오래걸림
 
 ### 해결책
 일단, HTML 마크업을 시각적인 형태로 변환 하는 것이 브라우저의 주 역할이기 때문에 이 때 사용되는 리소스는 어쩔 수 없다. 따라서, 이 문제 해결하기 위해 DOM 조작을 안할 수는 없으니까 **최소한의 DOM 조작을 통해 개선** 해야한다. 예를 들어보자.
@@ -119,3 +119,35 @@ render(<HelloWorld/>, document.getElementById('app'));
   + import한 파일을 재귀적으로 불러와서 하나의 파일로 합치기
   + react 컴포넌트를 페이지에 렌더링 할 때 react-dom 모듈을 불러와서 render 함수를 통해 처리
 - <컴포넌트이름/> : 컴포넌트 만들기
+
+
+
+
+## Summary
+- React는 재사용 가능한 UI 생성하도록 도와준다
+- Virtual DOM 개념 사용하여 상태가 변함에 따라 **선택적 UI 렌더링** 함
+  + 실제 DOM에 접근하여 조작하는 대신, 추상화 시키 js 객체를 구성하여 사용
+  + 실제 DOM의 가벼운 사본과 비슷
+
+- React에서 데이터 변경시 3가지 절차
+  1. 전체 UI를 Virtual DOM에 리렌더링
+  2. 기존 Virtual DOM의 내용을 현재와 비교
+  3. 바뀐 부분만 DOM에 적용
+  + DOM 업데이트 추상화
+  + DOM 처리 횟수 최소화
+
+- 특징
+  1. Component, Component, Component
+  2. JSX
+  3. 클라, 서버 둘 다 렌더링 됨
+
+- `import React from 'react'` from hellworld.js
+  + bundling : webpack을 이용하여 import(or require)한 모듈 한 파일로 합침
+
+```javascript
+import React from 'react';
+import {render} from 'react-dom';
+import HelloWorld from './Helloworld.js'
+```
+- webpack의 entry 파일
+  + import한 파일을 재귀적으로 불러와서 1개 파일로 합치기
