@@ -12,7 +12,7 @@
 - 성능에도 안좋음
 
 ## Ex
-```
+```javascript
   class Counter.. {
     constructor (props) {
       super(props);
@@ -53,7 +53,7 @@ onClick, onChanged와 같은 js 이벤트 이용 가능. 근데 버튼 눌러도
 
 그래서 this뭔지 알려주려면 bind해야함
 
-<button onClick={this.handleClick.bind(this)
+<button onClick={this.handleClick.bind(this)>
 
 위 코드는 handleClick에서 사용될 this는 렌더에서 사용되는 this와 같다라는 으미
 근데 컨벤션상 button에 바인딩하는것보다 constructor에서 하는게 보기에 좋다.
@@ -64,3 +64,10 @@ onClick={this.handleClick()} 괄호가 없는데 넣어보자.
 
 handleClick() 실행되면, handleClick에서 state바꾸고
 setState하면 렌더링하고.. 이걸 계속 반복..
+
+## Summary
+- 컴포넌트에서 유동적인 데이터 보여줄 때 사용
+- 초기값 설정 필수
+  - constructor 안에서 this.state={}
+- setState를 통해 값 변경 가능
+- super(props)를 해야 해당 메서드 안에서 this.state, props 접근 가능
