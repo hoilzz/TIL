@@ -14,7 +14,7 @@
 함수가 어느 객체에 속하지 않으면 this는 window라고 하는 전역객체
 **o.func()라는 메서드 호출시 this는 o다.**
 
-사실 어느 객체에 속하지 않은 func는
+**어느 객체에 속하지 않은 func는**
 window의 메서드다. 즉 func() 호출 = window.func() 와 같다.
 
 
@@ -26,7 +26,7 @@ window의 메서드다. 즉 func() 호출 = window.func() 와 같다.
 *생성자 안에서 this는 어떤 의미일까*
 
 Ex
-
+```javascript
   var funcThis = null;
 
   function Func() {
@@ -35,19 +35,19 @@ Ex
     funcThis = this;
   }
 
-  var o1 = Func(); // Func()의 return이 없으므로 o1은 undefined  
+  var o1 = Func(); // Func()의 return이 없으므로 o1은 undefined
                    // Func() 호출시 funcThis = this 여기서 this는 메서드 혹은 함수가 소속된 객체를 가리킨다.
                    // function Func()는 window에 속한다.
 
   if (funcThis === window) {
-    document.write('wi ndow </br>')
+    document.write('window </br>')
   }
 
   var o2 = new Func();
   if (funcThis === o2) {
     document.write('o2 </br>')
   }
-
+```
 생성자의 맥락(context)에서는 this의 값이 생성될 객체를 가리킨다.
 
 함수로 호출하게 되면 이 함수 안에서의 this값은 window다.
@@ -74,11 +74,10 @@ var a = [ 1,2,3 ] or = new Array(1,2,3)
 ls
 
 
-**함수가 어떤 맥락(context)에서 호출하느냐에 따라 소속된 객체가 달라진다.
-this는 변화무쌍하댜..**
+**함수가 어떤 맥락(context)에서 호출하느냐에 따라 소속된 객체가 달라진다. this는 변화무쌍하댜..**
 
 **함수가 누구에게 소속되어있느냐에 따라 this가 달라진다.**
-
+```javascript
   var o = {}
   var p = {}
   function func(){
@@ -91,7 +90,7 @@ this는 변화무쌍하댜..**
             break;
         case window:
             document.write('window<br />');
-            break;          
+            break;
     }
   }
   func();
@@ -102,3 +101,11 @@ this는 변화무쌍하댜..**
   window
   o
   p
+```
+
+## summary
+- this는 메서드(or 함수)가 소속된 객체를 가리킨다
+- 생성자의 context에서는 this의 값이 생성될 객체를 가리킨다.
+- 어떤 식별자에 담기기 전에 그 객체를 참고할 수 있는 레퍼런스 이므로 this는 굉장히 중요
+- 함수가 어떤 context에서 호출하느냐에 따라 소속된 객체가 달라짐.
+- 함수가 누구에게 소속되었느냐에 따라 this가 달라짐.
