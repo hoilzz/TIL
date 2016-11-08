@@ -1,52 +1,3 @@
-# 변수와 스코프, 메모리
-
-> 변수의 원시 값과 참조값
-> 실행 컨텍스트의 이해
-> 가비지 컬렉션의 이해
-
-## 4.1 원시 값과 참조값
-
-변수는 원시 값과 참조 값 두 가지 타입의 데이터 저장 가능.
-- 원시값 : 단순 데이터
-- 참조 값 : 여러 값으로 구성되는 객체
-  - 참조 값은 메모리에 저장된 객체,
-
-
-## 4.1.1 동적 프로퍼티
-- 참조값을 다룰 때는 언제든 프로퍼티와 메서드를 추가 수정 삭제할 수 있다.
-
-  var person = new Object();
-  person.name = "Nicholas"
-  alert(person.name); // **Nicholas**
-
-
-  var name = "Nicholas";
-  name.age = 27;
-  alert(name.age);  // **undefined**
-
-  문자열 name에 age란 프로퍼티를 정의했다.
-  하지만 다음 줄에서 프로퍼티는 없어졌다.
-  **동적으로 프로퍼티를 추가할 수 있는 값은 참조 값 뿐이다**
-
-
-## 4.1.3 매개 변수 전달
-변수는 `값, 참조`로 접근 가능. 하지만 매개변수는 오직 `값`으로만 전달
-### 매개변수를
-- `값` 형태로 넘기면 해당 값은 지역변수에 복사
-- `참조` 형태로 넘기면 메모리 상의 위치가 지역변수에 저장. 지역 변수 변경시 함수 바깥에도 해당 변경 내용 반영
-
-
-## 4.1.4 타입 판별
-`typeof`, `instanceof`
-
-### instanceof
-변수가 주어진 참조 타입의 인스턴스일 때 true 반환
-  person instanceOf Object // person변수가 Object의 인스턴스인가?
-  colors instanceof Array
-
-모든 참조 값은 Object의 인스턴스로 정의되어있으므로 항상 true 반환
-반면 원시 값은 Object의 인스턴스가 아니므로 false 반환
-
 ## 4.2 실행 컨텍스트와 스코프
 **execution context** 는 컨텍스트라고 부르며 중요한 개념이다.
 - 변수, 함수의 실행 컨텍스트는 **다른 데이터에 접근할 수 있는지, 어떻게 행동하는지를 규정**한다
@@ -69,6 +20,7 @@
 - 스코프 체인은 {} 다
 - 지역변수와 전역변수의 개념..
 
+```javascript
   var color = "blue"
   function changeColor() {
     if (color === "blue") {
@@ -77,34 +29,41 @@
       color = "blue"
     }
   }
-
+```
 changeColor()의 스코프 체인에는 2개의 객체가 있다.
 1 함수 자체의 변수 객체 (this ==== function changeColor())    2 전역 컨텍스트의 변수 객체 (color)
 
+로컬 컨텍스트에서는 지역 변수와 전역 변수 모두 쓸 수 있다.
 
-## 4.2.1 스코프 체인 확장
+```javascript
+var color = "blue";
 
-임시 객체가 생성되는 2가지 경우
-1 try-catch문의 catch 블록
-2 with 문
-
-두 문장은 모두 스코프 체인 앞에 변수 객체를 추가
-- with 문에서는 해당 객체가 스코프 체인에 추가
-- catch문은 에러 객체를 선언하는 변수 객체가 생성
-
-  function buildUrl() {
-    var qs = "?debug=true";
-
-    with(location) {
-      var url = href + qs;
-    }
-    return url;
+function changeColor(){
+  var anotherColor = "red";
+  function swapColor(){
+    var tempColor = anotherColor;
+    anotherColor = color;
+    color = tempColor;
+    // color, anothercolor, tempcolor 접근 가능
   }
-
-- with 문이 location 객체에 적용되므로 location 객체가 스코프 체인에 추가됨
-- href를 참조하는 문장은 location.href 변수 참조하는 것
-- with 문 내부에서 선언한 변수 url은 함수의 컨텍스트로 편입, 따라서 함수 값으로 반환 가능
-
+  // color, anotherColor접근 가능, tempcolor 접근 불가능
+}
+changeColor();
+// color만 접근 가능
+```
+3개의 실행 컨텍스트가 있다.
+1. 전역 컨텍스트
+2. changeColor()의 로컬 컨텍스트
+3. swapColors()의 로컬 컨텍스트
+- 내부 컨텍스트는 스코프 체인을 통해 외부 컨텍스트 전체에 접근 가능
+- 외부 컨텍스트는 내부 컨텍스트에 대해 전혀 알 수 없음
+- 컨텍스트 사이의 연결은 순서가 중요
+  - 각 컨텍스트는 스코프 체인을 따라 상위 컨텍스트 검색 가능
+  + but, 스코프 체인 따라 내려가며 검색 불가능
+- `swapColors()`의 로컬 컨텍스트 스코프 체인에 3개의 객체가 있다
+  1. swapColors() 자신의 변수 객체에서 변수나 함수 이름 검색
+  2. changeColor()
+  3. 전역 객체
 
 
 ## 4.2.2 자바스크립트에는 블록 레벨 스코프가 없다

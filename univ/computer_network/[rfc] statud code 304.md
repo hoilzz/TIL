@@ -45,3 +45,16 @@ Accept-Encoding request-header filed는 Accept와 비슷하다. 하지만 응답
 
 만약 Accept-Encoding field가 요청에서 존재한다면, 만약 서버가 Accept-Encoding header에 따라 허용가능한 응답을 보내지 못한다면, 서버는 err 응답을 보내야한다 (406에러오 ㅏ같이)
 만약 Accept-Encoding field가 요청에서 제시되지 않는다면, 서버는 클라가 어떠한 컨텐츠 코딩도 허용된다는 걸로 가정한다. 이 경우에 identity가 이용 가능한 컨텐츠-코딩중의 하나면 서버는 아이덴티티를 컨텐츠 코딩으로 사용한다.
+
+
+# 201 CREATED
+성공적으로 요청되었으며 서버가 새 리소스를 작성했다.
+
+요청은 만족되고 1개 이상의 생성된 리소스 결과를 낳는다.
+
+요청에 의해 생성된 주요 리소스는 응답에서 Location field에 의해 확인되거나 혹은 location field 를 받지 못했다면
+
+201 리스폰스 페이로드는 전형적으로 설명하고 생성된 리소스를 연결한다. validator header field의 목적과 의미 RFC 7231을 봐. Such as ETag and Last-modified, in a 201 response.
+
+## def From Mozila
+HTTP 201 Created success status response code 는 요청이 성공적이고 리소스의 creation으로 이어진다. 이 응답이 보내지기 전에 새 리소스는 효과적으로 생성된다. 그리고 나서 new resource는 message body안에 리턴된다. 요청 URL의 위치 혹은 Locatiobn
