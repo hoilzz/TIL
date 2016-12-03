@@ -47,40 +47,6 @@ void PrintBack() {
     if (front > back) printf("-1\n");
     else printf("%d\n", queueArr[back]);
 }
-
-int main() {
-
-    int data, orderCnt;
-    char orderStr[11];
-
-    scanf("%d", &orderCnt);
-
-    while(orderCnt-- > 0) {
-        scanf("%s", orderStr);
-
-        if (strcmp(orderStr, "push") == 0) {
-            scanf("%d", &data);
-            push(data);
-        }
-        else if (strcmp(orderStr, "pop") == 0) {
-            pop();
-        }
-        else if (strcmp(orderStr, "size") == 0) {
-            size();
-        }
-        else if (strcmp(orderStr, "empty") == 0) {
-            empty();
-        }
-        else if (strcmp(orderStr, "front") == 0) {
-            PrintFront();
-        }
-        else if (strcmp(orderStr, "back") == 0) {
-            PrintBack();
-        }
-    }
-
-    return 0;
-}
 ```
 
 ## 회고

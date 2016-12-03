@@ -13,36 +13,6 @@
 int stackArr[10001];
 int topIdx = -1;
 
-int main() {
-
-    int data, orderCnt;
-    char order[11];
-
-    scanf("%d", &orderCnt);
-
-    while(orderCnt-- > 0) {
-        scanf("%s", order);
-        if (strcmp(order, "push") == 0) {
-            scanf("%d", &data);
-            push(data);
-        }
-        else if (strcmp(order, "top") == 0) {
-            top();
-        }
-        else if (strcmp(order, "empty") == 0) {
-            empty();
-        }
-        else if (strcmp(order, "size") == 0) {
-            size();
-        }
-        else if (strcmp(order, "pop") == 0) {
-            pop();
-        }
-    }
-
-    return 0;
-}
-
 void push(int data) {
     stackArr[++topIdx] = data;
 }
