@@ -1,5 +1,6 @@
 ## rem
 - `em`은 현재의 font-size
+-
 ```css
 body {
   font-size: 14px;
@@ -27,6 +28,7 @@ div {
 
 ## rem
 이런경우엔 `rem`
+- `rem` 은 *root em* 이라는 뜻으로, HTML 문서의 root 요소인 `<html>`을 가리킨다.
 
 ```css
   html {
@@ -38,6 +40,9 @@ div {
 ```
 
 ### WHEN ? 그리드 시스템
+
+- `rem`의 r은 root 즉, `<html>` element를 뜻한다 (not the parent element)
+
 rem은 폰트에서만 사용하지 않는다.
 - 그리드 시스템
   - `rem`을 이용한 기본 폰트 사이즈 기반으로 만든 UI 스타일, 그리고 `em`을 이용해 **특정 위치에 특별한 사이즈를 지정**
@@ -106,3 +111,16 @@ rem은 폰트에서만 사용하지 않는다.
 
 <p data-height="265" width="100%" data-theme-id="0" data-slug-hash="LRjRAm" data-default-tab="css,result" data-user="cooking" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/cooking/pen/LRjRAm/">Demo of vw Unit</a> by cooking (<a href="http://codepen.io/cooking">@cooking</a>) on <a href="http://codepen.io">CodePen</a>.</p>
 <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+
+
+
+# 그밖에..
+
+## px
+
+이미지에 맞춰 정확히 배치해야할 때 사용하면 좋다
+
+## pt
+
+pt는 포인트를 의미한다.

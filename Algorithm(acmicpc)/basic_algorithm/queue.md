@@ -12,17 +12,17 @@
 ```C
 int queueArr[10001];
 
-int front = 0;
-int back = -1;
+int front = 0; // pop()에서 사용. front 앞 까지 제거완료
+int rear = -1; // push()에서 사용. 증가 시키고 rear
 
 void push(int data) {
-    queueArr[++back] = data;
+    queueArr[++rear] = data;
     //    if (front == -1) front += 1;
     // front를 0으로 해야 empty 했을 때
 }
 
 void pop() {
-    if (front > back) printf("-1\n");
+    if (front > rear) printf("-1\n");
     else {
         printf("%d\n", queueArr[front]);
         front += 1;
@@ -30,22 +30,22 @@ void pop() {
 }
 
 void size() {
-    printf("%d\n", back - front + 1);
+    printf("%d\n", rear - front + 1);
 }
 
 void empty() {
-    if (front > back) printf("1\n");
+    if (front > rear) printf("1\n");
     else printf("0\n");
 }
 
 void PrintFront() {
-    if (front > back) printf("-1\n");
+    if (front > rear) printf("-1\n");
     else printf("%d\n", queueArr[front]);
 }
 
 void PrintBack() {
-    if (front > back) printf("-1\n");
-    else printf("%d\n", queueArr[back]);
+    if (front > rear) printf("-1\n");
+    else printf("%d\n", queueArr[rear]);
 }
 ```
 

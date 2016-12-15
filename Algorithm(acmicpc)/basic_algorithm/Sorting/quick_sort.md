@@ -46,7 +46,7 @@ quickSort(int start, int end, int arr[]) {
   if (l_hold < pivot) quickSort(l_hold, pivot - 1, arr);
 
   // pivot의 위치가 r_hold인 경우 pivot 오른쪽에 퀵소트 할 게 없음
-  if (r_hold > pivot) quickSort(r_hold, pivot + 1, arr);
+  if (r_hold > pivot) quickSort(pivot + 1, r_hold, arr);
 }
 
 main(){
