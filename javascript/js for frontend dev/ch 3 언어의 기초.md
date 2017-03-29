@@ -4,47 +4,58 @@
 ## 3.1.4 스트릭트 모드
 ECMAScript 5에서는 '스트릭트 모드'라는 개념 도입. 스트릭트 모드는 기존과는 다른 방식으로 js를 파싱하고 실행하라고 지시하는 것
 
-> use strict  // 전체 스크립트에 스트릭트 모드 적용
+```javascript
+ use strict  // 전체 스크립트에 스트릭트 모드 적용
+```
 
 이 문법은 ECMAScript 3과 호환됨
 
 함수 단 하나만 스트릭트 모드로 실행하려면 다음 선언을 함수 본문 맨 앞에 추가
 
-> function doSomething() {
+```javascript
+function doSomething() {
   "use strict"
   // 함수 본문
 }
-
+```
 ## 3.3 변수
 
 var 연산자는 변수를 로컬 스코프에서 정의, 즉 함수 종료시 즉시 파괴
 
+```javascript
   function test() {
     var msg = "hi" // 로컬 스코프에서 정의됨
   }
   test();
-  alert(msg); // 에러
+  alert(msg); // 에러, 함수 종료 즉시 파괴됨.
+```
 
-var 연산자 생략시 전역 변수 선언
+**var 연산자 생략시** 전역 변수 선언, 하지만 이러한 패턴은 피하자.
 
+- 전역 변수를 로컬에서 정의하면 관리하기 어렵다
+- var 키워드를 의도적으로 생략했는지 실수인지 알기 어렵다.
+- strict mode에서는 변수 선언하지 않고 값 할당하려 하면 `ReferenceError` 반환
+
+```javascript
   function test() {
     msg = "hi" // 로컬 스코프에서 정의됨
   }
   test();
   alert(msg); // 출력
-
+```
 
 ## 3.4 데이터 타입
 
 ECMAScript에는 5가지 기본적인 타입이 있다. (primitive data type이라고 불림)
-1 Undefined
-2 Null
-3 Boolean
-4 숫자
-5 문자열
-+ 객체 (이름-값 쌍의 순서 없는 목록)
 
-### 3.4.1 typeof 연산자
+  1. undefined : 정의되지 않은 변수
+  2. object : 함수를 제외한 객체 또는 null
+  3. Boolean
+  4. "number" : 숫자
+  5. string : 문자열
+  6. function : 함수
+
+## 3.4.1 typeof 연산자
 ECMAScript는 느슨한 타입을 채택했으므로 변수의 데이터 타입을 알아내야 할 때가 있다.
 
 값(변수)에 typeof 연산자를 적용하면 다음 문자열 중 하나를 반환
@@ -58,91 +69,149 @@ ECMAScript는 느슨한 타입을 채택했으므로 변수의 데이터 타입�
   var msg = "some string";
   alert(typeof msg);  // **typeof는 함수가 아닌 연산자이므로 괄호 쓰지 않아도 된다.**
 
-### 3.4.2 undefined 타입
-undefined는 특별한 값. var를 써서 변수 정의했지만 초기화하지 않았다면 undefined가 할당됨
+## 3.4.2 undefined 타입
 
+undefined는 특별한 값.
+- **var를 써서 변수 정의했지만 초기화하지 않았다면** undefined가 할당됨
+- 즉, 애초에 var로 선언하지 않은 변수를 사용하면 에러 일으킴
+
+```javascript
   var msg;
-  alert(msg == undefined) // true
+  // var age 이 변수는 선언 안됨.
+  alert(msg) // undefined
+  alert(age) // 에러 일으킨다.
 
-*Note*
-변수를 초기화하지 않으면 자동으로 undefined가 할당된다. 하지만 초기화를 권장한다
-WHY? typeof에서 undefined 반환시 해당변수가 초기화되지 않은 것인지, 정의되지 않은 것인지 바로알 수 있다.
+  // 정의하지 않은 변수에 typeof 연산자를 호출해도 "undefined"를 반환한다.
 
+  alert(typeof msg); // undefined
+  alert(typeof age); // undefined
+```
 
-### 3.4.3 Null 타입
+## 3.4.3 Null 타입
+
 빈 객체를 가리키는 포인터. 즉 typeof 하면 object 반환
 
+```javascript
   var car = null;
   alert(typeof car); // "object"
+```
 
-undefined는 null에서 파생했으므로 두 값이 표면적으롣 ㅗㅇ일
+undefined는 null에서 파생했으므로 두 값이 표면적으로는(`==`으로 강제 형변환 했을 때) 동일
 
+```javascript
   alert(null == undefined) //true
+```
 
-true인 이유는 연산자가 피연산자 비교시 암시적 타입변환함
-
-변수의 값에 undefined는 할당하면 안되지만 null은 다르다.
-**객체를 사용해야하지만 해당 객체를 이용할 수 없을 때 항상 그 자리에 null이 와야함**
+- true인 이유는 연산자가 피연산자 비교시 암시적 타입변환함
+- 변수의 값에 undefined는 할당하면 안되지만 null은 다르다.
+- **객체를 사용해야하지만 해당 객체를 이용할 수 없을 때 항상 그 자리에 null이 와야함**
 
 
 ## 3.4.4 불리언 타입
 
-| 데이터 타입 | true     | false |
-| :------------- | :------------- |
-| 불리언       | true       |  false |
-| 문자열       | 비어있지 않은 문자열 | " "(빈 문자열) |
-| 숫자        | 0이 아닌 모든 숫자 | 0, NaN |
-| 객체 | 모든 객체 | null |
-| undefined | 해당 없음 | undefined|
+| 데이터 타입       | true             | false     |
+| :------------- | :-------------   | :------------: |
+| 불리언           | true             |  false       |
+| 문자열           | 비어있지 않은 문자열  | " "(빈 문자열) |
+| 숫자            | 0이 아닌 모든 숫자   | 0, NaN      |
+| 객체            | 모든 객체          | null         |
+| undefined      | 해당 없음          | undefined     |
 
 **Note**
 
+```javascript
 var msg = "HelloWorld"
 if (msg) {
   alert("Value is true");
 }
+```
 
-이 때 msg 값이 실수로 객체를 쓰면 (항상 true) 흐름이 완전히 바뀌기 때문에 조심.
+- 이 때 msg 값이 객체를 쓰면 (객체는 항상 true) 흐름이 완전히 바뀌기 때문에 조심.
 
 ## 3.4.5 숫자 타입
+
 ### NaN
 
 Not a Number라는 특별한 값.
 - 숫자를 반환할 것으로 의도한 조작이 실패했을 때 반환하는 값
 - 예를 들어, 어떤 숫자를 0으로 나누려 하면 ECMAScript에서는 NaN을 반환
 
-- Nan == Nan // false
+- `Nan == Nan` 은 false
 - **isNaN()** 함수 따로 제공, 숫자로 변환 할 수 없는 값을 넘기면 true 반환
 
-  isNan(NaN)      // true
-  isNan(10)       // false - 10은 숫자
-  isNan("10")     // false - 숫자 10으로 변경 가능
-  isNan("blue")   // true - 숫자로 바꿀 수 없다
-  isNan(true)     // false - 1로 바꿀 수 있다.
+```javascript
+  isNaN(NaN)      // true
+  isNaN(10)       // false - 10은 숫자
+  isNaN("10")     // false - 숫자 10으로 변경 가능
+  isNaN("blue")   // true - 숫자로 바꿀 수 없다
+  isNaN(true)     // false - 1로 바꿀 수 있다.
+```
 
-### 3.4.6 문자열 타입
+### 숫자 변환
 
-### 3.4.7 객체 타입
+숫자가 아닌 값을 숫자로 바꾸는 함수는 Number(), parseInt(), parseFloat() 함수 세가지다.
 
-ECMAScript에서 객체는 데이터와 기능의 집합
+1. Number()
+  - 어떤 데이터 타입에든 쓸 수 있다.
+
+2. parseInt(), parseFloat()
+  - 문자열을 숫자로 바꾸는 용도
+
+`Number()`는 세 가지 규칙에 기반해서 변환 및 반환한다.
+
+  1. 매개변수로 불리언 값을 넘겼다면 t,f를 각각 1,0으로
+  2. null은 0
+  3. undefined는 NaN을
+  4. 매개변수가 문자열이라면 다음 규칙을 따른다.
+    - 숫자만으로 구성되어있다면 리딩 제로는 모두 버린다. `011`은 11로.
+    - `1.1`과 같은 소수점 숫자 형식이라면 부동소수점 숫자 반환. 리딩 제로는 버린다.
+    - `0xf` 같은 유효한 16진수 형식이라면 그에 해당하는 정수를 반환.
+
+
+## 3.4.6 문자열 타입
+
+문자열은 불변이다.
+
+### 문자열로 변환
+
+- `toString()` 사용하기
+
+```javascript
+var age = 11;
+var ageAsString = age.toString();
+var ageAsString2 = String(age);
+```
+
+둘 다 동일하게 string으로 변환 가능하다.
+
+
+## 3.4.7 객체 타입
+
+ECMAScript에서 객체는 **데이터와 기능의 집합**
 - 객체는 new 연산자 다음에 객체 타입의 이름을 써서 만듬
 - Object 타입의 '인스턴스'를 만들고 프로퍼티나 메서드를 추가하여 객체 생성
 
+```javascript
   var o = new Object();
+```
 
 **Object 인스턴스 자체는 유용하지 않지만 개념은 매우 중요** 하다.
+
 ECMAScript의 Object 타입은 자바의 java.lang.Object 처럼 이 타입에서 파생되는 모든 객체의 원형
 
 - Object 타입의 인스턴스는 Object 타입의 프로퍼티와 메서드를 전부 상속
-- Object의 인스턴스는 다음 프로퍼티와 메서드를 가진다
-  - constructor : 해당 객체를 만드는 데 쓰인 함수. 위 예제는 Object() 함수가 생성자
-  - hasOwnProperty (propertyName) : 해당 프로퍼티가 객체 인스턴스에 고유하며 프로토타입에서 상속하지 않았음을 확인. 프로퍼티 이름은 반드시 문자열
-                                    예를 들어 o.hasOwnProperty("name") 같은 형식
-  - isPrototypeOf(object) : 해당 객체가 다른 객체의 프로토타입인지 확인 (5장에서 프로토타입 설명할께)
-  - toLocaleString() : 객체를 지역에 맞게 표현한 문자열 반환
-  - toString() : 객체를 문자열로 변환 후 반환
-  - valueOf() : 객체를 나타내는 문자열이나 숫자, 불리언을 반환 toString과 같은 값 반환할 때가 많다
+  - Object의 인스턴스는 다음 프로퍼티와 메서드를 가진다
+    - `constructor` : 해당 객체를 만드는 데 쓰인 함수. 위 예제는 `Object()` 함수가 생성자
+    - `hasOwnProperty (propertyName)` : 해당 프로퍼티가 객체 인스턴스에 고유하며 프로토타입에서 상속하지 않았음을 확인.
+                                        프로퍼티 이름은 반드시 문자열 예를 들어 o.hasOwnProperty("name") 같은 형식
+    - `isPrototypeOf(object)` : 해당 객체가 다른 객체의 프로토타입인지 확인 (5장에서 프로토타입 설명할께)
+    - `toLocaleString()` : 객체를 지역에 맞게 표현한 문자열 반환
+    - `toString()` : 객체를 문자열로 변환 후 반환
+    - `valueOf()` : 객체를 나타내는 문자열이나 숫자, 불리언을 반환 toString과 같은 값 반환할 때가 많다
 
+## Summary
+
+모든 객체가 Object에 기반해 만들어지므로 이들 프로퍼티와 메서드는 모든 객체에 존재한다. 
 
 ## 3.5 연산자
 
