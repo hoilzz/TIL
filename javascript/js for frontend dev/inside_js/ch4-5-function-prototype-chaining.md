@@ -42,6 +42,21 @@ javascript의 **모든 객체는 자신의 부모인 prototype 객체를 가리�
 But, 생성된 객체의 실제 부모 역할을 하는 건, 생성자 자신이 아닌 생성자의 prototype 프로퍼티가 가리키는 prototype 객체다.
 
 
+## 4.5.1 프로토타입의 2가지 의미
+
+OOP `상속`의 근간이 되는 `prototype`과 `prototype chaining`을 알아보자.
+
+먼저, JS에서는 `객체 리터럴`과 `생성자 함수`방식으로 객체를 생성한다.
+
+위 방식으로 생성된 객체의 부모객체가 `prototype`객체다.
+
+> js의 모든 객체는 자신의 부모인 prototype 객체를 가리키는 `참조링크 형태의 숨겨진 property`가 있다.
+개발자 도구에서 `[[Prototype]]`, `__proto__`로 볼 수 있다.
+
+위에서 말한 함수 객체의 `prototype`프로퍼티와 객체의 숨은 프로퍼티 `[[Prototype]]` 링크는 다르다.
+
+
+
 ## 4.5.4 프로토 타입 체이닝의 종점
 
 js에서 `Object.prototype` 객체는 프로토타입 체이닝의 종점이다.
