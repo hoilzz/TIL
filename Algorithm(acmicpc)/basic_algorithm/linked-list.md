@@ -40,8 +40,6 @@ Linkedlist 를 이용하면 크기 변화가 어렵다는 단점을 극복할 �
 `node`는 요소값(data), 다음 노드를 가리키는 포인터(next)로 이루어져있다.
 	- 가장 마지막 노드의 next는 null이다.
 
-*function insert*
-
 ```javascript
 function insertAfter(Node node, Node newNode){
 	newNode.next = node.next
@@ -180,5 +178,10 @@ int main(){
     }
     printf("\n");
 }
-
 ```
+
+## 관련 문제
+
+[조세퍼스](https://www.acmicpc.net/problem/1158)
+
+[에디터](https://www.acmicpc.net/problem/1406)
