@@ -17,8 +17,18 @@ CSS의 transform 속성을 사용함으로써, CSS의 시각적 서식 모델(vi
   │ a b │
   │ c d │
   └     ┘
-  tx, ty 는 이동되는 값이다.  
+  tx, ty 는 이동되는 값이다.
 
 #### translate
   transform:  translate(tx[, ty]) 하나 혹은 두개의 <length> 값
   벡터(vector) [tx, ty]에 의한 2D 이동 (translation) 연산이다. 만약 ty 값을 지정하지 않는다면, 0값으로 가정하여 계산한다
+
+
+### 예제
+
+<iframe height='685' scrolling='no' title='Css3 Transform' src='//codepen.io/vineethtr/embed/XKKEgM/?height=685&theme-id=0&default-tab=result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='http://codepen.io/vineethtr/pen/XKKEgM/'>Css3 Transform</a> by Vineeth.TR (<a href='http://codepen.io/vineethtr'>@vineethtr</a>) on <a href='http://codepen.io'>CodePen</a>.
+</iframe>
+
+
+## 참고
+[생활코딩 - transform](https://opentutorials.org/course/2418/13684)

@@ -3,6 +3,7 @@
 인덱스는 *특정 칼럼 값* 을 가지고 있는 열을 빠르게 찾기 위해 사용된다.
 
 ####기존에 MYSQL이 찾는 방법
+
 1 FTS(Full Table Scan)
 - 테이블의 처음 부터 끝까지 검색
 - 이로 인해 테이블이 클수록 비용이 엄청 증가
@@ -13,7 +14,7 @@
 - 대부분의 MySQL 인덱스는 B-트리에 저장된다.
 
 
-####Index의 종류
+#### Index의 종류
 : 칼럼의 수와 칼럼의 종류에 의한 인덱스의 구성
 
 1 Single Column Index
@@ -47,11 +48,14 @@
 - 인덱스를 걸고자 하는 필드의 값이 다양한 값을 가지는 경우
 
 #### Index 설계 시 유의사항
+
 1 인덱스 개수를 최소화 한다
+
 - 현재 인덱스로 Range Scan이 가능한지 여부를 사전에 체크
 - 인덱스도 서버 자원 소모하는 자료구조 이므로 성능에 영향을 줌
 
 2 인덱스 칼럼은 분포도를 고려하여 선정
+
 - 인덱스 칼럼 데이터의 중복이 줄어들수록 인덱스는 최대의 효과를 가짐
 - 하단 쿼리 결과 값이 1에 가까울수록 (0.9이상 권고) 인덱스 컬럼으로 적합
 
@@ -63,30 +67,14 @@
 - 자동 생성된 id column에 자동으로 index 추가
 
 
-
 #### 해보자
 
 1 timetable에서 time_item은 매번 검색해야한다.
 2 time_items 에서 timetable_id에 index 추가
 
-
-
 + timetable semester default 값 제거
 + timetable validates semester validates
 
-3.4 Changing Columns
-Like the remove_column and add_column Rails provides the change_column migration method.
-
-change_column :products, :part_number, :text
-This changes the column part_number on products table to be a :text field. Note that change_column command is irreversible.
-
-Besides change_column, the change_column_null and change_column_default methods are used specifically to change a not null constraint and default values of a column.
-
-change_column_null :products, :name, false
-change_column_default :products, :approved, from: true, to: false
-This sets :name field on products to a NOT NULL column and the default value of the :approved field from true to false.
-
-Note: You could also write the above change_column_default migration as change_column_default :products, :approved, false
 
 
 

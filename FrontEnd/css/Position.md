@@ -20,7 +20,7 @@
 ## Values
 
 *static*
-: `top`, `right`, `bottom`, `left`, `z-index` 프로퍼티 **do not apply**
+: `top`, `right`, `bottom`,x `left`, `z-index` 프로퍼티 **do not apply**
 
 *relative*
 - 모든 엘리먼트가 positioned 안된 것처럼 보인다.
