@@ -35,7 +35,13 @@ var engineer = create_object(Person);
 engineer.setName("hoil");
 ```
 
+- person 객체를 상속하여 engineer 객체를 만들었다.
+	- 이 때, 클래스에 해당하는 생성자 함수를 만들지 않았다.
+	- 또한, 클래스의 인스턴스를 따로 생성하지 않았다.
+	- 단지, 부모 객체에 해당하는 person 객체와이 객체를 프로토타입 체인으로 참조할 수 있는 자식 객체 engineer를 만들어서 사용하였다.
+
 - `F.prototype = parent` : F 생성자를 통해 생성된 객체의 부모 역할을 하는 prototype 객체를 parent 객체로 선언하였다.(상속)
+
 
 
 ---
@@ -92,12 +98,18 @@ console.log(Person);
 ...
 ```
 
+---
+
+
 ## 6.2.2 클래스 기반 상속
 
 **클래스의 역할을 하는 함수**로 상속을 구현하자.
 
-```javascript
+앞 절에서는 `객체 리터럴로 생성된 객체`의 상속이었다.
 
+클래스 기반 상속은 `클래스 역할을 하는 함수`로 상속을 구현한다.
+
+```javascript
 function Person(name){
 	this.name = name;;
 }
@@ -126,7 +138,6 @@ console.log(student.getName());
 student.setName("hoil");
 
 console.log(student.getName());
-
 ```
 
 위 코드는 2가지 문제가 있다.
@@ -212,6 +223,16 @@ var inherit = function(Parent, Child){
 지금까지 상속의 방법을 크게 2가지로 알아보았다.
 
 1. prototype을 이용한 방법
+
+	```javascript
+	function create_object(parent){
+		functino F(){}
+		F.prototype = parent;
+		return new F();
+	}
+	```
+	- 클래스에 해당하는 생성자 함수를 만들지 않고, 그 클래스의 인스턴스를 따로 생성하지 않는다.
+	- 단지 부모 객체에 해당하는 `parent` 객체와 이 객체를 프로토타입 체인으로 참조할 수 있는 `child`를 만들어서 사용한다.
 	- extend를 활용하여 자식 클래스의 메서드 및 데이터 확장
 
 2. 클래스 기반 상속

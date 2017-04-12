@@ -243,6 +243,7 @@ function subClass(obj){
       _parent.apply(this, arguments);
     }
     if(child.prototype._init){
+	  // child는 new 생성자로 만들어진 객체가 아닌 생성자 함수이기 때문에 프로토타입 체인이 형성될 수 없다. 그러므로 _init 함수 앞에 prototype을 명시해줘야 한다.
       child.prototype._init.apply(this, arguments);
     }
   };
@@ -484,6 +485,6 @@ Person 함수 객체는 **name의 정보를 캡슐화 시킨 객체**를 반환�
 
 실습을 해보자.
 
-1. 클래스의 기능을 가진 subClass() 함수를 만들어보자.
+1. 클래스의 기능(클래스의 인스턴스 생성시, 클래스 내에 정의된 생성자와 부모 클래스의 생성자도 호출)을 가진 subClass() 함수를 만들어보자.
 2. 위 subClass()를 클로저를 이용하여 구현해보자
-3. 모듈 패턴으로 클래스 역할을 하는 특정 함수의 정보 은닉을 구현해보자.
+3. 모듈 패턴(캡슐화)으로 클래스 역할을 하는 특정 함수의 정보 은닉을 구현해보자.
