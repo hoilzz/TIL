@@ -83,125 +83,117 @@ $('#myDiv').click(function(){})
 
 윈도우 load 이벤트를 기다렸다가 load 이벤트가 발생하면 리스너를 추가할 수 있다.
 
+```javascript
+$(window).bind("load", function(){
+    $('#signinForm').submit(checkForm);
+})
+```
 
-결론적으로 커스텀 이벤트 사용시, 다른 개발자가 쉽게 **확장**할 수 있다.
+윈도우의 load를 기다리는 것보다 `DOMContentLoaded`를 기다리는 것이 실용적이다.
 
-## 2.10 DOM 이외의 이벤트
+DOM이 준비된 다음에 페이지의 이미지와 스타일시트를 내려받는다.
 
-이벤트 기반 프로그래밍은 애플리케이션 구조를 `비결합화`할 수 있어서 강력하다.
+`DOMContentLoaded`는 페이지의 이미지와 스타잏시트를 내려받기 전에 실행된다.
 
-비결합화하면, 독립성을 갖추며 유지보수하기 쉬워진다.
+즉 사용자가 페이지와 상호작용을 하기 전에 항상 DOMContentLoaded가 먼저 호출된다.
 
-그러나 이벤트가 DOM에만 국한되는 것은 아니므로 자신만의 이벤트 핸들러 라이브러리를 만들 수 있다.
+근데, 모든 브라우저가 해당 이벤트를 지원하지 않는다.
 
-이벤트 핸들러 패턴으로는 `발행자/구독자 패턴`(PUB/SUB)이 있다.
+그래서 jQuery는 `.ready(callback)` 함수로 이 기능을 추상화 했다.
 
-발행자와 구독자라는 두 배우가 메시지를 주고 받는다.
+## 2.6 컨텍스트 변경
 
-발행자가 특정 채널로 메시지 발행시, 채널 구독자는 발생자가 메시지를 발행했다는 알림 수신한다.
+**핸들러가 실행 될 때 컨텍스트가 바뀔 수 있는데** 이는 이벤트에서 가장 혼동을 줄 수 있는 부분이다.
 
-여기서 핵심은 발행자와 구독자 서로 완전히 `비결합` 상태라는 점이다.
-
-PUB/SUB 간 존재를 알지 못한다. 오직 채널 이름만 공유할 뿐이다.
-
-
-공급자와 구독자의 비결합 특성을 적용하면, 상호연관성과 결합성을 만들지 않으면서 애플리케이션 기능 확장 가능하다.
-
-애플리케이션에서 PUB/SUB 활용 방법은?
-
-	1. **이벤트 이름과 관련한 핸들러를 저장**한 다음
-
-	2. **각 핸들러를 호출할 수 있는 방법**을 마련하면 PUB/SUB 사용 가능
+addEventListener()를 이용시 `기존 지역 컨텍스트`가 대상 `HTML 엘리먼트 컨텍스트`로 바뀐다.
 
 ```javascript
-var PubSub = {
-    subscribe: function(ev, callback){
-        // console.log("this === subscribe ", this === PubSub.subscribe);
-        // _callbacks 오브젝트가 없으면 새로 만든다.
-        var calls = this._callbacks || (this._callbacks = {});
+new function(){
+    this.appName = "wem";
 
-        // 이벤트 키에 해당하는 배열이 없으면 배열을 만든 다음 콜백을 배열에 추가한다.
-        (this._callbacks[ev] || (this._callbacks[ev] = [])).push(callback);
-        return this;
-    },
+    document.body.addEventListener("click", function(e){
+        // 컨텍스트가 바뀌었으므로 appName이 정의되지 않음
+        alert(this.appName);
+    }, false);
+}
+```
 
-    publish:function(){
-        // argumnets 오브젝트를 진짜 배열로 바꾼다
-        var args = Array.prototype.slice.call(arguments, 0);
+원래 컨텍스트를 보존하려면 **`익명 함수`로 핸들러를 감싸서** 원래 컨텍스트의 레퍼런스를 유지해야 한다.
 
-        // 이벤트 이름을 포함하는 첫 번째 인자를 추출한다
-        var ev = args.shift();
+프록시 함수로 현재 컨텍스트를 유지하는 방법을 살펴 볼 때 이 패턴을 활용 했다.
 
-        // callbacks 오브젝트가 없거나 해당 이벤트의 배열을 포함하지 않으면 반환한다
-        var list, calls, i, l;
-        if(!(calls = this._callbacks)) return this;
-        if(!(list = this._callbacks[ev])) return this;
+jQuery의 proxy() 함수 패턴 즉, `실행할 함수`와 `원하는 컨텍스트`를 넘겨주는 방식을 널리 사용한다.
 
-        // 콜백을 호출한다
-        for (i = 0, l = list.length; i<l; i++){
-            list[i].apply(this, args);
-        }
+```javascript
+$('signinForm').submit($.proxy(function(){..}, this));
+```
+
+이 부분은 잘 모르겠다..
+
+
+## 2.7 이벤트 위임
+
+이벤트 버블링은 자식의 이벤트를 검사할 수 있도록 부모에 리스너를 추가한다.
+
+즉, 부모에 리스너를 추가하는 방식으로 이벤트 리스너 수를 줄인다
+
+```javascript
+// ul 리스트의 이벤트 위임
+list.addEventListener("click", function(e){
+    if(e.curentTarget.tagName == "li"){
+        ...
+        return false;
     }
-};
-
-
-PubSub.subscribe("wem", function(){
-    console.log("wem!");
-});
-
-PubSub.subscribe("user:create", function(name){
-    console.log("user ", name, " created");
-});
-
-PubSub.publish("wem");
-PubSub.publish("user:create", "hoil");
+}false)
 ```
 
-`콜론(:)` 같은 분리자를 이용해 이벤트 namespace를 만들 수 있다.
+jQuery는 이 기능을 편리하게 제공한다.
+
+`delegate()` 함수에 자식 셀렉터, 이벤트 타입, 핸들러를 넘겨줘서 이벤트를 위임할 수 있다.
+
+이 방법을 사용하지 않는다면 모든 li 엘리먼트에 클릭 이벤트를 추가해야 한다.
+
+따라서, 이를 이용해 이벤트 리스너 수를 줄이고 성능 개선할 수 있다.
 
 ```javascript
-PubSub.subscribe("user:create", function(){/*...*/})
+// 모든 li 엘리먼트에 리스너를 추가하는 방식은 피하자.
+$("ul li").click(function(){..});
+
+한 개의 이벤트 리스너만 추가한다.
+$("ul").delegate("lio", "click", /*..*/);
 ```
 
-jQuery를 이용하는 애플리케이션은 벤 알만이 제공하는 라이브러리를 활용해보자.
+## 2.8 커스텀 이벤트
+
+커스텀 이벤트는 라이브러리 구조를 만드는 데 필수적인 패턴이다.
+
+그래서 많은 jQuery 플러그인이 사용하는 좋은 방법이다.
+
+만드려면 jQuery나 Prototype 등의 라이브러리를 이용해야한다.
+
+jQuery에서는 `trigger()` 함수로 커스텀 이벤트 발생시킬 수 있다.
+
+`이벤트 이름`을 이용해 namespace를 사용할 수 있다. namespace는 마침표와 역순으로 구분한다.
 
 ```javascript
-(function($){
-	var o = $({});
-	$.subscribe = function(){
-		o.bind.apply(o, arguments);
-	}
-	$.unsubscribe = function(){
-		o.unbind.apply(o, arguments);
-	}
-	$.publish = function(){
-		o.trigger.apply(o, arguments);
-	}
-})(jQuery);
+// 커스텀 이벤트 바인드
+$(".class").bind("refresh.widget", function(){});
+
+// 커스텀 이벤트 발생
+$(".class").trigger("refresh.widget");
 ```
 
-jQuery는 jQuery 오브젝트에 직접 함수가 존재한다.
-
-반면 벤 알만의 API는 publish()와 subscribe()로 호출한다.
+trigger() 함수에 인자를 추가하여 이벤트 핸들러로 데이터 전달 가능하다.
 
 ```javascript
-$.subscribe("/some/topic", function(e, a, b, c){
-	console.log(e, a+b+c);
+$('.class').bind("frob.widget", function(event, dataNumber){
+    console.log(dataNumber);
 })
 
-$.publish("/some/topic", "a", "b", "c");
+$(".class").trigger("frob.widget", 5);
 ```
 
-```javascript
-var Asset = {};
+네이티브 이벤트(브라우저 기본 이벤트)와 마찬가지로 커스텀 이벤트도 DOM 트리에서 전파된다.
 
-jQuery.extend(Asset, PubSub);
 
-Asset.subscribe("create", function(){..})
-```
-
-jQuery의 `extend()` 함수를 이용해 PubSub의 프로퍼티를 Asset 오브젝트로 복사하였다.
-
-이 방법으로 모든 `publish()`, `subscribe()` 호출을 Asset 범위로 한정하였다.
-
-**`ORM의 이벤트`, `상태 머신 변화`, `Ajax 요청 종료시 발생하는 콜백` 등의 상황에서 이 기법을 유용하게 활용할 수 있다.**
+## 2.9 커스텀 이벤트와 jQuery 플러그인

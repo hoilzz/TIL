@@ -135,6 +135,7 @@ var bar = {
 		console.log(this === bar);
 		console.log(this.x);
 		this = foo;
+		console.log("this : ", this);
 		console.log(this.x);
 	}
 }
@@ -181,6 +182,10 @@ sayColor.call(o); // 함수의 컨텍스트를 o로 설정, blue
 **call이나 apply를 사용시 스코프를 바꾸면 객체마다 일일히 메서드를 등록하지 않아도 된다.**
 
 `o.sayColor = sayColor` 이런거 안해도 된다.
+
+call과 apply의 차이
+- call : 인자를 인수로 보낸다.
+- apply : 인자를 배열로 보낸다.
 
 #### bind()
 

@@ -46,9 +46,10 @@ end()       // 끝을 표시하는 반복자, 근데 마지막 원소를 가리�
 front();    // 첫번째 데이터 참조 반환
 back();     // 마지막 데이터 참조 반환
 clear();    // 모든 데이터 삭제
-empty();
+empty(iterator pos); // pos에 위치한 엘리먼트 제거
 intert(위치, 데이터) //  지정된 위치에 삽입
-remove(위치)
+erase(위치)
+remove(값) // 해당 값을 가진 모든 원소 지운다.
 sort()            // 기본값 : 오름차순
 sort(greater<자료형>) // 내림차순
 
