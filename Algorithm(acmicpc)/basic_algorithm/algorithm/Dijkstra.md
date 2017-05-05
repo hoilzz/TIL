@@ -29,20 +29,20 @@ s에서 v까지의 최단 경로는 `d[u](u까지의 최단경로) + (u,v)` 를 
 ```C
 class CompareDist{
 public:
-    bool operator()(pair <int, int>n1, pair <int, int>n2){
-        return n1.first>n2.first;
-    }
+  bool operator()(pair <int, int>n1, pair <int, int>n2){
+      return n1.first>n2.first;
+  }
 };
 
 functino Dijkstra(int start){
-	vector <pair <int, int>> adj[1001];   		// 가중치, 1000개의 점이 있다고 치자
+	vector <pair <int, int>> adj[1001]; // 가중치, 1000개의 점이 있다고 치자
 
 	for (int i = 0; i < m; i++) {
         scanf("%d %d %d\n", &from, &to, &cost);
         adj[from].push_back(make_pair(to, cost));
     }
 
-	priority_queue <pair<int,int>, vector<pair<int, int>, CompareDist> pq;			// 최단경로가 정해진 점을 저장
+	priority_queue <pair<int,int>, vector<pair<int, int>, CompareDist> pq; // 최단경로가 정해진 점을 저장
 	vector<int> d(n + 1, INF);
 
 	d[start] = 0;// 시작점만 0으로
