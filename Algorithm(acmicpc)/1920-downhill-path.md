@@ -102,3 +102,8 @@ int main() {
     printf("%d\n", DFS(0,0));
 }
 ```
+
+## summary
+
+- 시간초과를 줄이기 위한 memoization을 생각했다
+- memoization에서 조건이 `갈 수 있다`와 같은 `할 수 있다없다`의 조건이라면 `반대`의 조건에 대해서도 메모이제이션 하자
