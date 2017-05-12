@@ -37,51 +37,61 @@
 ## 구현
 
 ```C
-#include <cstdio>
+#include <iostream>
 #include <vector>
-#include <utility>
-#include <algorithm>
+#include <stdio.h>
+
 using namespace std;
 
-const int INF = 1000000000;
-int main(){
-    int N, M, dist[500];
-    scanf("%d %d", &N, &M);
-    vector<pair <int, int> > adj[500];
+const int INF = 1000000;
 
-    for(int i=0; i<M; i++){
-      int A, B, C;
-      scanf("%d %d %d", &A, &B, &C);
-      adj[A-1].push_back(P(B-1, C));
-    }
+vector <pair<int, int> > edges[6001];
+int dist[501];
+bool isCycle;
+int main() {
 
-    bool minusCycle = false;
+  int N, M, from, to, cost;
 
-    fill(dist, dist+N, INF);
+  scanf("%d %d", &N, &M);
 
-    dist[0] = 0;
+  for(int i=0; i<M; i++){
+    scanf("%d %d %d", &from, &to, &cost);
+    edges[from].push_back(make_pair(to, cost));
+  }
 
-    for(int i=0; i<N; i++){
-        // N-1번까지 최단경로 갱신. N번째는 음의 싸이클 존재 여부 확인용
-      for(int j=0; j<N; j++){
-        // N-1번의 루프에 걸쳐 각 정점이 i+1개 정점을 거쳐오는 최단경로 갱신
-        for(auto &p: adj[j]){
-            int next = p.first, d = p.second;
-            if(dist[j] != INF && dist[next] > dist[j] + d){
-              dist[next] = dist[j] + d;
-              // N번째 루프에 값이 갱신되면 음의 싸이클이 존재한다.
-              if(i == N-1) minusCycle = true;
-            }
+  fill_n(dist, N+1, INF);
+  dist[1] = 0;
+
+  for(int i=1; i<=N; i++){
+
+    for(int j=1; j<=N; j++){
+
+      for(int k=0; k<edges[j].size(); k++){
+        int next = edges[j][k].first;
+        int cost = edges[j][k].second;
+
+        if(dist[j] != INF && dist[next] > dist[j] + cost){
+          dist[next] = dist[j] + cost;
+          if(i==N){
+            isCycle=true;
+          }
         }
       }
-    }
 
-    if(minusCycle) puts("-1");
-
-    else{
-      for(int i=1; i<N; i++)
-        printf("%d\n", dist[i]!=INF ? dist[i] : -1);
     }
+  }
+
+  if(isCycle){
+    puts("-1");
+  }
+  else{
+    for(int i=2; i<=N; i++)  {
+      if(dist[i] == INF) puts("-1");
+      else printf("%d\n", dist[i]);
+    }
+  }
+
+  return 0;
 }
 ```
 
