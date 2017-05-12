@@ -34,18 +34,24 @@ public:
   }
 };
 
-functino Dijkstra(int start){
+function Dijkstra(int start){
 	vector <pair <int, int>> adj[1001]; // 가중치, 1000개의 점이 있다고 치자
 
 	for (int i = 0; i < m; i++) {
         scanf("%d %d %d\n", &from, &to, &cost);
+
+				// A-B가 cost값으로 연결되어있다.
         adj[from].push_back(make_pair(to, cost));
     }
 
-	priority_queue <pair<int,int>, vector<pair<int, int>, CompareDist> pq; // 최단경로가 정해진 점을 저장
+ // 최단경로가 정해진 점을 저장
+	priority_queue <pair<int,int>, vector<pair<int, int>, CompareDist> pq;
+
+	// 모든 vertex를 INFINITE로 초기화
 	vector<int> d(n + 1, INF);
 
-	d[start] = 0;// 시작점만 0으로
+	// 시작점만 0으로 초기화
+	d[start] = 0;
 
 
 	pq.push(make_pair(가중치, vertex 번호));
