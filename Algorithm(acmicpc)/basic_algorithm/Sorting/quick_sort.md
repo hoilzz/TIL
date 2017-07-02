@@ -1,4 +1,4 @@
-# quick sort
+# Quick sort
 
 ## HOW TO WORK
 1. 데이터 목록에서 임의의 원소 `피봇`을 고른다
@@ -19,7 +19,6 @@ quickSort(int start, int end, int arr[]) {
   int l_hold = start;
   int r_hold = end;
   int pivot  = arr[start]; // 0번쨰 원소를 피봇으로 선택
-
 
   while(left < right) {
     while(left < right && arr[right] > pivot) right--;

@@ -184,4 +184,4 @@ int main(){
 
 [조세퍼스](https://www.acmicpc.net/problem/1158)
 
-[에디터](https://www.acmicpc.net/problem/1406)
+[에디터](ㄴ네)
