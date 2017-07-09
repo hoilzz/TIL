@@ -1,18 +1,19 @@
 # react-redux | 컴포넌트 사용하기
-뷰 레이어 바인딩 도구다
-리액트 컴포넌트에서 리덕스 사용할 때 복잡한 작업 얘가 다 해준다.
-IT부서와 같다.
-사용방법 알아보자.
+
+Provider
+- 뷰 레이어 바인딩 도구다
+- 리액트 컴포넌트에서 리덕스 사용할 때 복잡한 작업 얘가 다 해준다.
+- IT부서와 같다.
 
 ## 핵심
 1. provider
   - 컴포넌트에서 리덕스를 사용하도록 서비스 제공
   - 하나의 컴포넌트
-  ```javascript
-    <provider store{store}>
-      <App/>
-    </provider>
-  ```
+```html
+  <provider store = {store}>
+    <App/>
+  </provider>
+```
   - 프로젝트에서 사용하는 컴포넌트를 리액트 돔으로 페이지에 렌더링하게 될 때 **해당 컴포넌트를 이 프로바이더 컴포넌트 안에 감싸주면 프로바이더가 복잡한 작업을 알아서 한다**
   - 일단 인덱스 파일에서 앱 컴포넌트를 프로바이더 컴포넌트로 감싸보자
 
@@ -31,39 +32,40 @@ ReactDOM.render(
 
 
 2. connect([...options])
-  - 옵션을 인수로 받고 전달받은 옵션을 사용해서 **컴포넌트를 리덕스에 연결하는 또다른 함수를 반환**
-  - **그래서 그 함수에다가 다음과 같이 Counter를 인수로 전달하면, 그 카운터가 리덕스에 연결되서 함수의 반환값으로 새로운 컴포넌트 클래스가 반환**된다.
-  - 새로운 컴포넌트 클래스는 리덕스에 연결된다
-  - 기존의 component가 변하는 것이 아닌 새로운 컴포넌트가 변하게됨
-  ```javascript
-  connect()(Counter)
-  // store에 연결된 새로운 컴포넌트가 반환
-  // 옵션이 없으면 this.props.store로 접근 가능
-  ```
-  - 렌더링 할 때 그 스토어를 사용해서 getState로 특정 값을 가져오면된다.
-  - 아니면 변화 일으킬 때 dispatch하면된다. 만약 여기다 옵션 넣으면 더 깔끔해짐
 
-  ```javascript
-  connect(
-    [mapStateToProps],
-    [mapDispatchToProps],
-    [mergeProps],
-    [options]
-  )
-  ```
-  - 첫번째 세개는 함수형태의 파라미터
-  - mapStateToProps는 스테이트를 파라미터로 가지는 함수
-    - state를 해당 컴포넌트의 props로 연결
-  - 2번째
-    - dispatch를 파라미터로 가진다
-    - 디스패치한 함수를 props로 연결
-  - mergeProps
-    - 만약 컴포넌트에 연결해야할 프롭스가 스테이트와 디스패치를 동시에 사용해야 한다면 여기서 쓰면 됨
-    - 잘 사용아노딤
-  - options는 객체 형태
-    - pure : true로 설정되어있으면 불필요한 업데이트 안함(디폴트 트루)
-    - withRef : 기본 false, 만약 트루로 설정되어있으면 리듁스에 연결된 컴포넌트를 ref에 담아서 getWrappedInstance()로 접근가능, 보통 사용안함
-  - 그럼 counter 컴포넌트를 커넥트를 통하여 리덕스에 연결해보자.
+- 옵션을 인수로 받고 전달받은 옵션을 사용해서 **컴포넌트를 리덕스에 연결하는 또다른 함수를 반환**
+- **그래서 그 함수에다가 다음과 같이 Counter를 인수로 전달하면, 그 카운터가 리덕스에 연결되서 함수의 반환값으로 새로운 컴포넌트 클래스가 반환**된다.
+- 새로운 컴포넌트 클래스는 리덕스에 연결된다
+- 기존의 component가 변하는 것이 아닌 새로운 컴포넌트가 변하게됨
+```javascript
+connect()(Counter)
+// store에 연결된 새로운 컴포넌트가 반환
+// 옵션이 없으면 this.props.store로 접근 가능
+```
+- 렌더링 할 때 그 스토어를 사용해서 getState로 특정 값을 가져오면된다.
+- 아니면 변화 일으킬 때 dispatch하면된다. 만약 여기다 옵션 넣으면 더 깔끔해짐
+
+```javascript
+connect(
+  [mapStateToProps],
+  [mapDispatchToProps],
+  [mergeProps],
+  [options]
+)
+```
+- 첫번째 세개는 함수형태의 파라미터
+- mapStateToProps는 스테이트를 파라미터로 가지는 함수
+  - state를 해당 컴포넌트의 props로 연결
+- 2번째
+  - dispatch를 파라미터로 가진다
+  - 디스패치한 함수를 props로 연결
+- mergeProps
+  - 만약 컴포넌트에 연결해야할 프롭스가 스테이트와 디스패치를 동시에 사용해야 한다면 여기서 쓰면 됨
+  - 잘 사용아노딤
+- options는 객체 형태
+  - pure : true로 설정되어있으면 불필요한 업데이트 안함(디폴트 트루)
+  - withRef : 기본 false, 만약 트루로 설정되어있으면 리듁스에 연결된 컴포넌트를 ref에 담아서 getWrappedInstance()로 접근가능, 보통 사용안함
+- 그럼 counter 컴포넌트를 커넥트를 통하여 리덕스에 연결해보자.
 
 
 똑똑한 컴포넌트(Counter) 에서 리덕스의 커넥트를 한 다음, 여기서 리덕스 관련 작업 한다. 그리고 밸류 컴포넌트와 컨트롤 컴포넌트는 counter에서 리덕스를 연결해서 받은 값을 전달

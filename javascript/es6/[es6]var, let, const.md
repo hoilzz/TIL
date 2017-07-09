@@ -21,24 +21,25 @@ let foo = 'bar2';
 
 ```javascript
 console.log(foo); // undefiend
-
 var foo;
 ```
-`호이스팅`
-    - 변수의 정의가 그 범위에 따라 선언과 할당으로 분리되는 것을 의미
-    - 변수가 함수내에서 정의되었을 경우 선언이 함수의 최상위로
-    - 함수 바깥에서 정의되었을 경우 전역 컨텍스트의 최상위로 변경
-    - 변수의 선언이 초기화나 할당시에 발생하는 것이 아닌, 최상위로 호이스트 된다!
-    ```javascript
-    function showName() {
-      console.log("First Name : " + name);
-      var name = "Ford";
-      console.log("Last Name : " + name);
-    }
-    showName();
-    // First Name : undefiend // 지역변수 name이 호이스팅됨.
-    // Last Name : Ford
-    ```
+
+- 변수의 정의가 그 범위에 따라 선언과 할당으로 분리되는 것을 의미
+- 변수가 함수내에서 정의되었을 경우 선언이 함수의 최상위로
+- 함수 바깥에서 정의되었을 경우 전역 컨텍스트의 최상위로 변경
+- 변수의 선언이 초기화나 할당시에 발생하는 것이 아닌, 최상위로 호이스팅 된다!
+
+```javascript
+function showName() {
+  console.log("First Name : " + name);
+  var name = "Ford";
+  console.log("Last Name : " + name);
+}
+showName();
+// First Name : undefiend // 지역변수 name이 호이스팅됨.
+// Last Name : Ford
+```
+
 let 과 const
 ```javascript
 console.log(foo);
@@ -74,11 +75,11 @@ console.log(foo); // bar1
 
 ## let과 const는 적절한 관계
 
-#### const
+### const
 - 원시형(primitive : string, number, boolean, null, undefined)에서 const는 상수로 동작
 - 재할당할 경우 에러 발생
 
-#### let
+### let
 - 값의 변경이 있는 경우
 
 **참조형(array, object, function)의 경우 const로 선언하는 것이 바람직**.
