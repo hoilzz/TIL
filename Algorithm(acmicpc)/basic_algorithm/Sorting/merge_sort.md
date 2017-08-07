@@ -37,6 +37,8 @@ void merge_sort(int start, int end) {
     int i = start;
     int j = mid+1;
     int k = 0;
+    
+    // 임시 저장소에 저장하기.
     while (i <= mid && j <= end) {
         if (a[i] <= a[j]) {
             b[k++] = a[i++];
@@ -44,12 +46,15 @@ void merge_sort(int start, int end) {
             b[k++] = a[j++];
         }
     }
+    // 위 정렬에서 반영 안된 것들 반영하기.
     while (i <= mid) {
         b[k++] = a[i++];
     }
     while (j <= end) {
         b[k++] = a[j++];
     }
+
+    // 임시 저장소에 있는 것 실제 저장소에 반영하기
     for (int i=start; i<=end; i++) {
         a[i] = b[i-start];
     }

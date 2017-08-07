@@ -1,15 +1,24 @@
 # Quick sort
 
-## HOW TO WORK
-1. 데이터 목록에서 임의의 원소 `피봇`을 고른다
-2. 각 데이터들을 피봇과 비교한다. 피봇보다 작은 수는 피봇의 앞에, 피봇보다 큰 수는 피봇의 뒤로 오도록 한다. 필요할 경우 피봇은 움직일 수 있다.
-3. 1,2의 과정을 재귀수행한다.
+평균적으로 O(n log n) 이 수행된다. 최악의 경우 O(n^2) 수행된다.
 
-- 1,2의 분할과정, 이를 통해 피봇은 움직일 필요 없이 그 자리에 고정됨. 이를 `분할정복` 알고리즘이라고 함
-- 3에서 피봇 선택 후, 분할 이뤄질 때마다 반드시 고정되는 값이 생성되므로 이 알고리즘은 반드시 끝난 다는 것을 보장할 수 있다.
+커다란 문제를 일정한 크기의 작은 문제로 쪼갠다.(DNC, 분할정복) 그리고 나중에 이것들을 다시 하나로 모으기 때문에 `nlogn`이 소요된다.
+
+만약 나눌 때마다 절반씩 분할될 경우 평균 수행 시간을 가진다.
+하지만 나눌 때마다 1개와 나머지로 분할 될 경우 n^2 시간을 가진다.
+
+## HOW TO WORK
+
+1. 주어진 데이터 에서 임의의 원소를 `pivot`이라 한다.
+2. pivot을 기준으로
+  - pivot 앞 : pivot 보다 작은 데이터
+  - pivot 뒤 : pivot 보다 큰 데이터
+
+분할과정을 거친다. 분할이 종료된 뒤 pivot의 위치가 결정된다. 이것을 분할 정복 알고리즘이라고 한다. 
+
+- 1,2의 과정을 재귀 수행한다. pivot이 선택되어 분할이 이뤄지면 고정되는 값이 생성되어 언젠가 알고리즘이 종료된다.
 
 ## Code
-구현 방법 중 별도의 버퍼를 필요로 하지 않는 `내부분할 퀵소트`를 이용
 
 ```C
 
@@ -23,13 +32,13 @@ quickSort(int start, int end, int arr[]) {
   while(left < right) {
     while(left < right && arr[right] > pivot) right--;
 
-    if (left < right) {
+    if (left != right) {
       arr[left] = arr[right]
     }
 
     while(left < right && arr[left] < pivot) left++;
 
-    if (left < right) {
+    if (left != right) {
       arr[right] = arr[left];
       right--;
     }
@@ -53,18 +62,3 @@ main(){
   quickSort(0, arr.strlen() - 1, arr)
 }
 ```
-
-
-## 시간 복잡도
-평균적으로 `O(nlog n)`을 수행, 최악의 경우 `O(n^2)`
-
-## Summary
-1. pivot 선정하고
-2. right(end) 부터 **pivot보다 작은 값을 찾을 때까지** 1씩 **왼쪽**으로 이동.
-  - pivot보다 작은 값 발견시 `arr[left]`(pivot으로 초기화 됨)에 `arr[right]` 값 이동.
-3. left(start) 부터 **pivot보다 큰 값 찾을 때까지** 1씩 **오른쪽** 이동
-  - pivot보다 큰 값 발견시 `arr[right]`에 `arr[left]` 이동
-- 2,3을 **until left < right** 까지 반복
-4. **left >= right** 때 퀵소트 종료. `arr[left] = pivot`으로 할당하여 pivot의 고정 자리 값 찾기 완료
-5. 만약 l_hold가 pivot보다 작으면, `quick(l_hold, pivot 자리 - 1)`를 재귀수행
-6. 만약 r_hold가 pivot보다 크면 `quick(pivot자리 + 1, r_hold)`를 재귀수행
