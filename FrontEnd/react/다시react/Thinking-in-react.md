@@ -82,7 +82,7 @@ Remember: React는 one-way data flow에 대한 모든것이다. 어떤 컴포넌
 
 - state 기반으로 무언가를 렌더링하는 모든 컴포넌트를 확인해라.
 - common owner(공통 소유자) component를 찾아라. (계층 구조에서 state를 필요로 하는 모든 컴포넌트 위의 single component)
-- Either common owner(공통 소유자) or another component에서 상위에 있는 다른 컴포넌트가 state를 소유해야 한다.
+- common owner(공통 소유자)의 상위에 있는 다른 컴포넌트가 state를 소유해야 한다.
 - 만약 어떤 컴포넌트가 state를 가지는 것이 아무 의미가 없다면, state를 가지는 new component를 걍 만들어라 그리고 common owner component위, 계층 구조에서 그것을 추가해라.
 
 이 전략을 우리 앱에 적용해보자.
@@ -92,6 +92,8 @@ Remember: React는 one-way data flow에 대한 모든것이다. 어떤 컴포넌
 - 개념적으로 filter text와 checked value가 FilterableProductTable에 존재하는 것은 개념적으로 의미가 있다. 
 
 이것으로, state가 FilterableProductTable에서 존재하도록 결정했다. 먼저, instance 프로퍼티인 `this.state = {filterText: '', inStockOnly: false}`를 FilterableProductTable의 constructor에 추가하여 app의 초기 state에 반영한다. 그러고나서, `filterText`와 `inStockOnly`를 `ProductTable`과 `SearchBar`에 prop으로 전달해라. 이 props를 `ProductTable`에서 row 필터하기 위해, `SearchBar`에서는 form fields의 값을 세팅하기 위해 사용한다.
+
+## Step 5 : 역방향 데이터 흐름 추가하기
 
 `filterText`에 `"ball"`을 세팅하고 앱을 리프레쉬 해보자. data table이 올바르게 업데이트 된 것을 확인할 수 있다. 지금까지 계층 구조 아래로 흐르는 state와 prop의 함수로 올바르게 렌더링하는 앱을 만들었다. 이제 다른 방식으로 흐르는 데이터를 지원해야한다. (: 계층구조에서 깊숙한 form component는 `FilterableProductTable`에서 상태를 업데이트 해야한다.)
 
@@ -139,5 +141,7 @@ React는 data flow를 명시적으로 이해하기 쉽게 만들었다. 하지�
         - 만약 어떤 컴포넌트가 state를 가지는 것이 아무 의미가 없다면, state를 가지는 new component를 걍 만들어라. 그리고 그것을 common owner component위에 추가해라.
     - owner component에서 state 선언 및 초기화
     - state를 prop으로 하위 컴포넌트에 전달.
-        - state가 업데이트 될 때마다 호출되는 콜백도 전달
-        - 콜백 호출을 위해 onChange 이벤트를 사용
+
+5. 역방향 데이터 흐름 추가하기
+    - state가 업데이트 될 때마다 호출되는 콜백도 전달
+    - 콜백 호출을 위해 onChange 이벤트를 사용
