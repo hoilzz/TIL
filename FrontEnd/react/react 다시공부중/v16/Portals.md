@@ -46,7 +46,8 @@ portals의 일반적인 사용 사례는 부모 컴포넌트가 `overflow: hidde
 
 portal은 DOM tree의 어디에나 존재할 수 있다. 또한, 일반 React 자식처럼 동작한다. context 같은 기능은 DOM 트리의 위치에 상관없이 **portal이 여전히 트리 내에 존재하기 때문에 동일하게 동작**한다. 이벤트 버블링도 마찬가지로 트리 내에 포함되기 때문에 동일하게 동작한다. **portal 내부에서 시작된 이벤트는 DOM 트리에서 조상이 아니더라도 React 트리에 있는 조상에 전달된다.**
 
-<iframe src="https://codesandbox.io/embed/mozk8p1nlx" style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"></iframe>
+[![Edit mozk8p1nlx](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mozk8p1nlx)
+
 
 **상위 컴포넌트의 portal에서 이벤트 버블링을 캐치하면 portal에 본질적으로 의존하지않는 보다 유연한 추상화 개발을 할 수 있습니다.** 예를 들어 <Popup /> 컴포넌트를 렌더링하면 **상위에서 portals를 사용하여 구현하였는 지 여부에 관계없이 이벤트를 캡쳐할 수 있습니다.**
 
