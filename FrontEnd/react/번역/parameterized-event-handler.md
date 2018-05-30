@@ -127,7 +127,7 @@ currying은 렌더링 될 때마다 새로운 함수를 생성하지 않을 것�
 
 3. 반박댓글
 
-*??Whenever you add parenthesizes after a function you are calling it??*. 그래서 curry 예제는 렌더링 될 때 호출된다. 생성된 함수는 이벤트 핸들러로 할당될 것이다.
+curry 예제는 렌더링 될 때 호출된다. 생성된 함수는 이벤트 핸들러로 할당될 것이다.
 
 만약 렌더링 될 때마다 새로운 함수가 생성되는 것을 원하지 않는다면(하지만 이전 코멘트에서 말했듯이, 새로운 함수가 만들어지는 것에 대해 걱정할 필요가 없다. 적어도 application을 프로파일링 하고 성능 이슈가 있다는것을 알기 전까지는 걱정할 필요 없다.), 사용될 함수 인스턴스를 가진  new class component를 생성해야 한다. 인스턴스 함수는 커링 없이 prop, state, etc를 통해 custom parameter에 접근할 수 있다.
 [ http://jsbin.com/rozayedibe/edit?js,console,output]( http://jsbin.com/rozayedibe/edit?js,console,output) 요기서 예제 볼 수 있다.
