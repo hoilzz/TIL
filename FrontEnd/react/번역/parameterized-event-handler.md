@@ -132,12 +132,10 @@ currying은 렌더링 될 때마다 새로운 함수를 생성하지 않을 것�
 만약 렌더링 될 때마다 새로운 함수가 생성되는 것을 원하지 않는다면(하지만 이전 코멘트에서 말했듯이, 새로운 함수가 만들어지는 것에 대해 걱정할 필요가 없다. 적어도 application을 프로파일링 하고 성능 이슈가 있다는것을 알기 전까지는 걱정할 필요 없다.), 사용될 함수 인스턴스를 가진  new class component를 생성해야 한다. 인스턴스 함수는 커링 없이 prop, state, etc를 통해 custom parameter에 접근할 수 있다.
 [ http://jsbin.com/rozayedibe/edit?js,console,output]( http://jsbin.com/rozayedibe/edit?js,console,output) 요기서 예제 볼 수 있다.
 
-4. 필자
-
-ㅇㅇ 너말맞아
-
 ## Summary
 
-글에서 리렌더링 될 때마다 새로운 함수가 생성됨으로써 생기는 성능 이슈를 최종적으로 제안한 커링 + arrow function 으로 해결하려 했다. 하지만, 해당 방식도 렌더링 될 때마다 새로운 함수가 생성된다. 댓글에서는 application의 프로파일링, 성능이슈가 있다는 것을 인지하기 전까지 걱정할 필요가 없다고 제안한다. ([이 글고 관련된 포스팅](https://cdb.reacttraining.com/react-inline-functions-and-performance-bdff784f5578): 이론적으로는 맞다. 하지만 제대로 증명된 것은 없고 섣부른 최적화) 그리고 extra parameter가 필요할 경우 inline callback을 사용한다 라고 대화가 마무리 됐다.
+해당 포스트에서 리렌더링 될 때마다 새로운 함수가 생성됨으로써 생기는 성능 이슈를 최종적으로 제안한 커링 + arrow function 으로 해결하려 했다. 하지만, 해당 방식도 렌더링 될 때마다 새로운 함수가 생성된다. 그래서 해당 방식으로는 렌더링 될때마다 새로운 함수 인스턴스가 생기는 이슈를 해결할 수 없다. 또한, 댓글에서는 application의 프로파일링, 성능이슈가 있다는 것을 인지하기 전까지 걱정할 필요가 없다고 제안한다. ([이 글과 관련된 포스팅](https://cdb.reacttraining.com/react-inline-functions-and-performance-bdff784f5578) : 요약하면, 이론적으로는 맞다. 하지만 제대로 증명된 것은 없고 섣부른 최적화) 그리고 extra parameter가 필요할 경우 inline callback을 사용하고 굳이 새로운 함수가 생성되는 것을 원하지 않는다면 함수 인스턴스를 가진 클래스 컴포넌트를 생성하는 방식을 보여줬다.
 
-결론은 섣부른 최적화 ㄴㄴ, 성능 이슈 있지 않는 이상 inline callback 써도 무방하다이고, 나도 이 점에 동의한다.
+아래 링크는 댓글의 예제 코드에 함수 참조값을 비교하여 새로운 객체가 생성됐는지 비교하는 버튼을 추가한 예제다.
+
+[![Edit k5xzxn6ppr](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/k5xzxn6ppr)
