@@ -56,3 +56,8 @@ Optimal Substructure를 만족한다면, 문제의 크기에 상관없이 어떤
 - DP에서 각 문제는 **한 번만 풀어야 한다.**
 - Optimal Substructure를 만족하기 때문에, 같은 문제는 구할 때 마다 정답이 같다.
 - 따라서, 정답을 한 번 구했으면 Memoization 기법을 통해 성능 최적화한다.
+
+
+## 틀린거
+
+[1149번 rgb거리](https://www.acmicpc.net/problem/1149)
