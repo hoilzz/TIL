@@ -240,3 +240,34 @@ canonicalState와 복사본(edtingUsersById)를 가지고 있으므로, 유저�
 ## 4. reducer 재사용 하기
 
 
+
+
+---
+
+## selector pattern
+
+셀렉터 패턴은 어플리케이션이 state 값을 가져와야하는 방법의 문제를 해결한다. 기존에 state 가져오는 방법은 직접 참조를 통해 접근하는 것이다.
+
+```javascript
+const thePieceOfStateMyAppNees = store.someStateDomain.someProperty[somekey];
+```
+
+이 접근의 문제는 어플리케이션이 store의 모양을 정확히 알아야한다. store의 모양이 바뀌면 변경된 데이터를 읽는 코드를 모두 업데이트 해야한다. 셀렉터 패턴은 어플리케이션 스토어를 쿼리로 조회할 수 있는 정규화한 추상화다. 간단한데, 앱이 접근하고 싶은 스토어의 어떤 부분을 위해, 전체 스토어를 받아서, 스토어의 원하는 부분을 리턴하는 함수를 정의하는 것이다.
+
+```javascript
+const thePieceOfStateMyAppNeeds = getMyNeeds(state);
+```
+
+연관된 업데이트를 필요로 하는 참조 양은 최소화된다.
+
+장점 요약
+- selector 없으면
+  - state 모양 바뀌면 관련해서 fetch하는 view코드 전부 수정
+  - 동일한 데이터를 가져오는 컴포넌트가 많을 텐데, 재사용성 떨어짐
+
+- selector 있으면 selector만 수정하면 됨
+
+더 나아가서
+- reselect의 createSelector와 함꼐 selector 사용하면 불필요한 재계산을 피하기 위해 메모이제이션 사용가능
+- 만약 퍼포먼스 이슈가 없다면 createSelector는 필요하지 않다.
+
