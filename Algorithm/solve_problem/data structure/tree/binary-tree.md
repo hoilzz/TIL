@@ -4,19 +4,19 @@
 
 ## Full Binary Tree, Complete Binary Tree
 
-모든 레벨이 꽉 찬 이진 트리를 Full Binary tree라고 한다. 위에서 아래로, 왼쪽에서 오른쪽으로 순서대로 차곡차곡 채워진 이진 트리다. 
+모든 레벨이 꽉 찬 이진 트리를 Full Binary tree라고 한다. 위에서 아래로, 왼쪽에서 오른쪽으로 순서대로 차곡차곡 채워진 이진 트리다.
 
 완전 이진트리는 리프 레벨을 제외하고 모든 노드가 채워진 이진트리다.
 
-배열로 구성된 Full Binary Tree, Complete Binary Tree는 노드의 개수가 n일 때, i 번쨰 노드에 대해 
+배열로 구성된 Full Binary Tree, Complete Binary Tree는 노드의 개수가 n일 때, i 번쨰 노드에 대해
 
 ```C
 parent(i) = i/2, left_child(i) = 2i, right_child(i) = 2i + 1
 ```
-의 index 값을 갖는다. 
+의 index 값을 갖는다.
 
 
-자식을 최대 2개까지 가질 수 있다. 
+자식을 최대 2개까지 가질 수 있다.
 
 ## 이진 검색 트리
 
@@ -26,15 +26,15 @@ parent(i) = i/2, left_child(i) = 2i, right_child(i) = 2i + 1
 - 이진 탐색 트리의 노드에 저장된 키는 **유일**하다.
 - 루트 노드의 키가 왼쪽 서브 트리를 구성하는 어떠한 노드보다 크다.
 - 루트 노드의 키가 오른쪽 서브 트리를 구성하는 어떠한 노드의 키보다 작다.
-- 왼쪽과 오른쪽 서브트리도 이진 탐색 트리이다. 
+- 왼쪽과 오른쪽 서브트리도 이진 탐색 트리이다.
 
 이진 탐색 트리의 탐색 연산은 O(logN)이다. (정확히 표현하면 트리의 높이에 따라 달라지므로 O(h)다.) 또한, 이진 탐색 트리는 Skewed Tree(편향 트리)가 될 수 있다. 저장 순서에 따라 한쪽으로만 노드가 추가 될 수 있다. 이러한 트리에 균형을 잡기 위해 트리 구조의 재조정을 `Rebalancing`이라고 한다. 이 기법을 구현한 트리 중 하나는 `Red-Black Tree`다.
 
 
 중복 데이터가 없다는 가정 하에 값의 크기를 쉽게 구분할 수 있다. O(lgn)으로 한 번 정렬하면 빠르게 찾을 수 있다.
 
-[!img](https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Binary_search_tree.svg/2000px-Binary_search_tree.svg.png)
+![img](https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Binary_search_tree.svg/2000px-Binary_search_tree.svg.png)
 
-위 그림을 보면 숫자가 이미 **정렬**되어 있는 것을 알 수 있다. 루트 노드를 기준으로 작은 숫자는 왼쪽 큰 숫자는 오른쪽에 있다. 코드로 작성해보자. 주의할 점은 트리에 데이터를 추가 및 제거할 때 재귀를 사용한다. 
+위 그림을 보면 숫자가 이미 **정렬**되어 있는 것을 알 수 있다. 루트 노드를 기준으로 작은 숫자는 왼쪽 큰 숫자는 오른쪽에 있다. 코드로 작성해보자. 주의할 점은 트리에 데이터를 추가 및 제거할 때 재귀를 사용한다.
 
 

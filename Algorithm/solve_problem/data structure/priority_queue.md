@@ -16,11 +16,11 @@
 leaf노드 레벨을 제외하고 모든 노드가 채워진 이진 트리(마지막 레벨을 제외하고 모든 노드가 자식 노드를 2개 가진다). 마지막 레벨의 노드들은 왼쪽으로 채워져있다.
 
 > HeapSort
-어떤 원소들을 다 넣고 전체 길이만큼 pop을 하면 정렬된 순서로 원소들이 나온다. 
+어떤 원소들을 다 넣고 전체 길이만큼 pop을 하면 정렬된 순서로 원소들이 나온다.
 
-[!img](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Max-Heap.svg/1200px-Max-Heap.svg.png)
+![img](https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Max-Heap.svg/1200px-Max-Heap.svg.png)
 
-최대힙을 통해 자세히 이해해보자. 모든 정점에 대해 성립하는 제일 중요한 성질을 알아보자. **모든 정점은 자신의 자식들보다 우선순위가 높다.** 최대 힙의 경우 A < B 일 때 B의 우선순위가 A보다 높다. 이 기준은 부모-자식 관계에서 성립해야 한다. 
+최대힙을 통해 자세히 이해해보자. 모든 정점에 대해 성립하는 제일 중요한 성질을 알아보자. **모든 정점은 자신의 자식들보다 우선순위가 높다.** 최대 힙의 경우 A < B 일 때 B의 우선순위가 A보다 높다. 이 기준은 부모-자식 관계에서 성립해야 한다.
 
 여기서 pop을 하면 나올 원소는? `Root`다. 루트는 힙의 정점에 있기 때문에 다른 노드들보다 우선순위가 높거나 같다. 따라서 (최대힙에서) 최대값이다. **또한, Binary Search Tree와 동일하게 push나 pop 연산을 할 때마다 (최대)힙의 형태를 유지해야 하므로 변형이 일어난다.**
 
@@ -35,7 +35,7 @@ leaf노드 레벨을 제외하고 모든 노드가 채워진 이진 트리(마�
 
 힙 성질을 만족하도록 하는 연산을 heapify라고 한다. 최대힙 예제를 보자.
 
-[!img](http://users.cecs.anu.edu.au/~Alistair.Rendell/Teaching/apac_comp3600/module2/images/Heaps_Heapify.png)
+![img](http://users.cecs.anu.edu.au/~Alistair.Rendell/Teaching/apac_comp3600/module2/images/Heaps_Heapify.png)
 
 5에 대해서 heapify를 진행한다고 하자
 
@@ -44,10 +44,10 @@ void heapifyDown(int unsortedIdx) {
   if(rear == 0) {
     return;
   }
-  
+
   int leftChild = unsortedIdx * 2 + 1;
   int rightChild = leftChild + 1;
-  
+
   if(bTree[leftChild] > bTree[rightChild]) {
     if(leftChild <= rear && bTree[leftChild] > bTree[unsortedIdx]) {
       swap(bTree[leftChild], bTree[unsortedIdx]);
@@ -65,11 +65,11 @@ void heapifyDown(int unsortedIdx) {
 
 먼저 5의 위치에서 왼쪽/오른쪽 자식노드와의 heapify를 진행한다. 14와 11중 더 큰 숫자가 우선순위를 높게 가져야 하므로 둘을 먼저 비교한다. 더 큰 숫자인 14와 5에 대해 swap 후, 바뀐 위치에서 다시 heapify를 시작한다. 5는 12와 swap을 하고 다시 heapify를 시작한다. 더이상 자식노드가 없으므로 heapify를 종료한다.
 
-heapify는 루트에서 leaf까지 비교해야 하므로 트리의 높이 (h = logN)에 비례한다. 값 비교 및 swap 연산은 O(1)이므로 heapify는 O(logN)이다. 
+heapify는 루트에서 leaf까지 비교해야 하므로 트리의 높이 (h = logN)에 비례한다. 값 비교 및 swap 연산은 O(1)이므로 heapify는 O(logN)이다.
 
 ### push
 
-[!img](http://www.techiedelight.com/wp-content/uploads/2016/11/Push-min-heap.png)
+![img](http://www.techiedelight.com/wp-content/uploads/2016/11/Push-min-heap.png)
 
 2를 추가한다. 완전이진트리를 유지하기 위해 마지막 노드에 추가한다. 2에 대해 heapify를 시작한다. heapify코드는 다음과 같다. heapify는 최악의 경우 루트까지 비교해야 하므로 트리의 높이에 비례한다. O(h = logN). 값을 비교하거나 바꾸는 연산은 O(1)이므로 heapify는 O(logN)이다.
 
@@ -84,7 +84,7 @@ void heapifyUp(int unsortedIdx) {
   } else {
     parentIdx = unsortedIdx / 2 - 1;
   }
-  
+
   if(bTree[parentIdx] < bTree[unsortedIdx]) {
     swap(bTree[parentIdx], bTree[unsortedIdx]);
     heapifyUp(parentIdx);
@@ -97,19 +97,19 @@ void heapifyUp(int unsortedIdx) {
 
 pop을 해보자
 
-[!img](https://i2.wp.com/www.techiedelight.com/wp-content/uploads/2016/11/Pop-min-heap.png?fit=1006%2C798)
+![img](https://i2.wp.com/www.techiedelight.com/wp-content/uploads/2016/11/Pop-min-heap.png?fit=1006%2C798)
 
 최소힙에서 루트노드가 pop 되는 예제입니다. 완전이진트리를 유지하기 위해, 루트와 리프노드의 가장 마지막 노드와 swap합니다. 루트노드의 값이 최소힙의 성질을 만족하기 위해 heapify를 진행합니다. 위의 heapifyDown과 동일합니다.
 
 ## build heap
 
-임의의 숫자들을 최대힙으로 재구성해봅시다. 
+임의의 숫자들을 최대힙으로 재구성해봅시다.
 
 ```
 [12, 30, 6, 7, 4, 13, 8, 11, 50, 24, 2, 5, 10]
 ```
 
-위 배열을 가지고 build heap하는 단순한 방법은 비어있는 배열에 대해 push를 하며 heapifyUp하면 됩니다. N개의 노드에 대해 heapifyUp을 진행한다면 O(NlogN)이 소요됩니다. 
+위 배열을 가지고 build heap하는 단순한 방법은 비어있는 배열에 대해 push를 하며 heapifyUp하면 됩니다. N개의 노드에 대해 heapifyUp을 진행한다면 O(NlogN)이 소요됩니다.
 
 ## Heap Sort
 
@@ -127,7 +127,7 @@ Heap
 
 - 보통 자료구조들과 마찬가지로 insert, remove할 수 있다.
   - insert시 완전이진트리를 유지하기 위해 leaf 레벨의 마지막 노드에 추가되며, 최대/최소값 우선순위를 정하기 위해 부모 노드와 대소를 비교하며 swap된다.(until 부모 노드보다 값이 작거나 root노드에 접근)
-  
+
 - 최대값 추출시 heap 성질을 동일하게 유지하기 위해 root노드를 leaf노드와 swap한다. root 노드의 값에 대해 heapify를 진행한다.
 
 
