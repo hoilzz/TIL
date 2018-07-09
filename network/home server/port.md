@@ -1,6 +1,6 @@
 # Port
 
-![img](/img/nat.png)
+![img](./img/nat.png)
 
 위 그림의 사람이 사용하는 컴터를 서버로 사용하려면 어떻게 할까?
 
