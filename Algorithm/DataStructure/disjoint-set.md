@@ -22,7 +22,7 @@ disjoint set은 서로 중복되지 않는 부분 집합들이다.
 
 ## 배열로 구현
 
-![disjoint-1](../img/disjoint-1.png)
+![disjoint-1](./img/disjoint-1.png)
 
 find의 시간복잡도는  disjoint-set의 원소가 n개 일 때 O(logN)이다. leaf노드 부터 루트까지 올라가야 하기 때문이다. find 연산을 좀 더 효율적으로 수행하기 위해 **path compression**에 대해 뒤에서 알아보자.
 
@@ -30,7 +30,7 @@ find의 시간복잡도는  disjoint-set의 원소가 n개 일 때 O(logN)이다
 
 ## union
 
-![disjoint-2](../img/disjoint-2.png)
+![disjoint-2](./img/disjoint-2.png)
 
 2개의 disjoint set을 합칠 때,
 
@@ -44,7 +44,7 @@ find의 시간복잡도는  disjoint-set의 원소가 n개 일 때 O(logN)이다
 
 ## path compression
 
-![disjoint-3](../img/disjoint-3.png)
+![disjoint-3](./img/disjoint-3.png)
 
 path compression은 아래 그림과 같이 모든 노드가 루트를 가리키도록 만드는 것이다. rootNodeIndex에 부모노드 인덱스 대신에 루트노드를 저장하는 방식이다. find 연산을 수행시 트리의 높이만큼 거슬러 올라가야 루트노드를 찾는데, 이 비효율성을 완화하는 것이다.
 
