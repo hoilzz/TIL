@@ -3,7 +3,7 @@
 
 ## concepts
 
-divide and conquer를 이용한 정렬 방식이다. 데이터를 쪼갤 수 있을 때까지 쪼개고, 둘 씩 크기를 비교해 정렬한다. 더이상 합칠 array가 없을 때까지 반복한다. 
+divide and conquer를 이용한 정렬 방식이다. 데이터를 쪼갤 수 있을 때까지 쪼개고, 둘 씩 크기를 비교해 정렬한다. 더이상 합칠 array가 없을 때까지 반복한다.
 
 N개의 데이터가 있을 때, 절반씩 쪼개기 때문에(divide, n/2)
 
@@ -43,7 +43,7 @@ void merge_sort(int start, int end) {
     int i = start;
     int j = mid+1;
     int k = 0;
-    
+
     // 임시 저장소에 저장하기.
     while (i <= mid && j <= end) {
         if (a[i] <= a[j]) {
@@ -105,4 +105,5 @@ int main() {
 
 
 ## summary
-- 원소들을 하나 혹은 두개 원소 단위로 분할 후, 병합 정렬을 반복 
+- 원소들을 하나 혹은 두개 원소 단위로 분할 후, 병합 정렬을 반복
+
