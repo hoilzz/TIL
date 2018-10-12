@@ -45,7 +45,6 @@ int main() {
     scanf("%d", &mid);
 
     for(int i = 1; i<=len;i++){
-
         if(i==1) printf("%d\n", mid);
         else{
             scanf("%d", &x);

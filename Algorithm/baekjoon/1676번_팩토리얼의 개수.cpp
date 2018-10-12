@@ -19,3 +19,4 @@ int main() {
     printf("%d\n",numberOfFive);
     return 0;
 }
+12
