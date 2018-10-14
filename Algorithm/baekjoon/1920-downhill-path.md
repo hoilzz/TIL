@@ -1,4 +1,4 @@
-# 1920 내리막길
+# 1920 내리막길;
 
 출발점에서 도착지까지 내리막길 형태로 갈 수 있는 경로 개수 찾기
 
@@ -69,7 +69,7 @@ int DFS(int x, int y){
     int moveY[4] = {-1,0,1,0};
 
     if (x < 0 || y < 0 || x >= row && y >= col) return 0;
-
+    // 목적지 도착함
     if(x == row-1 && y == col-1) return 1;
 
     if(road[x][y] >= 0) return road[x][y];
