@@ -245,12 +245,165 @@ diameter
 - 왜냐면 복잡한 구조를 직접 참조시 진짜 데이터가 무엇인지 드러나지 않음
 - 또한, 배열의 구조 변경시 그 영향이 코드 전체로 퍼짐
 
+- **복잡한 구조를 직접 참조하면 진짜 데이터가 무엇인지 드러내지 않기 떄문에 헷갈림**
+- 배열 구조 바뀔 때마다 모든 참조지점 찾아서 수정해야 하기 때문에 지옥의 유지보수 경험
+
+해결해보자
+
+- diameter 는 배열의 내부 구조에 대한 지식이 0
+  - diameter 는 wheels 메시지가 enumerable 을 반환하는 것만 알고 있음
+- 입력받은 배열의 구조에 대한 모든 지식은 wheelify 메서드 속에 격리됨
+  - 만약 입력 값 변하면 여기만 바꾸면 됨
+
+정리하자면, `데이터 구조를 들여다 보단 작업`을 `객체에 대한 메시지를 전송`으로 대체
+
+- wheelify 메서드는 구조에 대한 지저분한 정보를 한쪽에 몰아 놓고 코드를 DRY 하게 만듬
+
 ```typescript
-class ObscuringReference {
-  constructor(readonly data: array) {}
+interface WheelInterface {
+  rim: number;
+  tire: number;
+}
+
+class Wheel implements WheelInterface {
+  public rim: number;
+  public tire: number;
+
+  constructor(rim: number, tire: number) {
+    this.rim = rim;
+    this.tire = tire;
+  }
+}
+
+class RevealingReferences {
+  readonly wheel: Wheel;
+
+  constructor(data: Array<number>) {
+    this.wheel = this.wheelify(data);
+  }
+
+  wheelify(data: Array<number>) {
+    const [rim, tire] = data;
+    return new Wheel(rim, tire);
+  }
 
   diameter() {
     return this.wheel.rim + this.wheel.tire * 2;
   }
 }
+
+console.log(new RevealingReferences([10, 20]).diameter());
 ```
+
+### 2.3.2 모든 곳에 단일 책임 원칙을 강제하라
+
+클래스 뿐 아니라 메서드에서도 단일 책임 원칙 강제하자
+
+```typescript
+gear_inches() {
+  return ratio * (rim + (tire * 2));
+}
+```
+
+gear_inches 속에 바퀴의 지름을 구하는 계산이 숨어있음
+
+- 이 계산을 diameter 메서드로 추출하면 클래스의 책임을 좀 더 쉽게 파악 가능
+
+```typescript
+gear_inches() {
+  return ratio * diameter;
+}
+diameter() {
+  return rim + (tire * 2);
+}
+```
+
+메서드가 하나의 책임을 질 때
+
+- 클래스가 하는일이 무엇인지 명확해짐
+- 주석 넣을 필요 없음
+- **메서드 속에 있는 코드 한 조각에 주석을 달아야 한다면 별도의 메서드로 추출**
+  - **메서드 이름이 주석과 동일한 역할**
+- 재사용 유도
+- 다른 클래스로 옮기기 쉬움
+
+#### 클래스의 추가적인 책임들을 격리시키자
+
+**너무 많은 책임을 지고 있는 클래스가 있다면, 이 책임을 다른 클래스 속으로 분리하자.**
+
+- 핵심 클래스의 집중하자
+- **아직 제거하기 어려운 추가적인 책임을 발견했다면 그 책임을 격리시키자**
+
+## 2.4 드디어, 진짜 바퀴
+
+```typescript
+class Gear {
+  readonly cog: number;
+  readonly chainRing: number;
+  readonly wheel: Wheel;
+
+  constructor(cog: number, chainRing: number, wheel: Wheel) {
+    this.cog = cog;
+    this.chainRing = chainRing;
+    this.wheel = wheel;
+  }
+
+  ratio() {
+    return this.chainRing / this.cog;
+  }
+
+  // 새로 추가된 함수
+  gear_inches() {
+    // 타이어는 바퀴테를 가싸고 있어서, 지름 계산시 타이어 높이에 2를 곱함
+    return this.ratio * this.wheel.diameter();
+  }
+}
+
+class Wheel {
+  rim: number;
+  tire: number;
+
+  constructor(rim: number, tire: number) {
+    this.rim = rim;
+    this.tire = tire;
+  }
+
+  diameter() {
+    return this.rim * (this.tire * 2);
+  }
+}
+```
+
+Gear 와 Wheel 모두 1 개의 책임안 지게 됨.
+
+## 요약
+
+수정하기 쉽고 OOP 소프트웨어 만드는 길은 **1 개의 책임을 지는 클래스** 만드는 것부터 시작
+
+- 그 행동을 애플리케이션의 다른 부분들로 분리시키는것
+- 이 분리가 예상치 못한 결과로부터 자유로운 수정을 할 수 있도록
+- 중복 없이 코드 재사용할 수 있도록 함
+
+클래스는 데이터와 행동을 가짐
+
+- 어떤 행동을 구현할까?
+- 1 개의 클래스는 다른 클래스에 대해 얼마나 알고 있을까?
+- 다른 클래스에게 어느 정도까지 열려 있을까?
+- `단순해야 한다` 라는 것에 집중하여 위 질문에 답하기
+
+- 단일 책임 원칙
+  - 클래스가 인격 있는 것처럼 물어봐서 확인하기 (Gear 님 당신의 기어비는 무엇인가여)
+  - 클래스의 책임을 한문장으로 만들어보기
+
+기법
+
+- 인스턴스 변수 숨기기
+  - 변수 직접 참조 말고, accessor 를 통해 접근하기
+  - `여러 곳에서 참조하고 있는 데이터` 에서 `단 한 번만 정의된 행동`으로 변경
+  - 데이터 구조 변경시 getter 만 수정하면 이득
+- 데이터 구조 숨기기
+  - 데이터 구조 복잡할 경우, 데이터 구조에 대한 지저분한 정보를 한쪽에 격리
+- 단일책임 원칙을 클래스, 메서드에게 강제하기
+- 클래스의 추가 책임을 격리시키기
+  - 너무 많은 책임을 지고 있는 클래스가 있으면, 다른 클래스로 분리
+ㅅ
