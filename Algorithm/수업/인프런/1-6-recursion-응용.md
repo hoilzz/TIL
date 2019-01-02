@@ -94,3 +94,14 @@ boolean promising (int level) {
 - 상태공간트리
   - 해가 존재한다면 반드시 이 트리의 어떤 한 노드에 해당됨
   - 따라서 이 트리를 체계적으로 탐색하면 해 발견 가능
+
+```
+return-type queens (arguments) {
+  if non-promising
+    report fail and return;
+  else if success
+    report answer and return;
+  else
+    visit children recursively
+}
+```
