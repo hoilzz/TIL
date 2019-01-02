@@ -68,7 +68,7 @@ boolean queens (int level) {
 
 _promising-test_
 
-![img](./img/1-6-3-recursion)
+![img](./img/1-6-3-recursion.png)
 
 ```java
 boolean promising (int level) {
@@ -83,5 +83,4 @@ boolean promising (int level) {
 
 같은 대각선에 있는지 알 수 있는 방법
 
-![img](./img/1-6-4-recursion)
-
+![img](./img/1-6-4-recursion.png)
