@@ -97,7 +97,7 @@ boolean promising (int level) {
 
 ```
 return-type queens (arguments) {
-  if non-promising
+  if non-promising // 다음 자식 노드로 리커시브 진행할지 여부 결정
     report fail and return;
   else if success
     report answer and return;
