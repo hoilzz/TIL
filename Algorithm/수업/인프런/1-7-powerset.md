@@ -78,7 +78,7 @@ recursion 함수가 __2개의 집합__ 을 매개변수로 받도록 설계해�
 > `{c,d,e,f}`는 집합 S : k번째부터 마지막 원소까지 연속된 원소들
 > 집합 P : 처음부터 k-1번째 원소들 중 일부
 
-![img](./img/1-7-1-recursion)
+![img](./img/1-7-1-recursion.png)
 
 집합 S는 data[k], ... , data[n-1] 이고,
 집합 P는 include[i]=true, i=0, .., k-1인 원소들
@@ -131,7 +131,7 @@ __basecase__
 
 ## 상태 공간 트리
 
-![img]('./img/1-7-2-recursion)
+![img]('./img/1-7-2-recursion.png)
 
 어떤 문제를 푸는 과정을 추상화.. 그 문제에 대한 상태 공간 트리를 구상한 후에 
 내가 찾고자 하는 해를 반드시 포함하고 있는 트리니까
