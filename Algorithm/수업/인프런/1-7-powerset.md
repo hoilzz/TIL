@@ -90,7 +90,7 @@ recursion 함수가 **2개의 집합** 을 매개변수로 받도록 설계해�
 
 - `이 트리를 체계적으로 탐색할 경우 해를 발견 가능`
 - 그래서 트리를 다 탐색할 경우 1개의 부분집합 완성
-- 왜냐면 선택/미선택에 관해 모든 노드를 탐색하며 결정했기 때문
+- __왜냐면 선택/미선택에 관해 모든 노드를 순환 탐색하며 결정했기 때문__
 
 ---
 
@@ -103,7 +103,7 @@ char data[] = {'a', 'b', 'c', 'd', 'e', 'f'};
 int n = data.length;
 boolean [] include = new boolean[n];
 
-void powerSet(int k ) {
+void powerSet(int k) {
   if (k == n) {
     for (int i = 0; i<n; i += 1) {
       if (include[i]) cout<<data[i];
