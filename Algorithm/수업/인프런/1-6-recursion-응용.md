@@ -5,7 +5,7 @@
 
 ## 상태공간트리
 
-**상태 공간 트리란 찾는 해를 포함하는 트리**
+**상태 공간 트리란 찾는 해를 \*\***함하는 트리\*\*
 해가 존재한다면 반드시 이 트리의 어떤 한 노드에 해당
 따라서 이 트리를 체계적으로 탐색할 경우 해를 발견 가능
 
@@ -21,7 +21,7 @@ how to implement
 
 - recursion
   - 얘가 더 쉽고 간명
-- stack
+- stack]
 
 ```
 return-type queens (arguments) {
@@ -103,5 +103,88 @@ return-type queens (arguments) {
     report answer and return;
   else
     visit children recursively
+}
+```
+
+**내가 풀어본 nqueens**
+
+```C
+int size;
+bool table[4][4];
+bool isExistNQueen;
+
+bool isSatisfyQueens(int row, int col) {
+    for(int i = row-1; i >= 0; i--) {
+        if(table[i][col]) {
+            return false;
+        }
+    }
+
+    int r = row;
+    int c = col;
+
+    while(r>0 && c>0) {
+        r--;
+        c--;
+        if(table[r][c]) {
+            return false;
+        }
+    }
+
+    r=row;
+    c=col;
+
+    while(r>0 && c<size - 1) {
+        r--;
+        c++;
+        if(table[r][c]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void placeQueen(int row, int col) {
+    // 실패하면 return;
+    if (isSatisfyQueens(row, col) == false || isExistNQueen) {
+        return;
+    }
+    // 마지막 row라면 출력 후 return;
+    else if (row == size - 1) {
+        isExistNQueen = true;
+        for(int i = 0; i<size; i++) {
+            for(int j = 0; j<size; j++) {
+                if(table[i][j]) {
+                    cout<<"1"<<' ';
+                } else {
+                    cout<<"0"<<' ';
+                }
+            }
+            cout<<endl;
+        }
+        return;
+    }
+    // 마지막 로우가 아니라면 visit recursively children
+    else {
+
+        if(row + 1 >= size) {
+            return;
+        }
+        for(int i = 0; i<4; i += 1) {
+            table[row + 1][i] = true;
+            placeQueen(row + 1, i);
+            table[row + 1][i] = false;
+        }
+    }
+}
+
+int main(int argc, const char * argv[]) {
+
+    size = 4;
+
+    placeQueen(-1, 0);
+
+    return 0;
 }
 ```
