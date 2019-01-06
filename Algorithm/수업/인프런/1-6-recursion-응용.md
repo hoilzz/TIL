@@ -188,3 +188,17 @@ int main(int argc, const char * argv[]) {
     return 0;
 }
 ```
+
+교수님이 해주신거
+
+- 1개 행에 1개의 nqueens만 위치할 수 있기 때문에 다음과 같이 표현
+  - `cols[${row}] = ${퀸이 위치한 col}`
+- 위 표현식을 이용하여 자신의 위치에서 대각선에 위치한 퀸이 있는지 확인하는 표현식
+
+```C
+for(int i = 1; i< level; i+=1) {
+  if (cols[i] == cols[level]) return false;
+  else if (level - i == Math.abs(cols[level] - cols[i])) // 같은 대각선에 놓였는지
+    return false;
+}
+```
