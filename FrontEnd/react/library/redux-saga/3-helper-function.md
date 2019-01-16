@@ -65,7 +65,7 @@ export default function* rootSaga() {
 
 ## Summary
 
-- 액션이 디스패치되었을 때 __태스크를 만들기 위해__ 내부 함수들을 감싸는 헬퍼 이펙트를 제공
+- 액션이 디스패치되었을 때 **태스크를 만들기 위해** 내부 함수들을 감싸는 헬퍼 이펙트를 제공
 
 특정 태스크를 특정 액션마다 실행 하게 하려면 takeEvery를 이용
 
@@ -76,8 +76,10 @@ function* watchFetchData() {
 ```
 
 takeEvery는
-- 여러 개의 fetchData 인스턴스 동시에 시작하게 함.
+
+- 여러 개의 fetchData 인스턴스 **동시에 시작** 하게 함.
 - 종료되지 않은 여러개 fetchData task가 있다면 새로운 fetchData task로 시작 가능
 
 takeLatest
-- 마지막으로 발생된 리퀘스트의 응답만 얻고 싶다면 얘 사용
+
+- **마지막으로 발생된 리퀘스트의 응답만 얻고 싶다면** 얘 사용
