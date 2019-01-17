@@ -44,4 +44,4 @@ function* fetchProducts() {
 `call(fn, ...args)` 사용
 - fetch 요청을 즉시하지 않는 것.
 - 대신, __call은 이펙트에 대한 설명을 생성__
-- 
+-
