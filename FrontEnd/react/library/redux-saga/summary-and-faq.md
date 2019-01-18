@@ -27,3 +27,17 @@
 - select(selector, ...args)
   - 미들웨어가 현재 store의 상태에서 제공된 셀렉터를 호출하도록 명령
 
+- fork
+  - non-blocking 태스크 수행
+
+- cancel
+  - 태스크 취소
+
+- canceld
+  - 태스크 취소됐을 경우 finally에서 cancled 이펙트를 통해 청소 로직 ㄱㄱ
+
+- all
+  - 병렬 태스크 수행
+
+- race
+  - task를 병렬로 수행하지만 특정 조건을 통해 종료
