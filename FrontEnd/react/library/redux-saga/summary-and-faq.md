@@ -31,9 +31,9 @@
   - non-blocking 태스크 수행
 
 - cancel
-  - 태스크 취소
+  - fork된 태스크 취소
 
-- canceld
+- cancelled
   - 태스크 취소됐을 경우 finally에서 cancled 이펙트를 통해 청소 로직 ㄱㄱ
 
 - all
