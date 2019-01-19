@@ -1,6 +1,6 @@
 # Recursion 응용 - 미로찾기
 
-![img]('./img/3-1-recursion)
+![img]('../img/3-1-recursion)
 
 리커시브하게 생각해보자.
 
@@ -109,4 +109,4 @@ int main() {
 
 북,동,남,서로 이동할 때 움직인 경로
 
-![img](./img/3-2-recursion)
+![img](../img/3-2-recursion)

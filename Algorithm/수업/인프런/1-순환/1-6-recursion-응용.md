@@ -9,13 +9,13 @@
 해가 존재한다면 반드시 이 트리의 어떤 한 노드에 해당
 따라서 이 트리를 체계적으로 탐색할 경우 해를 발견 가능
 
-![img](./img/1-6-1-recursion.png)
+![img](../img/1-6-1-recursion.png)
 
 ## Backtracking
 
 - 상태 공간 트리를 DFS 방식으로 탐색하여 해를 찾는 알고리즘
 
-![img](./img/1-6-2-recursion.png)
+![img](../img/1-6-2-recursion.png)
 
 how to implement
 
@@ -68,7 +68,7 @@ boolean queens (int level) {
 
 _promising-test_
 
-![img](./img/1-6-3-recursion.png)
+![img](../img/1-6-3-recursion.png)
 
 ```java
 boolean promising (int level) {
@@ -83,7 +83,7 @@ boolean promising (int level) {
 
 같은 대각선에 있는지 알 수 있는 방법
 
-![img](./img/1-6-4-recursion.png)
+![img](../img/1-6-4-recursion.png)
 
 ## Summary
 
@@ -105,4 +105,3 @@ return-type queens (arguments) {
     visit children recursively
 }
 ```
-
