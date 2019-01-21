@@ -41,3 +41,8 @@
 
 - race
   - task를 병렬로 수행하지만 특정 조건을 통해 종료
+
+- eventChannel(subscribe, [buffer], [matcher])
+  - subscribe 메서드를 이용하여 이벤트 소스를 구독하는 채널을 생성.
+  - 다가오는 이벤트는 interested taker가 등록될 때까지 채널 내부의 큐에 쌓인다.
+  - 보통 setInterval을 구독하는 이벤트 채널 예제 많음.

@@ -113,8 +113,33 @@ export function* saga() {
 
 `take(chan)`을 yield하고 있음.
 - 메시지가 채널에 들어가기 전까지 사가는 block됨.
+
+```js
+// creates an event Channel from an interval of seconds
+function countdown(seconds) { ... }
+
+export function* saga() {
+  const chan = yield call(countdown, value)
+  try {
+    while (true) {
+      let seconds = yield take(chan)
+      console.log(`countdown: ${seconds}`)
+    }
+  } finally {
+    if (yield cancelled()) {
+      chan.close()
+      console.log('countdown cancelled')
+    }
+  }
+}
+```
+
 - countdown의 interval 종료시, countdown 함수는 emitter(END)를 호출하여 이벤트 채널 폐쇄
   - 채널 닫으면 take에 block된 모든 사가들을 종료시키는 효과 있음.
+  - 사가 종료시 finally 구간으로 점프.
+  - 구독자는 unsubscribe 함수를 반환.
+    - 이벤트 소스가 완료되기 전에 채널 구독을 취소하는데 사용
+    - 이벤트 채널의 메시지를 소비하는 사가 내에서 이벤트 소스 완료되기 전에 일찍 나가기를 원하면 `chan.close()`를 호출해 채널 폐쇄, 구독 취소 가능.
 
 ## 사가 간 통신체 채널 사용하기
 
