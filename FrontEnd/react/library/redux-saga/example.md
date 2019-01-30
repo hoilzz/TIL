@@ -31,9 +31,9 @@
   - 그 이유는 1번 startup이 무조건 첫번째 실행되어야 하기 때문인듯.
   - 초기 데이터 받아오는 사가이기 때문에..
 
-- 
+-
 
-- 그리고 최대한 task를 잘개 쪼개야 재사용하기 쉬워짐.
+* 그리고 최대한 task를 잘개 쪼개야 재사용하기 쉬워짐.
   - 일단은 막 짜고 그 다음에 task들을 잘개 쪼개자..
 
 ## cancellable-counter
@@ -47,14 +47,17 @@
   2. fork(watchGetProducts)
   - takeEvery(GET_ALL_PRODUCTS, getAllProducts)
   3. fork(watchCheckout)
-  1. checkout watch 중. while(true)
-     1. take(CHECKOUT_REQ)
-     2. call(checkout)
+     1. checkout watch 중. while(true)
+        1. take(CHECKOUT_REQ)
+        2. call(checkout)
+          - fork가 아니라서 blocking됨.
+          - 즉, chekcout 완료될 때까지 checkout_request 모두 무시.
 
 3-1. checkout task
 
 - call(api.buyProducts, cart) : 카트에 담긴거 구매?
-- put(success)
+  - put(success)
+  - put(error)
 
 2-1. watchGetProducts()
 
@@ -63,6 +66,10 @@
 > takeEvery(pattern, saga, ..args)
 > pattern과 일치하는 dispatch된 각 action에 대해 saga 생성하기
 
+
+
 ## faq
 
 - 사가 단위?를 어케 나눌까?
+
+

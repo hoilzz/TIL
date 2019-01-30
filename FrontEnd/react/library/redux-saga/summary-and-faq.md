@@ -21,25 +21,33 @@
   - 비동기 호출, 동기 호출 등 액션생성자 호출
 
 - take
+
   - 특정한 액션을 기다리기 위해 미들웨어에게 알려주는 명령 오브젝트
   - Pull 접근법을 통해 동기적 flow로 로직 작성가능 (로그인-로그아웃)
+  - **yield take(pattern)의 결과 값은 dispatch된 action object**
 
 - select(selector, ...args)
+
   - 미들웨어가 현재 store의 상태에서 제공된 셀렉터를 호출하도록 명령
 
 - fork
+
   - non-blocking 태스크 수행
 
 - cancel
+
   - fork된 태스크 취소
 
 - cancelled
+
   - 태스크 취소됐을 경우 finally에서 cancled 이펙트를 통해 청소 로직 ㄱㄱ
 
 - all
+
   - 병렬 태스크 수행
 
 - race
+
   - task를 병렬로 수행하지만 특정 조건을 통해 종료
 
 - eventChannel(subscribe, [buffer], [matcher])
