@@ -61,7 +61,9 @@ module.exports = {
 
 ## Summary
 
-로더는 `import *.js|.scss|.img ..`에 대해 pre-process 한다.
+로더는 
+- 웹팩이 non-JS module(or JS지만 ESNext)을 처리하는 방식을 설명하고 너의 bundle에 의존성을 포함시킨다.
+- 즉, `import *.js|.scss|.img ..`에 대해 pre-process 한다. 
 
 - ts -> js 전환 
 - import CSS file을 JS module에서 가능하게 함 
