@@ -81,7 +81,7 @@ public:
         return this->result;
     }
 };
-
+d
 ```
 
 ## 배운거
