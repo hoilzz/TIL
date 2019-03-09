@@ -76,6 +76,27 @@ vector<int> countBits(int num) {
 };
 ```
 
+```C
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        vector <int> dp(num + 1);
+        dp[0] = 0;
+        int pow = 1;
+        
+        for(int i = 1; i<= num; i+=1) {
+            if(pow == i) {
+                pow <<= 1;
+                dp[i] = 1;
+            } else {
+                dp[i] = dp[i%(pow/2)] + 1;
+            }
+        }
+        return dp;
+    }
+};
+```
+
 ### 시간복잡도
 
 ### 공간복잡도
