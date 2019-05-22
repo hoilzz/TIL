@@ -142,17 +142,21 @@ key를 배열 인덱스로 전달할 수 있는데, 재정렬 될일이 없으�
 
 Reorders can also cause issues with component state when indexes are used as keys. Component instances are updated and reused based on their key. If the key is an index, moving an item changes it. As a result, component state for things like uncontrolled inputs can get mixed up and updated in unexpected ways.
 
+인덱스를 키로 사용할 경우 재정렬 할 때 컴포넌트 상태에 문제를 일으킬 수 있다. 컴포넌트 인스턴스는 자신이 가진 키에 따라 재사용되고 업데이트된다. 만약 키가 index일 경우, 아이템 위치를 옮기면 index도 바뀐다. 결과적으로, uncontrolled input과 같은 컴포넌트 상태는 예상치 못한 방법으로 혼합되고 업데이트 될 수 있다.
+
 [Here](https://reactjs.org/redirect-to-codepen/reconciliation/index-used-as-key) is an example of the issues that can be caused by using indexes as keys on CodePen, and here is an updated version of the same example showing how not using indexes as keys will fix these reordering, sorting, and prepending issues.
+
+index를 키로 사용할 경우 일어날 수 있는 이슈의 예제가 위 링크에 있다.
 
 ## Tradeoffs
 
-It is important to remember that the reconciliation algorithm is an implementation detail. React could rerender the whole app on every action; the end result would be the same. Just to be clear, rerender in this context means calling render for all components, it doesn’t mean React will unmount and remount them. It will only apply the differences following the rules stated in the previous sections.
+It is important to remember that the reconciliation algorithm is an implementation detail. React could rerender the whole app o혾every action; the end result would be the same. Just to be clear, rerender in this context means calling render for all components, it doesn’t mean React will unmount and remount them. It will only apply the differences following the rules stated in the previous sections.
 
-일반적인 use case를 더 빠르게 만들기 위해 heuristics을 정기적으로 수정하고 있다. 현재 구현에서 subtree가 형제 컴포넌트 간에 이동했다는 것을 표현할 수 있지만, 다른 어딘가로 이동한 것을 말할 수 없다. __알고리즘은 full subtree를 리렌더 할거다__
+일반적인 use case를 더 빠르게 만들기 위해 heuristics을 정기적으로 수정하고 있다. 현재 구현에서 subtree가 형제 컴포넌트 간에 이동했다는 것을 표현할 수 있지만, 다른 어딘가로 이동한 것을 말할 수 없다. **알고리즘은 full subtree를 리렌더 할거다**
 
 리액트는 heuristics에 의존하기 때문에, 만약 다음 가정이 충족되지 않는다면 퍼포먼스가 안좋게 될 것이다.
 
-1. 알고리즘은 다른 컴포넌트 타입의 subtree를 매치시키려고 하지 않는다. 매우 유사한 output을 가진 2가지 컴포넌트 유형을 번갈아 사용하는 경우,  동일한 유형으로 만들 수 있다. 실제로 이 문제는 없었다.
+1. 알고리즘은 다른 컴포넌트 타입의 subtree를 매치시키려고 하지 않는다. 매우 유사한 output을 가진 2가지 컴포넌트 유형을 번갈아 사용하는 경우, 동일한 유형으로 만들 수 있다. 실제로 이 문제는 없었다.
 
 2. Keys는 안정되고 있고, 예측 가능하고 unique 해야된다. Unstable Keys(`Math.random()`)은 많은 컴포넌트 인스턴스와 DOM node가 불필요하게 재생성되는 것을 유발한다. (이것은 퍼포먼스 저하와 child component의 상태를 잃어버리도록 만든다.)
 
@@ -161,9 +165,10 @@ It is important to remember that the reconciliation algorithm is an implementati
 state나 props이 업데이트되면 render는 different tree를 리턴한다.
 그리고 나서 React는 가장 최신 트리와 일치시키기 위해 UI를 어떻게 효율적으로 업데이트할지 이해한다.
 
-__Diffing 알고리즘__
+**Diffing 알고리즘**
 
 1. 다른 타입 엘리먼트
+
 - old tree를 버리고 처음부터 새로운 tree를 만든다.
 
 2. 동일 타입 DOM 엘리먼트
@@ -180,6 +185,7 @@ _recurse 한다 on Children_
 
 - DOM node 자식에서 recurse할 때, React는 자식 리스트를 iterate 하고 차이가 있을 때마다 mutation한다.
 - 이때 자식 노드의 형제 노드에 엘리먼트가 추가되면
+
   - 추가가 마지막에 엘리먼트를 추가하면 트리 변환 잘 진행됨.
   - 근데 맨 처음에 추가하게 되면 2개의 트리간 변환은 제대로 작동하지 않는다.
   - 왜냐하면 기존 알고리즘을 기반으로

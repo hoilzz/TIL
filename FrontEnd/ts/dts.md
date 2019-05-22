@@ -12,13 +12,26 @@ pure JS 라이브러리 사용하는 동안, TS 코드에서 static type checkin
 
 선언 파일은 **기존 JS codebase의 모양을 TS로 설명한 단순한 파일** 이다. 선언 파일을 이용하여(`.d.ts`) 라이브러리를 잘못 사용하는 것을 피할 수 있고 에디터에서 자동완성 이점을 얻을 수 있다.
 
-1. @types 패키지는 어디서 오는걸까?
-2. d.ts file을 업데이트 하는 방법은?
+## FAQ
 
-## DefinitelyTyped
+1. d.ts란?
+2. declare 키워드란?
 
-@types packages는 [DefinitelyType](https://github.com/DefinitelyTyped/DefinitelyTyped)에서 온다. TS 선언 파일을 호스팅하는 깃허브 저장소다.
+[do we need to use "declare" for type aliased in d.ts files?](https://github.com/Microsoft/TypeScript/issues/1940)
 
-## authoring new declarations
+d.ts file 선언에서 all top level non-interface element(module, class, var)의 경우 `declare`는 필수다.
 
-우리가 좋아하는 라이브러리에 대해 선언 파일을 만든다고 하자. 첫번째, DefinitelyTyped를 fork 해야한다.
+하지만 type aliase에도 이게 필요할까?
+
+`tests.d.ts` file은 에러 발생시킨다.
+
+```ts
+interface ITest {
+  foo: string;
+  bar: string;
+}
+
+type IMyAlias = ITest;
+```
+
+3. d.ts 에서 declare를 하지 않는다면?
