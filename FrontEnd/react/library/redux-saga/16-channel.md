@@ -205,6 +205,77 @@ function* handleRequest(chan) {
 - while 반복으로 3개의 워커가 req 액션을 가져가거나, 요청으로 만들어진 메시지가 있을 때까지 block됨.
 - 이 메커니즘이 3개의 워커 칸 자동 로드밸런싱을 해줌.
 
+WebSocket 이벤트에 이벤트 채널 이용하는 예제도 보자. server message `ping`을 기다리고, `pong` message를 약간의 딜레이 후에 회신한다고 하자.
+
+```js
+import { take, put, call, apply, delay } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { createWebSocketConnection } from './socketConnection'
+
+// 이 함수는 주어진 소켓에서 이벤트 채널을 생성한다.
+// ping events 구독을 세팅한다.
+function createSocketChannel(socket) {
+  // 이벤트 채널은 구독자 함수를 가지고,
+  // 구독자 함수는 메세지를 채널에 전달하기 위해 emit을 인자로 받는다.
+  // `eventChannel` takes a subscriber function
+  // the subscriber function takes an `emit` argument to put messages onto the channel
+  return eventChannel(emit => {
+
+    const pingHandler = (event) => {
+      // 채널에 이벤트 payload 전달하기
+      // 사가에게 이 payload를 리턴된 채널에 전달하도록 허용
+      // puts event payload into the channel
+      // this allows a Saga to take this payload from the returned channel
+      emit(event.payload)
+    }
+
+    const errorHandler = (errorEvent) => {
+      // create an Error object and put it into the channel
+      emit(new Error(errorEvent.reason))
+    }
+
+    // setup the subscription
+    socket.on('ping', pingHandler)
+    socket.on('error', errorHandler)
+
+    // 구독자는 반드시 unsubscribe 함수를 리턴해야 한다
+    // sage는 channel.close method호출할 때 실행된다.
+    // the subscriber must return an unsubscribe function
+    // this will be invoked when the saga calls `channel.close` method
+    const unsubscribe = () => {
+      socket.off('ping', pingHandler)
+    }
+
+    return unsubscribe
+  })
+}
+
+// reply with a `pong` message by invoking `socket.emit('pong')`
+function* pong(socket) {
+  yield delay(5000)
+  yield apply(socket, socket.emit, ['pong']) // call `emit` as a method with `socket` as context
+}
+
+export function* watchOnPings() {
+  const socket = yield call(createWebSocketConnection)
+  const socketChannel = yield call(createSocketChannel, socket)
+
+  while (true) {
+    try {
+      // An error from socketChannel will cause the saga jump to the catch block
+      const payload = yield take(socketChannel)
+      yield put({ type: INCOMING_PONG_PAYLOAD, payload })
+      yield fork(pong, socket)
+    } catch(err) {
+      console.error('socket error:', err)
+      // socketChannel is still open in catch block
+      // if we want end the socketChannel, we need close it explicitly
+      // socketChannel.close()
+    }
+  }
+}
+```
+
 ## Summary
 
 채널은

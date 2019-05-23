@@ -21,9 +21,9 @@ full app을 렌더링한다. 이것이 통합 테스트의 필수는 아니고 �
 1. Network request(axiosMock)
 2. animation을 맡고 있는 Components
 
-## WHy do we test again?
+## Why do we test again?
 
-번우리는 왜 테스트를 작성할까? 테스트가 없으면 PR이 리젝당해서..? 테스트는 너의 workflow를 향상시켜주니까?
+매번우리는 왜 테스트를 작성할까? 테스트가 없으면 PR이 리젝당해서..? 테스트는 너의 workflow를 향상시켜주니까?
 
 가장 중요한 이유는 **CONFIDENCE** 다.
 내가 작성한 코드가 미래에 app(현재 production에서 잘 작동하는) 을 break하지 않을거라는 자신감을 가질 수 있다.
