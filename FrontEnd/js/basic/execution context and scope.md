@@ -1,48 +1,58 @@
 ## 4.2 실행 컨텍스트와 스코프
+
+[execution-context](https://github.com/hoilzz/hoilzz.github.io/blob/f966ccf6c7162ca6714f89d581a773d6fc61e47b/_posts/2017-6-12-execution-context.md)
+
 #### **execution context** 는 컨텍스트라고 부르며 중요한 개념이다.
+
 - 변수, 함수의 실행 컨텍스트는 **다른 데이터에 접근할 수 있는지, 어떻게 행동하는지를 규정**한다
 - 각 **실행 컨텍스트에는 변수 객체가 연결됨**. **해당 컨텍스트에서 정의된 모든 변수와 함수는 이 객체에 존재**
 
 #### 가장 바깥쪽에 존재하는 실행 컨텍스트는 전역 컨텍스트다.
+
 - 웹 브라우저에서는 이 컨텍스트를 window
   - 전역 변수와 함수는 모두 window 객체의 프로퍼티 및 메서드로 생성
 
 #### **함수를 호출하면 독자적인 실행 컨텍스트 생성**
+
 - **코드 실행이 함수로 들어갈 때마다 함수의 컨텍스트가 컨텍스트 스택에 쌓인다**
 - **함수 실행이 끝나면 해당 컨텍스트를 스택에서 꺼내고 컨트롤을 이전 컨텍스트에 반환**
 
 **컨텍스트에서 코드를 실행하면** 변수 객체에 `스코프 체인`이 생성됨
+
 - 스코프 체인의 목적은 실행 컨텍스트가 접근할 수 있는 모든 변수와 함수에 순서를 정의하는 것
 
 #### Summary
+
 - 실행 컨텍스트는 전역 컨텍스트와 함수 컨텍스트 2가지 타입만 있다.
 - 스코프 체인은 {} 다
 - 지역변수와 전역변수의 개념..
 
 ```javascript
-  var color = "blue"
-  function changeColor() {
-      if (color === "blue") {
-          color = "red";
-      } else {
-          color = "blue"
-      }
+var color = 'blue';
+function changeColor() {
+  if (color === 'blue') {
+    color = 'red';
+  } else {
+    color = 'blue';
   }
-  changeColor(); // color = red
+}
+changeColor(); // color = red
 ```
+
 #### changeColor()의 스코프 체인에는 2개의 객체가 있다.
 
 1. 함수 자체의 변수 객체 (this ==== function changeColor())
 2. 전역 컨텍스트의 변수 객체 (color)
 3.
+
 #### 로컬 컨텍스트에서는 지역 변수와 전역 변수 모두 쓸 수 있다.
 
 ```javascript
-var color = "blue";
+var color = 'blue';
 
-function changeColor(){
-  var anotherColor = "red";
-  function swapColor(){
+function changeColor() {
+  var anotherColor = 'red';
+  function swapColor() {
     var tempColor = anotherColor;
     anotherColor = color;
     color = tempColor;
@@ -53,65 +63,22 @@ function changeColor(){
 changeColor();
 // color만 접근 가능
 ```
+
 3개의 실행 컨텍스트가 있다.
+
 1. 전역 컨텍스트
 2. changeColor()의 로컬 컨텍스트
 3. swapColors()의 로컬 컨텍스트
+
 - 내부 컨텍스트는 스코프 체인을 통해 외부 컨텍스트 전체에 접근 가능
 - 외부 컨텍스트는 내부 컨텍스트에 대해 전혀 알 수 없음
 - 컨텍스트 사이의 연결은 순서가 중요
   - 각 컨텍스트는 스코프 체인을 따라 상위 컨텍스트 검색 가능
-  + but, 스코프 체인 따라 내려가며 검색 불가능
+  * but, 스코프 체인 따라 내려가며 검색 불가능
 - `swapColors()`의 로컬 컨텍스트 스코프 체인에 3개의 객체가 있다
   1. swapColors() 자신의 변수 객체에서 변수나 함수 이름 검색
   2. changeColor()
   3. 전역 객체
-
-
-## 4.2.2 자바스크립트에는 블록 레벨 스코프가 없다
-C에서는 중괄호로 감싼 코드 블록마다 스코프가 생성. 조건에 따라 변수를 정의할 수 있다. 그래서 다음 코드 이상하게 느낄 수 있어
-
-```javascript
-  if (true) {
-    var color = "blue"
-  }
-  alert(color) // 'blue'
-```
-
-
-변수 color는 if 문 안에서 정의 되었다. C에서는 color는 if문 실행 후 파괴됨.
-하지만 **js에서는 변수 선언시 해당 변수를 현재 execution context(위 코드에서는 전역 컨텍스트)에 추가**
-이러한 점은 for문 사용시 중요.
-
-```javascript
-for (var i = 0; i < 10; i++) doSomething(i);
-alert(i) // 10
-```
-
-블록 레벨 스코프를 지원하는 언어에서는 for문의 초기화 부분에서 선언한 변수가 오직 for문 컨텍스트 안에서만 존재.
-but js에서는 루프 실행 끝난 후에도 존재
-
-
-### 변수 선언
-var를 사용해 선언한 변수는 가장 가까운 컨텍스트에 추가됨. 다음과 같이 변수를 선언하지 않은 채 초기화하면 해당 변수는 자동으로 전역 컨텍스트에 추가됨.
-
-```javascript
-  function add(num1, num2) {
-    var sum = num1 + num2;
-    return sum;
-  }
-
-  var result = add(10, 20); // 30
-  alert(sum); // sum은 유효한 변수가 아니다.
-```
-sum이라는 지역 변수는 함수 밖에서 접근 불가. var를 생략시 sum에 접근 가능
-
-### Summary
-- **위와같은 문제를 예방하기 위해 반드시 var로 변수 선언하 다음 초기화 하기**
-- **스트릭트 모드에서는 변수 선언하지 않고 초기화하면 error 발생**
-- **블록 레벨 스코프 없다** 근데 function add는 블록 레벨 스코프가 아니다..?
-- 블록 레벨 스코프란
-- 실행 컨텍스트는 전역 컨텍스트와 함수 컨텍스트 2가지 타입만 있다.
 
 ### 식별자 검색
 
@@ -121,17 +88,16 @@ sum이라는 지역 변수는 함수 밖에서 접근 불가. var를 생략시 s
 3 전역 컨텍스트 변수 객체에서 찾기
 4 없으면 정의 안된걸로 판단
 
-  var color = "blue";
-  function getColor() {
-    return color;
-  }
-  alert(getColor()); //blue
+var color = "blue";
+function getColor() {
+return color;
+}
+alert(getColor()); //blue
 
-  window - color
-         - getColor return color
-
+window - color - getColor return color
 
 ## 4.4 요약
+
 자바스크립트 변수는 `원시 값`, `참조 값` 2가지 형태로 저장 가능
 `원시 값` : 불리언, 숫자, 문자열, undefined, null
 
@@ -144,6 +110,7 @@ sum이라는 지역 변수는 함수 밖에서 접근 불가. var를 생략시 s
 
 원시 값과 참조 값을 가리지 않고 모든 변수는 스코프라고 부르기도 하는 `execution context`에 존재
 실행 컨텍스트는
+
 - **변수가 존재하는 기간을 결정**
 - **어느코드가 해당 변수에 접근할 수 있는지도 결정**
 - 실행 컨텍스트에는 **전역 컨텍스트와 함수 컨텍스트** 가 있다

@@ -10,18 +10,18 @@ Scope Chain을 이용하여 이미 생명 주기가 끝난 외부 함수의 변�
 내부 변수는 하나의 클로저에만 종속될 필요는 없다. 외부 함수가 실행될 때마다 새로운 scope chain과 새로운 내부 변수를 생성한다.(실행될 때마다 새로운 유효 범위를 생성하는데 이는 메모리 누수를 발생시킬 수 있다) 또, 클로저가 참조하는 내부 변수는 실제 내부 변수의 복사본이 아닌 그 내부 변수를 직접 참조한다.
 
 ```javascript
-function outerFunc(){
-    var a= 0;
-    return {
-        innerFunc1 : function(){
-            a+=1;
-            console.log("a :"+a);
-        },
-        innerFunc2 : function(){
-            a+=2;
-            console.log("a :"+a);
-        }
-    };
+function outerFunc() {
+  var a = 0;
+  return {
+    innerFunc1: function() {
+      a += 1;
+      console.log('a :' + a);
+    },
+    innerFunc2: function() {
+      a += 2;
+      console.log('a :' + a);
+    }
+  };
 }
 
 var out = outerFunc();
@@ -48,15 +48,15 @@ var outerValue = 'hoil';
 
 var later;
 
-function outerFunction(){
-    var innnerValue = 'pyapya';
+function outerFunction() {
+  var innerValue = 'pyapya';
 
-    function innerFunction() {
-        assert(outerValue, "I can access hoil");
-        assert(innerValue, "I can access pyapya");
-    }
+  function innerFunction() {
+    console.log(outerValue, 'I can access hoil');
+    console.log(innerValue, 'I can access pyapya');
+  }
 
-    later = innerFunction;
+  later = innerFunction;
 }
 
 outerFunction();
@@ -66,9 +66,8 @@ later();
 
 - `innerValue`의 유효 범위는 `outerFunction()` 내부로 제한된다. 함수 외부에서는 접근 불가능하다. (**Scope Chain을 떠올리자**)
 - `outerFunction`내에 선언된 `innerFunction`은 `innerValue`가 선언된 유효 범위에 존재한다.
-- `outerFunction()`실행 시 전역 변수인 `later` 변수에 참조된다. 
+- `outerFunction()`실행 시 전역 변수인 `later` 변수에 참조된다.
 - `later()`, later 변수를 이용하여 `innerFunction()`을 호출한다. `innerFunction()`의 유효 범위는 `outerFunction`내부까지 제한되어있다.(**마찬가지로 Scope Chain**) 그래서 외부에서 직접 호출하는 것은 불가능하다.
-
 
 ## 클로저의 사용 이유 1
 
@@ -78,23 +77,21 @@ later();
 
 자바의 private을 흉내낼 수 있다.
 
-
-
 ## NOTE
 
 **for문 클로저는 상위 함수의 변수를 참조할 때 자신의 생성될 떄가 아닌 내부 변수의 최종 값을 참조한다**
 
 ```html
 <script>
-window.onload = function(){
-  var list = document.getElementsByTagName("button");
+  window.onload = function() {
+    var list = document.getElementsByTagName('button');
 
-  for(var i=0, length = list.length; i<length; i++){
-    list[i].onclick=function(){
-    	console.log(this.innerHTML+"은"+(i+1)+"번째 버튼입니다");
+    for (var i = 0, length = list.length; i < length; i++) {
+      list[i].onclick = function() {
+        console.log(this.innerHTML + '은' + (i + 1) + '번째 버튼입니다');
+      };
     }
-  }
-}
+  };
 </script>
 
 <button>1번째 버튼</button>
@@ -117,20 +114,19 @@ window.onload = function(){
 ### 해결책 : 중첩 클로저
 
 ```html
-
 <script>
-window.onload = function(){
-  var list = document.getElementsByTagName("button");
+  window.onload = function() {
+    var list = document.getElementsByTagName('button');
 
-  var gate = function(i){
-    list[i].onclick=function(){
-    	console.log(this.innerHTML+"은"+(i+1)+"번째 버튼입니다");
+    var gate = function(i) {
+      list[i].onclick = function() {
+        console.log(this.innerHTML + '은' + (i + 1) + '번째 버튼입니다');
+      };
+    };
+    for (var i = 0, length = list.length; i < length; i++) {
+      gate(i);
     }
-  }
-  for(var i =0, length = list.length; i<length; i++){
-    gate(i);
-  }
-}
+  };
 </script>
 
 <button>1번째 버튼</button>
@@ -156,18 +152,18 @@ window.onload = function(){
 
 ```javascript
 function MyObject(inputname) {
-    this.name = inputname;
+  this.name = inputname;
 
-    this.getName = function() {
-        return this.name;
-    };
+  this.getName = function() {
+    return this.name;
+  };
 
-    this.setName = function(rename) {
-        this.name = rename;
-    };
+  this.setName = function(rename) {
+    this.name = rename;
+  };
 }
 
-var obj= new MyObject("서");
+var obj = new MyObject('서');
 console.log(obj.getName());
 
 //실행결과
@@ -181,20 +177,19 @@ console.log(obj.getName());
 ### 함수 객체가 생성될 때마다 클로저 생성 -> prototype 객체를 이용한 클로저 생성
 
 ```javascript
-
 function MyObject(inputname) {
-    this.name = inputname;
+  this.name = inputname;
 }
 
 MyObject.prototype.getName = function() {
-    return this.name;
+  return this.name;
 };
 
 MyObject.prototype.setName = function(rename) {
-    this.name = rename;
+  this.name = rename;
 };
 
-var obj= new MyObject("서");
+var obj = new MyObject('서');
 console.log(obj.getName());
 
 //실행결과
