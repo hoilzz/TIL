@@ -1,41 +1,51 @@
 # scope chain
 
 [https://github.com/hoilzz/hoilzz.github.io/blob/f966ccf6c7162ca6714f89d581a773d6fc61e47b/\_posts/2017-6-12-scope-chain.md](https://github.com/hoilzz/hoilzz.github.io/blob/f966ccf6c7162ca6714f89d581a773d6fc61e47b/_posts/2017-6-12-scope-chain.md)
+[zero초님 scope](https://www.zerocho.com/category/JavaScript/post/5740531574288ebc5f2ba97e)
 
-스코프 체인의 목적은 `실행 컨텍스트가 접근할 수 있는 모든 변수와 함수에 순서를 정의`하는 것.
+## lexical Scope
 
-- 스코프 체인의 앞쪽은 항상 코드가 실행되는 컨텍스트의 변수 객체
-- 변수 객체의 다음 순서는 해당 컨텍스트를 포함하는 부모 컨텍스트
-- 부모의 부모를 타고 올라간다. until 전역 컨텍스트 도달
+**자바스크립트 스코프는 함수 호출이 아닌 선언 때 생긴다.**
 
-```javascript
-var color = 'blue';
-function changeColor() {
-  var anotherColor = 'Red';
+> 스코프는 함수를 호출할 때가 아닌 선언할 때 생긴다! 그래서 정적 스코프다.
 
-  function swapColor() {
-    var tempColor = anotherColor;
-    anotherColor = color;
-    color = tempColor;
-  }
-  swapColor();
+```js
+var name = "zero";
+function log() {
+  console.log(name);
 }
-changeColor();
+
+function wrapper() {
+  name = "nero";
+  log();
+}
+wrapper(); // -> nero
 ```
 
-위 코드에는 3개의 실행 컨텍스트가 존재
+```js
+var name = "zero";
+function log() {
+  console.log(name);
+}
 
-1. 전역 컨텍스트
-2. changeColor()의 로컬 컨텍스트
-3. swapColors()의 로컬 컨텍스트
+function wrapper() {
+  var name = "nero";
+  log();
+}
+wrapper();
+```
 
-<img>
+두 번째 예시에서 nero가 출력된다고 답하면, 렉시컬 스코프를 제대로 이해 못한거다. **다시 말하지만 스코프는 함수 실행이 아닌 함수 선언때 생성된다.**
 
-swapColors()의 로컬 컨텍스트 스코프 체인의 객체 3개
+함수를 처음 선언하는 순간, 함수 내부 변수는 자기 스코프로부터 가장 가까운 곳에 있는 변수를 참고한다. log 안의 name은 wrapper의 name을 참조하는게 아닌 window의 name을 참고한다. 왜냐하면 log의 스코프체인은 자신이 생성된 EC의 스코프체인위에 자신의 스코프체인을 쌓기 때문이다. 즉, log의 스코프체인에 wrapper가 없다.
 
-1. swapColors()의 변수 객체
-2. changeColor()의 변수 객체
-3. 전역 변수 객체
+## Summary
+
+Q. 자바스크립트의 유효 범위는?
+A. C나 자바처럼 블록 스코프가 아닌, 함수 스코프가 기준이 된다.
+
+Q. 스코프체인이란?
+A. 자바스크립트는
 
 - 각 사각형은 실행 컨텍스트임
 - 내부 컨텍스트는 스코프 체인을 따라 상위(외부) 컨텍스트에서 변수나 함수를 검색할 수 있다

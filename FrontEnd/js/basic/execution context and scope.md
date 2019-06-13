@@ -1,6 +1,20 @@
 ## 4.2 실행 컨텍스트와 스코프
 
 [execution-context](https://github.com/hoilzz/hoilzz.github.io/blob/f966ccf6c7162ca6714f89d581a773d6fc61e47b/_posts/2017-6-12-execution-context.md)
+[zerocho님 실행컨텍스트](https://www.zerocho.com/category/JavaScript/post/5741d96d094da4986bc950a0)
+
+## 실행컨텍스트
+
+- 처음 코드를 실행하는 순간 모든 것을 포함하는 `전역 컨텍스트` 생성
+  - 페이지가 종료될 때까지 유지됨.
+- 이후부터 함수 호출할 때마다 `함수 컨텍스트`가 생긴다.
+
+> 컨텍스트 4가지 원칙
+>
+> - 전역 컨텍스트 하나 생성 후, 함수 호출 시마다 컨텍스트가 생긴다.
+> - 컨텍스트 생성시 변수객체(arguments, variable), scope chain, this가 생성된다.
+> - 컨텍스트 생성 후 함수가 실행된다. 사용되는 변수들은 변수 객체 안에서 값을 찾고 없으면 스코프체인을 따른다.
+> - 함수 실행이 마무리되면 해당컨텍스트는 사라진다.(클로저 제외)
 
 #### **execution context** 는 컨텍스트라고 부르며 중요한 개념이다.
 
@@ -28,12 +42,12 @@
 - 지역변수와 전역변수의 개념..
 
 ```javascript
-var color = 'blue';
+var color = "blue";
 function changeColor() {
-  if (color === 'blue') {
-    color = 'red';
+  if (color === "blue") {
+    color = "red";
   } else {
-    color = 'blue';
+    color = "blue";
   }
 }
 changeColor(); // color = red
@@ -48,10 +62,10 @@ changeColor(); // color = red
 #### 로컬 컨텍스트에서는 지역 변수와 전역 변수 모두 쓸 수 있다.
 
 ```javascript
-var color = 'blue';
+var color = "blue";
 
 function changeColor() {
-  var anotherColor = 'red';
+  var anotherColor = "red";
   function swapColor() {
     var tempColor = anotherColor;
     anotherColor = color;
@@ -117,3 +131,19 @@ window - color - getColor return color
 - 실행 컨텍스트에 진입할 때마다 스코프 체인 만들어지며, 스코프 체인은 변수와 함수 검색할 때 쓰인다.
 - 함수 컨텍스트는 해당 스코프에 있는 변수, 해당 스코프를 포함하는 컨텍스트에 있는 변수, 전역 컨텍스트에 있는 변수에 모두 접근 가능
 - 전역 컨텍스트는 전역 컨텍스트에 있는 변수와 함수에만 접근 가능. 로컬 컨텍스트에 있는 데이터에 직접적 접근 불가능
+
+Q. EC는 뭔가요?
+A. 실행 가능한 스크립트 코드를 형상화하는 개념입니다. 이 때 실행 가능한 코드 블록은 전역코드와 함수가 있습니다. 대부분 함수로 실행 컨텍스트를 만듭니다.
+
+이 실행 컨텍스트도 call stack처럼 생성될 때마다 스택에 하나씩 쌓입니다. 제일 위에 위치하는 실행 컨텍스트가 현재 실행되는 컨텍스트 입니다.
+
+Q. EC가 정확히 어떤 정보를 담고 있나요?
+A.
+
+- 개발자가 정의한 변수 및 객체, arguments 객체.
+  - 단지 메모리에 생성만 하고 초기화는 표현식이 실행되기 전까지 이루어지지 않음.
+- Scope 정보
+  - 현재 컨텍스트에서 특정 변수에 접근할 경우 이 리스트를 활용.
+- this 바인딩.
+
+실행 컨텍스트가 생성된고, 표현식이 실행된다.

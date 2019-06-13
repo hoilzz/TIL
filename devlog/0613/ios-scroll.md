@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/26141327/ios-uiwebview-javascript-timers

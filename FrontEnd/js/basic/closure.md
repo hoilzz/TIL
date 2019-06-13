@@ -1,5 +1,7 @@
 # closure
 
+[zerocho님의 클로저](https://www.zerocho.com/category/JavaScript/post/5741d96d094da4986bc950a0)
+
 > 클로저는 독립적인 (자유) 변수 (지역적으로 사용되지만, 둘러싼 범위 안에서 정의된 변수)를 참조하는 함수들이다. 다른 말로 하면, 이 함수들은 그들이 생성된 환경을 '기억'한다.
 
 간단히 말하자면 클로저는 `함수를 선언할 때 만들어지는 유효 범위`다. 함수는 클로저를 통해서 자신이 선언될 때 속해 있던 유효 범위 내의 변수와 함수를 사용할 수 있고, 변수의 경우 그 값을 변경 할 수도 있다. 또한, 함수를 선언한 후에 언제든지(**심지어 함수가 속해 있던 유효 범위가 사라진 후에도**) 그 함수를 호출할 수 있다.
@@ -22,11 +24,11 @@ function outerFunc() {
   return {
     innerFunc1: function() {
       a += 1;
-      console.log('a :' + a);
+      console.log("a :" + a);
     },
     innerFunc2: function() {
       a += 2;
-      console.log('a :' + a);
+      console.log("a :" + a);
     }
   };
 }
@@ -51,16 +53,16 @@ C언어의 블록 스코프에 익숙하면 위의 코드는 이해하기 힘들
 ## 예시를 통해 클로저 동작 알아보자.
 
 ```javascript
-var outerValue = 'hoil';
+var outerValue = "hoil";
 
 var later;
 
 function outerFunction() {
-  var innerValue = 'pyapya';
+  var innerValue = "pyapya";
 
   function innerFunction() {
-    console.log(outerValue, 'I can access hoil');
-    console.log(innerValue, 'I can access pyapya');
+    console.log(outerValue, "I can access hoil");
+    console.log(innerValue, "I can access pyapya");
   }
 
   later = innerFunction;
@@ -91,11 +93,11 @@ later();
 ```html
 <script>
   window.onload = function() {
-    var list = document.getElementsByTagName('button');
+    var list = document.getElementsByTagName("button");
 
     for (var i = 0, length = list.length; i < length; i++) {
       list[i].onclick = function() {
-        console.log(this.innerHTML + '은' + (i + 1) + '번째 버튼입니다');
+        console.log(this.innerHTML + "은" + (i + 1) + "번째 버튼입니다");
       };
     }
   };
@@ -123,11 +125,11 @@ later();
 ```html
 <script>
   window.onload = function() {
-    var list = document.getElementsByTagName('button');
+    var list = document.getElementsByTagName("button");
 
     var gate = function(i) {
       list[i].onclick = function() {
-        console.log(this.innerHTML + '은' + (i + 1) + '번째 버튼입니다');
+        console.log(this.innerHTML + "은" + (i + 1) + "번째 버튼입니다");
       };
     };
     for (var i = 0, length = list.length; i < length; i++) {
@@ -170,7 +172,7 @@ function MyObject(inputname) {
   };
 }
 
-var obj = new MyObject('서');
+var obj = new MyObject("서");
 console.log(obj.getName());
 
 //실행결과
@@ -196,7 +198,7 @@ MyObject.prototype.setName = function(rename) {
   this.name = rename;
 };
 
-var obj = new MyObject('서');
+var obj = new MyObject("서");
 console.log(obj.getName());
 
 //실행결과
