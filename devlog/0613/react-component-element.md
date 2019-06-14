@@ -133,5 +133,64 @@ React가 function or class `type`으로 된 엘리먼트를 볼 때,
 
 리액트는 해당 `props`이 주어진다면, 그 컴포넌트에게 렌더링할 element를 물어본다.
 
+아래 엘리먼트를 볼 때,
+
 ```js
+{
+  type: Button,
+  props: {
+    color: 'blue',
+    children: 'OK!'
+  }
+}
 ```
+
+리액트는 `Button`에게 렌더링 할것을 물어본다. `Button`은 다음 엘리먼트를 리턴한다.
+
+```js
+{
+  type: 'button',
+  props: {
+    className: 'button button-blue',
+    children: {
+      type: 'b',
+      props: {
+        children: 'OK!'
+      }
+    }
+  }
+}
+```
+
+리액트는 페이지의 모든 컴포넌트에 대해 기본(underlying) DOM tag element를 알 때까지 과정을 반복한다.
+
+React는 세상의 모든 작은 것을 이해할 때까지 모든 "X is Y"에 대해 "What is Y?"라고 묻는 어린애와 같다.
+
+위의 `Form` 예제 기억하니? 리액트로 작성하면 다음과 같다.
+
+```js
+const Form = ({ isSubmitted, buttonText }) => {
+  if (isSubmitted) {
+    // Form submitted! Return a message element.
+    return {
+      type: Message,
+      props: {
+        text: "Success!"
+      }
+    };
+  }
+
+  // Form is still visible! Return a button element.
+  return {
+    type: Button,
+    props: {
+      children: buttonText,
+      color: "blue"
+    }
+  };
+};
+```
+
+React Component의 경우에, props은 input이다. 그리고 엘리먼트 트리는 아웃풋이다.
+
+\_\_리턴된 엘리먼트 트리는 DOM nodes를 설명하는 엘리먼트 이고 다른 컴포넌트를 설명하는 element다.
