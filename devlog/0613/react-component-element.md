@@ -12,13 +12,13 @@ _elements_ 를 왜 도입해야할까?
 
 ## Elements는 트리를 설명한다.
 
-리액트에서, _elements_ 가 rescue 되는 곳이다. \_\_엘리먼트는 component 인스턴스나 DOM node 그리고 그것이 원하는 속성을 설명하는 plain object다. 그것은 컴포넌트 타입(예를 들어, `Button`) 정보, 그 컴포넌트의 프로퍼티(예컨대 `color`), 그리고 내부 child elements를 포함하고 있다.
+리액트는 _elements_ 가 rescue 되는 곳이다. **엘리먼트는 component 인스턴스나 DOM node 그리고 그것이 원하는 속성을 설명하는 plain object다.** 그것은 컴포넌트 타입(예를 들어, `Button`) 정보, 그 컴포넌트의 프로퍼티(예컨대 `color`), 그리고 내부 child elements를 포함하고 있다.
 
 엘리먼트는 실제 인스턴스는 아니다. 오히려, 개발자가 스크린에 보여주기를 원하는 것을 리액트에게 말하는 방법이다. 엘리먼트에서 어떤 메서드든 호출할 수 없다. 2가지 필드로 된 불변의 description 객체다. (`type: (string | ReactClass)` and `props: Object`)
 
-Elements는 실제 인스턴스가 아닌 컴포넌트에 관한 정보를 담은 plainObject다.
+Elements는 실제 인스턴스가 아닌 컴포넌트에 관한 정보를 담은 plainObject다. 이 엘리먼트로 어떤 메서드든 호출할 수 없다. 이것은 `type: (string | ReactClass)` and `props: Object`이 2가지 필드를 가진 불변의 description object다.
 
-## Dom ELements
+## Dom Elements
 
 엘리먼트의 `type`이 string일 때, 그것은 tag name을 가진 DOM node를 나타낸다. 그리고 `props`은 attribute와 상응한다. 이것은 React가 렌더할 것이다:
 
@@ -77,7 +77,7 @@ DOM node를 설명하는 엘리먼트와 같이 컴포넌트를 설명하는 엘
 const DangerButton = ({ children }) => ({
   type: Button,
   props: {
-    color: "red",
+    color: 'red',
     children: children
   }
 });
@@ -175,7 +175,7 @@ const Form = ({ isSubmitted, buttonText }) => {
     return {
       type: Message,
       props: {
-        text: "Success!"
+        text: 'Success!'
       }
     };
   }
@@ -185,7 +185,7 @@ const Form = ({ isSubmitted, buttonText }) => {
     type: Button,
     props: {
       children: buttonText,
-      color: "blue"
+      color: 'blue'
     }
   };
 };
@@ -193,4 +193,150 @@ const Form = ({ isSubmitted, buttonText }) => {
 
 React Component의 경우에, props은 input이다. 그리고 엘리먼트 트리는 아웃풋이다.
 
-\_\_리턴된 엘리먼트 트리는 DOM nodes를 설명하는 엘리먼트 이고 다른 컴포넌트를 설명하는 element다.
+**리턴된 엘리먼트 트리는 DOM nodes를 설명하는 엘리먼트와 다른 컴포넌트를 설명하는 element를 포함한다.** **이것이 개발자에게 내부 DOM 구조에 의존하는 것 없이 UI의 독립적인 부분을 구성하도록 해준다.**
+
+우리는 React가 인스턴스를 생성하고, 업데이트하고, 파괴하도록 한다. 우리는 컴포넌트에서 리턴하는 엘리먼트로 그것들(인스턴스)을 설명하고, 리액트는 인스턴스를 관리하는데 신경쓴다.
+
+> ;
+> 개발자는 UI의 독립적인 부분만 구성하면, 리액트가 알아서 기본 DOM tag element 알 때까지 알아서 반복해서 순회함. 우리는 UI를 정의해놓기만 하면 리액트가 알아서 인스턴스 생성/업데이트/파괴 한다. 즉, 우리는 jsx로 컴포넌트 정의만 해놓으면 알아서 인스턴스 관리한다.
+
+## Components는 Classes or Functions가 될 수 있다.
+
+위 코드에서, `Form`, `Message`, and `Button`은 리액트 컴포넌트다. 이 컴포넌트들은 위와 같이 함수 혹은 `React.Component`를 상속하는 클래스로 작성될 수 있다. 컴포넌트를 선언하는 3가지 방법은 거의 비슷하다.
+
+```js
+// 1) As a function of props
+const Button = ({ children, color }) => ({
+  type: 'button',
+  props: {
+    className: 'button button-' + color,
+    children: {
+      type: 'b',
+      props: {
+        children: children
+      }
+    }
+  }
+});
+
+// 2) Using the React.createClass() factory
+const Button = React.createClass({
+  render() {
+    const { children, color } = this.props;
+    return {
+      type: 'button',
+      props: {
+        className: 'button button-' + color,
+        children: {
+          type: 'b',
+          props: {
+            children: children
+          }
+        }
+      }
+    };
+  }
+});
+
+// 3) As an ES6 class descending from React.Component
+class Button extends React.Component {
+  render() {
+    const { children, color } = this.props;
+    return {
+      type: 'button',
+      props: {
+        className: 'button button-' + color,
+        children: {
+          type: 'b',
+          props: {
+            children: children
+          }
+        }
+      }
+    };
+  }
+}
+```
+
+컴포넌트가 클래스로 정의됐을 때, 함수형 컴포넌트보다 조금 더 강력하다. 그것은 local state를 저장할 수 있고 DDOM node가 생성되거나 파괴될 때 커스텀 로직을 수행할 수 있다.
+
+함수형 컴포넌트는 덜 강력하지만 심플하다. `render()`라는 단일 method를 가진 클래스 처럼 행동한다. 만약 클래스에서만 이용가능한 기능이 필요하지 않다면, 함수형 컴포넌트를 대신 사용하자.
+
+**그러나, 함수형이든 클래스든, 근본적으로 그것들은 리액트에게 전부 컴포넌트다. 그것들은 input으로 prop을 가지고 output으로 엘리먼트를 리턴한다.**
+
+## Top-Down Reconciliation
+
+너가 다음을 호출할 때,
+
+```js
+ReactDOM.render(
+  {
+    type: Form,
+    props: {
+      isSubmitted: false,
+      buttonText: 'OK!'
+    }
+  },
+  document.getElementById('root')
+);
+```
+
+리액트는 `props`가 주어졌을 떄, `Form` component에게 해당 컴포넌트가 리턴하는 엘리먼트 트리가 뭔지 물어본다. 단순한 primitives 관점에서 너의 컴포넌트 트리에 대한 이해를 점점 "refine" 할 것이다. (다음 코드를 보며 점점 정제(refine)하는 과정을 이해하자)
+
+```js
+// React: You told me this...
+{
+  type: Form,
+  props: {
+    isSubmitted: false,
+    buttonText: 'OK!'
+  }
+}
+
+// React: ...And Form told me this...
+{
+  type: Button,
+  props: {
+    children: 'OK!',
+    color: 'blue'
+  }
+}
+
+// React: ...and Button told me this! I guess I'm done.
+{
+  type: 'button',
+  props: {
+    className: 'button button-blue',
+    children: {
+      type: 'b',
+      props: {
+        children: 'OK!'
+      }
+    }
+  }
+}
+```
+
+ReactDOM.render() 나 setState()를 호출할 때 시작되는 reconciliation을 리액트가 호출하는 과정이다. reconciliation의 끝에, 리액트는 결과 DOM tree를 알고 `react-dom`이나 `react-native`같은 렌더러는 DOM nodes를 업데이트 하기 위한 필수적인 최소 변경 요소들을 적용한다.
+
+점진적인 refining 과정은 React app이 최적화하기 쉬운 이유다. 만약 컴포넌트 트리의 어떤 부분이 리액트가 효율적으로 방문하기에 너무 크다면, 관련 props이 변경되지 않았을 경우 "refining" 과정과 트리의 특정 부분을 diffing을 스킵하라고 말할 수 있다. 만약 props이 immutable 하다면 props의 변경 여부 계사하는 것은 빠르다. 그래서 리액트와 불변성은 함께 잘 동작하고 최소 노력으로 큰 최적화를 제공한다.
+
+이 포스팅에서 instance에 대한 얘기는 별로 없고 components와 elements에 대해서 많이 얘기한 걸 알고 있을거다. 사실 instance는 리액트보다 object 기반 UI framework에서 더 중요하다.
+
+class로 선언된 컴포넌트만 instance를 갖고 그것들을 개발자가 직접 생성할 일은 없다: 리액트가 너를 위해 대신 해준다. parent component instance가 child component instance에 접근하는 메커니즘(ref)은 존재하지만, 일반적으로 피해야한다.
+
+리액트는 모든 클래스 컴포넌트의 인스턴스를 생성하는데 신경써야한다. 그래서 object 기반 방식에서 메서드와 local state를 가진 컴포넌트를 작성할 수 있다. 하지만 그 이외의 인스턴스는 React의 프로그래밍 모델에서 중요하지 않고 React 자체에서 관리된다.
+
+## Summary
+
+_element_ 는 DOM nodes 나 다른 컴포넌트의 관점에서 스크린에 노출되는 것을 설명하는 plain object다. Elements는 자신의 prop에서 다른 엘리먼트를 포함할 수 있다. React element를 생성하는 것은 값싼 비용이 든다. **엘리먼트가 한 번 생성되면 절대 변경될 일이 없다.**
+
+_component_ 는 몇가지 다른 방법으로 선언된다. `render()` 메서드를 가진 클래스다. 대신, 단순한 경우에 함수로도 정의될 수 있다. 2가지 경우 모두, props을 input으로 받고 element tree를 output으로 리턴한다.
+
+컴포넌트가 input으로 prop을 받을 때, 특정 부모 컴포넌트는 `type`과 props을 가진 엘리먼트를 리턴하기 때문이다. 사람들이 리액트에서 props flows가 단방향이라고 얘기하는 이유다.(parent to children)
+
+_instance_ 는 너가 작성한 클래스에서 `this`로 참조하는 것이다. lifecycle event에 반응하고 local state를 저장할 때 유용하다.
+
+함수형 컴포넌트는 인스턴스를 가지지 않는다. 클래스 컴포넌트는 인스턴스를 갖지만 component instance를 직접 생성할 필요가 없다. 리액트가 알아서 한다.
+
+끝으로, elements를 생성하기 위해, [React.createElement()](https://reactjs.org/docs/react-api.html#react.createelement), [JSX](https://reactjs.org/docs/jsx-in-depth.html), element factory helper를 이용해라. 엘리먼트를 plain object로 직접 작성하지 말아라. 걍 엘리먼트가 plain object인것만 알아둬라.
