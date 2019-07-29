@@ -18,9 +18,18 @@ _elements_ 를 왜 도입해야할까?
 
 Elements는 실제 인스턴스가 아닌 컴포넌트에 관한 정보를 담은 plainObject다. 이 엘리먼트로 어떤 메서드든 호출할 수 없다. 이것은 `type: (string | ReactClass)` and `props: Object`이 2가지 필드를 가진 불변의 description object다.
 
+---
+
+즉, elements는
+
+- component instance, DOM node 등을 설명(describe)하는 plain object다.
+  - type: string | ReactClass, props: Object, 이 2가지 필드를 가지고 있다.
+
 ## Dom Elements
 
 엘리먼트의 `type`이 string일 때, 그것은 tag name을 가진 DOM node를 나타낸다. 그리고 `props`은 attribute와 상응한다. 이것은 React가 렌더할 것이다:
+
+_type: string_
 
 ```js
 {
