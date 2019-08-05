@@ -346,6 +346,12 @@ class Button extends React.Component {
 
 **그러나, 함수형이든 클래스든, 근본적으로 그것들은 리액트에게 전부 컴포넌트다. 그것들은 input으로 prop을 가지고 output으로 엘리먼트를 리턴한다.**
 
+---
+
+함수형이든 클래스든 리액트에겐 전부 컴포넌트다. input으로 prop을 가지고 outpit으로 엘리먼트를 리턴한다.
+
+또한, 16.8 부터는 함수형 컴포넌트에서도 클래스 컴포넌트의 기능들을 hook을 통해 이용할 수 있다.
+
 ## Top-Down Reconciliation
 
 너가 다음을 호출할 때,
@@ -406,11 +412,11 @@ ReactDOM.render() 나 setState()를 호출할 때 시작되는 reconciliation을
 점진적인 refining 과정은 React app이 최적화하기 쉬운 이유다. **만약 컴포넌트 트리의 어떤 부분이 리액트가 효율적으로 방문하기에 너무 크다면, 관련 props이 변경되지 않았을 경우 "refining" 과정과 트리의 특정 부분을 diffing을 스킵하라고 말할 수 있다.** **만약 props이 immutable 하다면 props의 변경 여부 계산하는 것은 빠르다.** 그래서 리액트와 불변성은 함께 잘 동작하고 최소 노력으로 큰 최적화를 제공한다.
 
 > prop이 immutable 하다면 props의 변경 여부 계산하는 것이 빠르다.
-> 이것은 무슨말일까?
+> prop이 immutable 하기 때문에 참조값만 비교하면 된다.
 
 이 포스팅에서 instance에 대한 얘기는 별로 없고 components와 elements에 대해서 많이 얘기한 걸 알고 있을거다. 사실 instance는 리액트보다 object 기반 UI framework에서 더 중요하다.
 
-class로 선언된 컴포넌트만 instance를 갖고 그것들을 개발자가 직접 생성할 일은 없다: 리액트가 너를 위해 대신 해준다. parent component instance가 child component instance에 접근하는 메커니즘(ref)은 존재하지만, 일반적으로 피해야한다.
+class로 선언된 컴포넌트만 instance를 갖고 그것들을 개발자가 직접 생성할 일은 없다. 리액트가 너를 위해 대신 해준다. parent component instance가 child component instance에 접근하는 메커니즘(ref)은 존재하지만, 일반적으로 피해야한다.
 
 리액트는 모든 클래스 컴포넌트의 인스턴스를 생성하는데 신경써야한다. 그래서 object 기반 방식에서 메서드와 local state를 가진 컴포넌트를 작성할 수 있다. 하지만 그 이외의 인스턴스는 React의 프로그래밍 모델에서 중요하지 않고 React 자체에서 관리된다.
 
