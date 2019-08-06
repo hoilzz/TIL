@@ -62,7 +62,7 @@ state reducer 패턴은 제어의 역전을 허용한다. 즉, API 작성자가 
 > 다른 시스템이 무엇읋 할지 추측하지 않아도 됨.
 > 의존성 주입은 제어의 역전의 대표적인 방식.
 
-## hooksㅇ으로 state reducer 이용하기
+## hooks로 state reducer 이용하기
 
 컨셉은 다음과 같다.
 
@@ -149,7 +149,7 @@ action은 무슨 변경 타입이 일어나는지 결정하는 `type`을 가진�
 ```js
 const { on, toggle, setOn, setOff } = useToggle({
   reducer(currentState, action) {
-    if (tooManyClicks && action.type === 'TOGGLE') {
+    if (tooManyClicks && action.type === "TOGGLE") {
       // other changes are fine, but on needs to be unchanged
       return { ...action.changes, on: currentState.on };
     } else {
@@ -196,13 +196,13 @@ function useToggle() {
 ```js
 function toggleReducer(state, action) {
   switch (action.type) {
-    case 'TOGGLE': {
+    case "TOGGLE": {
       return { on: !state.on };
     }
-    case 'ON': {
+    case "ON": {
       return { on: true };
     }
-    case 'OFF': {
+    case "OFF": {
       return { on: false };
     }
     default: {
@@ -213,9 +213,9 @@ function toggleReducer(state, action) {
 function useToggle() {
   // useState를 useReducer로 변경.
   const [{ on }, dispatch] = React.useReducer(toggleReducer, { on: false });
-  const toggle = () => dispatch({ type: 'TOGGLE' });
-  const setOn = () => dispatch({ type: 'ON' });
-  const setOff = () => dispatch({ type: 'OFF' });
+  const toggle = () => dispatch({ type: "TOGGLE" });
+  const setOn = () => dispatch({ type: "ON" });
+  const setOff = () => dispatch({ type: "OFF" });
   return { on, toggle, setOn, setOff };
 }
 ```
@@ -248,9 +248,9 @@ function useToggle() {
   return { on, toggle, setOn, setOff };
 }
 useToggle.types = {
-  toggle: 'TOGGLE',
-  on: 'ON',
-  off: 'OFF'
+  toggle: "TOGGLE",
+  on: "ON",
+  off: "OFF"
 };
 ```
 
