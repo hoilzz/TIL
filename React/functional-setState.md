@@ -19,9 +19,9 @@ setState를 깊게 이해해보자.
 컴포넌트는 프로퍼티를 받고 UI element를 리턴하는 함수다.
 
 ```js
-function User(props) (
-  <div>user</div>
-)
+function User(props) {
+  <div>user</div>;
+}
 ```
 
 컴포넌트는 상태를 가지고 관리한다. state는 class `constructor` 함수 안에서 선언된다.
@@ -152,3 +152,39 @@ updateState(Justice, updateQueue);
 핵심은 리액트가 functional setState에서 함수를 실행한다는 점이다. 리액트는 업데이트된 state의 새로운 카피본을 전달하여 상태를 업데이트 한다. functional state가 이전 state 기반 state를 set하는 것을 가능하게 한다.
 
 [setState test](https://codesandbox.io/s/setstate-vs-usestate-cc1yb)
+
+## The best-kept React secret
+
+multiple **functional setState** 가 안전한 이유에 대해 알아봤다. 함수형 setState의 완전한 정의는 "state 변경들을 컴포넌트 클래스와 분리하여 선언하라"
+
+setting-state의 로직은 (즉, setState()에 전달하는 함수 또는 객체) 은 항상 컴포넌트 클래스 내부에 존재했다. 이것은 선언형(declarative)에 가깝다.
+
+이것이 functional setState의 파워다. 컴포넌트 클래스 밖에 state 업데이트 로직을 선언하자. 그리고 컴포넌트 클래스 _내부에서_ 호출하자.
+
+```js
+// outside your component class
+function increaseScore(state, props) {
+  return { score: state.score + 1 };
+}
+
+class User {
+  // ...
+  // inside your component class
+  handleIncreaseScore() {
+    this.setState(increaseScore);
+  }
+}
+```
+
+이거슨 선언형이다! 컴포넌트 클래스는 state 업데이트 방식에 상관하지 않아도 된다. 단순히 원하는 업데이트 타입을 **선언할 수 있다**
+
+functional setState에 감사하기 위해, 복잡한 컴포넌트에 대해 생각하자. 이것은 많은 상태 조각을 가지고 다양한 액션에 따라 각 상태 조각을 업데이트 해야한다. 각 업데이트 함수는 라인수가 굉장히 길다. 이 로직은 컴포넌트 내부에 있었지만, 이제 모듈로 따로 관리할 수 있다.
+
+> [setState](https://ko.reactjs.org/docs/react-component.html#setstate)
+> state의 변경사항을 대기열에 집어 넣고, React에게 해당 컴포넌트와 그 자식들이 갱신된 stae를 이용하여
+> 리렌더링 되야한다고 알린다.
+> setState는
+
+## Summary
+
+setState는
