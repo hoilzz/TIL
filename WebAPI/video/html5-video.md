@@ -6,6 +6,7 @@
 [https://developer.mozilla.org/ko/docs/Web/HTML/Element/Video](https://developer.mozilla.org/ko/docs/Web/HTML/Element/Video)
 [https://developers.google.com/web/updates/2017/06/play-request-was-interrupted](https://developers.google.com/web/updates/2017/06/play-request-was-interrupted)
 [video tag from html5rocks](https://www.html5rocks.com/en/tutorials/video/basics/#toc-javascript)
+[video content](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Video_and_audio_content)
 
 ## video
 
@@ -128,7 +129,10 @@ videoRef.current.canPlayType('application/vnd.apple.mpegurl'); // maybe
 
 ### method
 
-- load : 재생하지 않고 동영상 소스 로드하거나 다시 로드(ex: js 사용하여 동영상 소스가 변경된 경우)
+- load 
+    - 재생하지 않고 동영상 소스 로드하거나 다시 로드(ex: js 사용하여 동영상 소스가 변경된 경우)
+    - 시작으로 미디어를 리셋한다. 
+    - 
 
 ### event
 
@@ -139,3 +143,14 @@ videoRef.current.canPlayType('application/vnd.apple.mpegurl'); // maybe
 ## track
 
 - track은 audio video 태그의 자식
+
+
+play 중에 pause니까..
+
+1. play를 그대로 쓸꺼면
+
+- video element가 로드 중이면 pause 메서드 ㄴㄴ
+- 로드 완료면 pause 메서드 ㅇㅇ
+
+2. play 안쓰고 load부터 하면..
+- load 중에 pause해도 괜찮은가?

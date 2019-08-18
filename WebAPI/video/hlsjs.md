@@ -41,6 +41,7 @@ hls.js는 video/mp4 입력으로 MediaSource 확장(MSE)을 지원하는 브라�
 ## FAQ
 
 - native HLS를 지원하면 hls.js 사용할 필요가 없다.
+  - 예컨대 hls를 만든 애플.. 
 - native HLS를 지원하지 않을 경우에 hls.js를 통하여 동영상을 로드하자.
   - 
 - m3u8은 왜 video tag에서 재생되지 않을까?
