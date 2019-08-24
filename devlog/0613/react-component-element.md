@@ -433,3 +433,5 @@ _instance_ 는 너가 작성한 클래스에서 `this`로 참조하는 것이다
 함수형 컴포넌트는 인스턴스를 가지지 않는다. 클래스 컴포넌트는 인스턴스를 갖지만 component instance를 직접 생성할 필요가 없다. 리액트가 알아서 한다.
 
 끝으로, elements를 생성하기 위해, [React.createElement()](https://reactjs.org/docs/react-api.html#react.createelement), [JSX](https://reactjs.org/docs/jsx-in-depth.html), element factory helper를 이용해라. 엘리먼트를 plain object로 직접 작성하지 말아라. 걍 엘리먼트가 plain object인것만 알아둬라.
+
+oi
