@@ -44,7 +44,7 @@ React가 특정 **호스트 환경** 과 통신하고 **호스트 객체** 를 �
 
 ## React Element
 
-호스트 환경에서 호스트 객체(such as DOM Node) 제일 작은 구성요소다. 
+호스트 환경에서 호스트 객체(such as DOM Node) 제일 작은 구성요소다.
 React에서 제일 작은 구성요소는 React Element다.
 
 ```js
@@ -81,8 +81,9 @@ React ELement는 가볍고 호스트 객체를 직접 관여하지 않음. 걍 �
 ```
 
 React Element는
-- __영속성을 가지지 않는다. 즉, 매번 새로 만들어지고 버려진다.__
-- 불변이다. 
+
+- **영속성을 가지지 않는다. 즉, 매번 새로 만들어지고 버려진다.**
+- 불변이다.
   - 자식이나 prop 직접 수정 불가.
   - 다른 렌더링을 하려면 새로운 react 엘리먼트 트리를 생성한다.
 
@@ -103,9 +104,10 @@ ReactDOM.render(
 );
 ```
 
-React야 domContainer 호스트를 트리를 reactElement와 같게 만들어줘.
+위 코드는 "React야 domContainer 호스트를 트리를 reactElement와 같게 만들어줘." 와 같은말.
 
-React는 reactElement.type을 보고 
+- 위 코드에서 type("button")을 보고 호스트 객체를 생성 및 속성 설정.
+- 이 때 children을 가지고 있다면, 첫 렌더링에 재귀적으로 호스트 객체 생성
 
 ...
 
@@ -129,6 +131,45 @@ ReactDOM.render(
 );
 ```
 
-React의 목표는 __주어진 React 엘리먼트 트리와 호스트 트리를 일치시키는 것__
+React의 목표는 **주어진 React 엘리먼트 트리와 호스트 트리를 일치시키는 것**
+새로운 정보의 응답으로 호스트 객체 트리에 **어떤** 작업을 할지 파악하는 프로세스를 **재조정** 이라고 함
 
+어떤 작업에는 2가지가 있다.
 
+1. 기존트리 날리고 새로운 호스트 객체 만들기
+
+- 근데 이 방법은 느리고 포커스, 선택, 스크롤 상태 등 중요한 정보 잃어버림.
+
+2. (그래서) 기존트리 유지하면서 호스트 객체 변경하기
+
+```js
+// 1. 새로운 호스트 객체 생성
+let domContainer = document.getElementById('container');
+// 트리를 날립니다.
+domContainer.innerHTML = '';
+// 새로운 객체 트리를 만듭니다.
+let domNode = document.createElement('button');
+domNode.className = 'red';
+domContainer.appendChild(domNode);
+
+// 2. 기존 호스트 객체 변경
+let domNode = domContainer.firstChild;
+// 기존 호스트 객체를 변경합니다.
+domNode.className = 'red';
+```
+
+위 선택을 하기 위해서는 **리액트 엘리먼트는 매번 다르지만 같은 호스트 객체라는 것을 어케 알까?**
+
+- 엘리먼트 타입이 트리의 같은위치에 있고 이전과 일치하면 기존 호스트 객체 다시 사용
+
+- `<button>`이 **같은위치에** 있으면 button을 다시 렌더링.
+- 즉, button 호스트 객체를 가지고 있는데 다시 만들 필요 없음.
+  - 여기서 type외의 속성만 바꿔치기 해주면됨.
+
+같은 휴리스틱 알고리즘이 다음 자식들에 대해서 반복.
+
+## 조건
+
+## 배운거
+
+## FAQ
