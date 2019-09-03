@@ -22,10 +22,45 @@ Error boundaries는 리액트 컴포넌트다.
 error가 throw된 후에 fallback UI를 렌더링하기 위해 static getDerivedStateFromError를 사용하자.
 에러 정보를 로깅하기 위해 componentDidCatch를 이용하자.
 
+> getDerivedStateFromError(error)
+> 자식 컴포넌트에서 error가 throw된 후에 호출.
+> throw된 error를 인자로 받음
+> state 업데이트 하기 위해 / fallback UI를 보여주기 위해 값을 리턴하여 state 업데이트한다.
+> render phase에서 호출됨
+
+> componentDidCatch(error, errorInfo(errorInfo.componentStack))
+> 자식 컴포넌트에서 error가 throw된 후에 호출.
+> error, errorInfo를 인자로 받음
+> logging error하기 위해 사용됨.
+> commit phase동안 호출되서 side-effect 허용
+> 여기서 setState를 호출하여 fallback UI를 렌더할 수 있다. 하지만 이건 미래에 deprecated 될 것이다.
+> fallback rendering을 다루기 위해 getDderivedStateFromError를 사용하자.
+
+[그래서 둘 중에 뭘 써야하는데?](https://github.com/reactjs/reactjs.org/pull/1223)
+
+error report는 componentDidCatch를 fallback UI를 보여주는 건 getDerivedStateFromError를 사용하자.(공홈의 예제도 그렇게 되어있다.)
+위 링크의 내용에 대해 요약하자면..
+
+**SSR 렌더링에서 동작 여부**
+
+- CDC(componentDidCatch)는 SSR에서 동작하지 못한다. 왜냐하면 SSR은 commit phase가 없다.
+- getDerivedStateFromError(DSE)는 render phase기 때문에 server에서 에러 핸들링 가능
+
+**Render Phase의 복구가 더 안전하다**
+
+- CDC를 통한 오류 복구는 약간 janky하다.
+  - 오류가 발생한 컴포넌트 아래의 모든 항목에 대해 null의 중간 커밋에 의존하기 떄문이다.
+
+**비동기 렌더링이 더 최적화되어있다**
+
+- **commit 단계의 state-updates는 항상 동기로 실행된다.**
+  - 그래서 CDC에서 에러 복구는 최적이 아니다. 왜냐하면 fallback UI가 항상 동기적응로 렌더되기 때문이다. (오류 복구가 최우선 관심사이기 때문에 사실 이건 문제가 안된다.)
+
 https://codesandbox.io/embed/errorboundary-vyd11
 
 ```js
 import React, { useState } from 'react';
+1;
 import ReactDOM from 'react-dom';
 // import ErrorBoundary from "./ErrorBoundary";
 import './styles.css';

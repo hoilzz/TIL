@@ -11,7 +11,7 @@ const result : any = useSelector(selector : Function, equalityFn? : Function)
 
 useSelector와 mapState 함수의 차이
 
-- 셀렉터는 객체가 아닌 모든 값을 result로 리턴 가능하다.
+- 셀렉터(useSelector)는 객체가 아닌 모든 값을 result로 리턴 가능하다.
   - 셀렉터의 리턴 값은 useSelector의 리턴 값으로 사용된다.
 - action이 dispatch 될 떄, useSelector는 **이전 셀렉터 결과 값과 현재 결과 값의 참조값 비교를 한다.** 만약 다르다면, 컴포넌트는 무조건 리렌더한다. 같으면 컴포넌트는 리렌더 하지 않는다.
 - 셀렉터 함수는 ownProps 인자를 받지 않는다. props은 클로저나 커링된 셀렉터를 이용하여 사용될 수 있다.
@@ -26,7 +26,7 @@ useSelector와 mapState 함수의 차이
 
 그러나, 액션이 디스패치 될 때 useSelector는 셀렉터 결과 값이 최근 결과값과 다르다면 강제 리렌더 할거다. 7.1.0-alph.5에서는 strict (===) 참조값 비교를 한다. connect와 다른점인데, 리렌더 여부를 결정하기 위해 mapState의 결과와 얕은 비교를 한다. 이것은 useSelector를 사용해야 하는 이유중 하나다.
 
-mapState로, 개별 필드가 결합된 객체로 리턴될 수 있다. 만약 리턴된 오브젝트가 새로춘 참조값인지 아닌지가 중요하지 않다. 왜냐하면 connect는 개별필드를 비교한다.
+mapState로 개별 필드가 결합된 객체로 리턴될 수 있다. 만약 리턴된 오브젝트가 새로운 참조값인지 아닌지가 중요하지 않다. 왜냐하면 connect는 개별필드를 비교한다.
 
 useSelector에서 매번 새로운 객체를 반환하면, 기본적으로 강제 리렌더링한다. store에서 여러번 값을 가져온다면, 다음을 수행해야 한다.
 
@@ -141,3 +141,11 @@ useSelector는
 - 개별 구독을 생성한다.
 - useSelector 여러번 호출하는데, 이 때 각 호출은 단일 필드 값을 반환
 - 객체 내의 여러개의 값을 리턴하는 메모이징 셀렉터를 생성하기 위해 reselect를 사용
+
+connect는
+
+connect와 비교했을 때 useSelector는
+
+- 객체뿐만 아니라 어떤 값이든 리턴할 수 있다.
+- ownProps API 사용 ㄴㄴ. 함수형 컴포넌트로 props를 단순히 전달받기 때문에 클로저를 통해 사용할 수 있음
+- equlality 함수는 수정가능하다. Lodash의 isEqual이나 immutable의 matcher 같은걸로..
