@@ -17,7 +17,7 @@
 
 ## 리덕스 파일 구조
 
-[!img](https://d33wubrfki0l68.cloudfront.net/70db2fa6a1b1b6c6dd586dcf3d4c89bd0796b829/e85d3/static/statetree-65d6460f53e1fe9b42582625a121cc86.svg)
+![img](https://d33wubrfki0l68.cloudfront.net/70db2fa6a1b1b6c6dd586dcf3d4c89bd0796b829/e85d3/static/statetree-65d6460f53e1fe9b42582625a121cc86.svg)
 
 3개의 sub 상태를 가진다: navigation, noti, settings.
 
@@ -26,7 +26,7 @@
 
 리덕스 파일을 store를 분리하듯이 3개의 서브 폴더로 분리했다.
 
-[!img](https://d33wubrfki0l68.cloudfront.net/a0118266540ce3559f6ae51662d66a55356171d7/d55f9/static/reduxfilestructure-c555a3970977d0d9e5221b1a9270eb6e.svg)
+![img](https://d33wubrfki0l68.cloudfront.net/a0118266540ce3559f6ae51662d66a55356171d7/d55f9/static/reduxfilestructure-c555a3970977d0d9e5221b1a9270eb6e.svg)
 
 각 서브 폴더는 reducer, local selector, action을 포함한다.
 스토어 폴더는 모든 로컬 셀럭터를 모으고 그것들을 **globalize** 하는 selectors.js 파일을 포함한다.
@@ -36,7 +36,7 @@
 어떤 사람들은 리듀서 파일에 셀럭터를 놓는다. 하지만 나는 분리하는 것을 선호한다.
 일단, 순환 import 의존성을 피하기 위해서다. 하지만 아래와 사진과 같은 문제에 직면한다면 좋지 않은 설계를 한거다. 만약 리듀서에내에서 몇몇 settings selector를 가져온다면 풀 수 없는 순환 의존 그래프 갖게 된다
 
-[!img](https://d33wubrfki0l68.cloudfront.net/c9a514b782ebee33722af7b2d430dedcbca6856c/705b1/static/reduxcirculardependency-3dcf9ac5177dc7c0994f664a9ee0a219.svg)
+![img](https://d33wubrfki0l68.cloudfront.net/c9a514b782ebee33722af7b2d430dedcbca6856c/705b1/static/reduxcirculardependency-3dcf9ac5177dc7c0994f664a9ee0a219.svg)
 
 ## Globalizing Selectors
 
@@ -100,7 +100,7 @@ function getBooks(state) {
 }
 
 function getBooksFetchStatus(state) {
-  return state.books.status
+  return state.books.status;
 }
 ```
 
@@ -120,11 +120,11 @@ function getBooksFetchStatus(state) {
 import * as fromBooks from '../books/localSelector';
 
 function getBooks(state) {
-  return fromBooks.getBooks(state.books)
+  return fromBooks.getBooks(state.books);
 }
 
 function getBooksFetchStatus(state) {
-  return fromBooks.getBooksFetchStatus(state.books)
+  return fromBooks.getBooksFetchStatus(state.books);
 }
 ```
 
