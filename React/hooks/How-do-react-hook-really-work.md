@@ -1,4 +1,4 @@
-# hook이 작동하는 방식
+# index를 통해 관리하고 있다. 그래서 조건문이나 loop문 등에 포함되면 순서가 보장되지 않기 떄문에이 작동하는 방식 hook 관련 린트에러가 발생한다.
 
 [getting closure on react hooks](https://rinae.dev/posts/getting-closure-on-react-hooks-summary#%ed%81%b4%eb%a1%9c%ec%a0%80-%ed%99%9c%ec%9a%a9)
 [deep dive: how do react hook really work](https://www.netlify.com/blog/2019/03/11/deep-dive-how-do-react-hooks-really-work/)
@@ -248,3 +248,10 @@ const useEffect(cb, deps) {
 
 }
 ```
+
+## Summary
+
+hook의 상태관리는 클로저로 되고 있다.
+
+순서를 보장해야하는 hook의 규칙에 대해 이해할 수 있다.
+클로저 내부의 상태를 index를 통해 관리하고 있다. 그래서 조건문이나 loop문 등에 포함되면 순서가 보장되지 않기 떄문에 hook 관련 린트에러가 발생한다.
