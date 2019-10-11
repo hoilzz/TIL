@@ -9,3 +9,8 @@
 hook의 Dependency는 top-down 리액트 데이터 플로우에 포함되는 값이어야한다. 예컨대 props, state, 이러한 값들을 통해 계산한것들.. Ref container도 괜찮다. (왜냐하면 얘들도 데이터 플로우를 통해 top-donw된 얘니까)
 
 근데 ref.current를 디펜던시로 추가하는 건 말이 안된다. 동일한 이유로, window.myVaraible도 안된다. 이것이 업데이트 될 때, 리액트는 그것에 대해 모른다. 그리고 컴포넌트를 업데이트 하지 못한다.
+
+> NOTE
+> useRef는 .current 프로퍼티에 변경 가능한 값을 담는 "상자"다.
+> useRef는 가변값을 유지하는데 편리하다. 즉, 굳이 DOM이 아니어도 된다.
+> useRef는 리렌더링을 발생시키지 않는다.
