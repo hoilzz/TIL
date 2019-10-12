@@ -33,7 +33,7 @@ reducer 측면에서 최소 양의 작업을 필요로한다. 하지만 dispatch
 // actions.js
 function addComment(postId, commentText) {
   // Generate a unique ID for this comment
-  const commentId = generateId('comment')
+  const commentId = generateId('comment');
 
   return {
     type: 'ADD_COMMENT',
@@ -42,16 +42,16 @@ function addComment(postId, commentText) {
       commentId,
       commentText
     }
-  }
+  };
 }
 
 // reducers/posts.js
 function addComment(state, action) {
-  const { payload } = action
-  const { postId, commentId } = payload
+  const { payload } = action;
+  const { postId, commentId } = payload;
 
   // Look up the correct post, to simplify the rest of the code
-  const post = state[postId]
+  const post = state[postId];
 
   return {
     ...state,
@@ -61,67 +61,67 @@ function addComment(state, action) {
       // comments 배열에 새로 생성된 코멘트의 commentId를 추가.
       comments: post.comments.concat(commentId)
     }
-  }
+  };
 }
 
-unction postsById(state = {}, action) {
+function postsById(state = {}, action) {
   switch (action.type) {
     case 'ADD_COMMENT':
-      return addComment(state, action)
+      return addComment(state, action);
     default:
-      return state
+      return state;
   }
 }
 
 const postsReducer = combineReducers({
   byId: postsById,
   allIds: allPosts
-})
+});
 
 // reducers/comments.js
 function addCommentEntry(state, action) {
-  const { payload } = action
-  const { commentId, commentText } = payload
+  const { payload } = action;
+  const { commentId, commentText } = payload;
 
   // Create our new Comment object
-  const comment = { id: commentId, text: commentText }
+  const comment = { id: commentId, text: commentText };
 
   // Insert the new Comment object into the updated lookup table
   return {
     ...state,
     [commentId]: comment
-  }
+  };
 }
 
 function commentsById(state = {}, action) {
   switch (action.type) {
     case 'ADD_COMMENT':
-      return addCommentEntry(state, action)
+      return addCommentEntry(state, action);
     default:
-      return state
+      return state;
   }
 }
 
 function addCommentId(state, action) {
-  const { payload } = action
-  const { commentId } = payload
+  const { payload } = action;
+  const { commentId } = payload;
   // Just append the new Comment's ID to the list of all IDs
-  return state.concat(commentId)
+  return state.concat(commentId);
 }
 
 function allComments(state = [], action) {
   switch (action.type) {
     case 'ADD_COMMENT':
-      return addCommentId(state, action)
+      return addCommentId(state, action);
     default:
-      return state
+      return state;
   }
 }
 
 const commentsReducer = combineReducers({
   byId: commentsById,
   allIds: allComments
-})
+});
 ```
 
 이 예제는 약간 길다. 왜냐하면 모든 slice reducer와 case reducer가 서로 어떻게 fit해야 하는지를 보여줘야 하기 때문이다. 관련 위임을 주목하자.

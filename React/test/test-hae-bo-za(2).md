@@ -15,6 +15,27 @@ expect(reducer(initialState, dispatchedAction)).toEqual({...})
 
 그리고 다른분께 이것에 대해 말한 결과 snapshot을 추천받았고 이 방법이 훨씬 나아서 관련 포스팅을 읽고 요약을 하고자한다.
 
+### 리듀서 테스트의 action은..
+
+리덕스 공홈의 리듀서 테스트는 action 객체를 하드코딩하여 작성하였다.
+하지만, 나는 유지보수의 문제를 겪기 싫어서 import 하여 사용하였다.
+예를 들어, action 객체의 모양(type 이름, payload 등)이 바뀌면, 리듀서 테스트가 바로 깨질 것을 확인할 수 있다.
+하지만, 하드코딩할 경우, action creator의 테스트만 깨질거고, 리듀서의 테스트는 잘 동작할거다.
+
+하지만.. 테스트 초짜라서 이런 고민을 한 사람이 있나 찾아봤더니.. 있다. [고민한 사람](https://stackoverflow.com/questions/38662403/redux-unit-test-reducers-and-action-creators)
+
+답변을 요약하자면.. 트레이드 오프다.
+
+- 만약 action creator를 import하면,
+  - 장점 : 유지보수하기 쉽다.
+  - 단점 : 다른 개발자가 너 프로젝트 첨 본다면, action creator가 뭘 만들지 일일히 찾아봐야한다.
+- action 객체를 하드코딩한다면,
+  - 새로온 개발자가 리듀서 테스트 코드만 보고 리듀서 동작을 예측하기 쉽다. 왜냐하면 액션 객체에 모든 정보가 담겨 있기 때문이다.
+
+내가 내린 결론은.. 유지보수가 쉽고 속도를 빠르게 하기 위해 액션 생성자를 사용하기로 결정했다.
+그리고 ts를 사용할 경우.. 마우스 갖다대면 actionCreator의 리턴값이 추론되기 때문에, 그리고 더 중요한건
+시간이 없기때무니다.
+
 ## reselect로 구현된 selector 테스트해보자
 
 주어진 input에서, 셀렉터는 항상 동일한 ouput을 리턴한다. 그래서 unit test 하기 편하다.
@@ -34,14 +55,14 @@ createSelector(getIds, ids => ids);
 ```js
 state = bannerReducer(initialState, {
   type: FETCH_BANNERS.SUCCESS,
-  payload: fetchGeneralBannersSuccess,
+  payload: fetchGeneralBannersSuccess
 });
 expect(selectBannerIds(state)).toEqual([1815]);
 expect(selectBannerIds.recomputations()).toBe(1);
 
 state = bannerReducer(initialState, {
   type: FETCH_BANNERS.SUCCESS,
-  payload: fetchGeneralBannersSuccess,
+  payload: fetchGeneralBannersSuccess
 });
 expect(selectBannerIds(state)).toEqual([1815]);
 expect(selectBannerIds.recomputations()).toBe(1);
