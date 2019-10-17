@@ -41,7 +41,7 @@ console.log([...iterable1]);
 // expected output: Array [1, 2, 3]
 ```
 
-너무 모르는게 많이 나왔다. 좀 정리해보자.
+모르는게 너무 많이 나왔다. 좀 정리해보자.
 
 iterable protocol은 JS 객체들이 for..of와 같은 구조에서 어떤 값이 loop 되는 것을 허용한다.
 예를 들어 for..of와 같은 구조에서 iteration 동작을 정의하거나 사용자 정의하는 것이다.
@@ -49,6 +49,9 @@ iterable protocol은 JS 객체들이 for..of와 같은 구조에서 어떤 값�
 
 Object도 가능하게 하려면 **@@iterator** 메서드(프로토타입에 Symbol.iterator key의 속성)를 구현하면된다.
 그냥 구현하면 안되고 함수를 구현해야한다. 이 때 이 함수는 인자가 없고 객체를 리턴한다.
+반환된 iterator는 반복을 통해서 획득할 값들을 얻을 때 사용된다.
+
+iterator 객체에 대해 알아보자.
 
 ### iterator protocol
 
@@ -86,10 +89,10 @@ obj[Symbol.iterator] = function() {
         return { value: 'bye', done: false };
       } else {
         return {
-          done: true,
+          done: true
         };
       }
-    },
+    }
   };
 };
 ```
@@ -137,6 +140,14 @@ iterable과 iterator 정의 및 성립 조건을 다시 보자.
 
 > iterable
 > iterable한 객체는 [Symbol.iterator] 메서드를 구현해야한다.
+> 이 메서드는 iterator protocol을 따르는 객체를 반환하고 arguments 없는 함수다.
+
+> iterator
+> value들의 sequence를 만드는 표준 방법을 정의해야한다.
+> 이것을 정의하기 위해 iterator 객체는
+>
+> - 어떤 객체를 반환하는 next 메서드를 가진다.
+> - 이 메서드는 인자가 없고 done과 value를 가진 객체를 반환한다.
 
 ```js
 var generatorObj = (function*() {
@@ -145,5 +156,40 @@ var generatorObj = (function*() {
   yield 3;
 })();
 
-typeof aGeneratorObject.next;
+typeof generatorObj.next;
+// "function", next 메서드를 가지고 있기 때문에 iterator
+typeof generatorObj[Symbol.iterator];
+// "function", @@iterator 메서드를 가지고 있기 때문에 iterable
+generatorObj[Symbol.iterator]() === generatorObj;
+// true, 이 Object의 @@iterator 메서드는 자기자신(iterator)을 리턴하니까 iterable하다고 할 수 있다.
+[...generatorObj];
+// [1, 2, 3]
+```
+
+## Q&A
+
+Q. generator 함수는 뭔가?
+A. 제너레이터 함수는 제너레이터 객체를 반환한다. 제너레이터 객체는 iterable 프로토콜과 iterator 프로토콜을 따른다.
+
+Q. 각 프로토클에 대해 설명해달라.
+A. iterable프로토콜은 iterator 객체를 반환하는 함수다. iterable은 객체들의 어떤 값들이 loop되는 것과 같은 반복 동작을 정의하도록 한다. built-in으로 iterable잉 정의된 객체는 Array, Map, Set, String 등잉 있다. 객체가 iterable 하기 위해서는 Symbol.iterator 프로퍼티를 정의해야한다. 이것은 앞에서 설명한 iterator 객체를 반환하는 함수다.
+
+iterator 객체는 값들의 sequence를 만드는 표준 방법을 정의한다. 이 객체는 next 메서드를 가지는데 이 메서드가 반환하는 객체는 done과 value 프로퍼티를 가진다.
+
+```js
+function *genObj() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const obj = genObj();
+
+typeof obj.next;
+// function, iterator다.
+typeof obj[Symbol.iterator];
+// function,  iterable이다.
+obj[Symbol.iterator]() === obj
+// 자기자신(iterator) 을 리턴하니까 iterable
+[...obj];
 ```
