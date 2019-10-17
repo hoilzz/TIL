@@ -1,5 +1,7 @@
 # iterator-generator-iterable
 
+[JS의 Iterator와 Generator](https://ui.toast.com/weekly-pick/ko_20151021/)
+
 콜백지옥을 해결하기 위해, Promise를 통해 조금 완화할 수 있었다.
 
 ## 제너레이터란?
@@ -40,12 +42,12 @@ iterator를 반복 호출 하는 것은 iterator를 **사용** 하는 것이다.
 
 ```js
 function* quips(name) {
-  yield "hello " + name + "!";
-  yield "i hope you are enjoying the blog posts";
-  if (name.startsWith("X")) {
+  yield 'hello ' + name + '!';
+  yield 'i hope you are enjoying the blog posts';
+  if (name.startsWith('X')) {
     yield "it's cool how your name starts with X, " + name;
   }
-  yield "see you later!";
+  yield 'see you later!';
 }
 ```
 
@@ -62,7 +64,7 @@ var myIterable = {
     yield 1;
     yield 2;
     yield 3;
-  }
+  },
 };
 
 for (let value of myIterable) {
