@@ -417,7 +417,3 @@ import 'core-js';
 ```
 
 이외에 좋은 해결 방법이나 틀린 내용이 있다면 알려주세요.. 해결방법을 찾고 공식 문서 읽어가며 작성한 내용입니다.
-
-## 참고
-
-[티몬에서 바벨 설정](https://bitbucket.tmon.co.kr/bitbucket/projects/SDUUI/repos/fe-deploy-utils/browse/create-tmon-webapp/doc/about-babel-config.md?at=create-tmon-webapp)
