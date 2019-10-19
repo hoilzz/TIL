@@ -100,6 +100,7 @@ const React = (function() {
       setState,
     };
   }
+
   function render(component) {
     //
     const C = Component();
