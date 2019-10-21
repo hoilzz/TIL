@@ -10,26 +10,26 @@
 > 스코프는 함수를 호출할 때가 아닌 선언할 때 생긴다! 그래서 정적 스코프다.
 
 ```js
-var name = "zero";
+var name = 'zero';
 function log() {
   console.log(name);
 }
 
 function wrapper() {
-  name = "nero";
+  name = 'nero';
   log();
 }
 wrapper(); // -> nero
 ```
 
 ```js
-var name = "zero";
+var name = 'zero';
 function log() {
   console.log(name);
 }
 
 function wrapper() {
-  var name = "nero";
+  var name = 'nero';
   log();
 }
 wrapper();

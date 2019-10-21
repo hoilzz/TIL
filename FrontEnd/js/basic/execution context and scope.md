@@ -42,12 +42,12 @@
 - 지역변수와 전역변수의 개념..
 
 ```javascript
-var color = "blue";
+var color = 'blue';
 function changeColor() {
-  if (color === "blue") {
-    color = "red";
+  if (color === 'blue') {
+    color = 'red';
   } else {
-    color = "blue";
+    color = 'blue';
   }
 }
 changeColor(); // color = red
@@ -62,10 +62,10 @@ changeColor(); // color = red
 #### 로컬 컨텍스트에서는 지역 변수와 전역 변수 모두 쓸 수 있다.
 
 ```javascript
-var color = "blue";
+var color = 'blue';
 
 function changeColor() {
-  var anotherColor = "red";
+  var anotherColor = 'red';
   function swapColor() {
     var tempColor = anotherColor;
     anotherColor = color;
