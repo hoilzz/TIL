@@ -21,24 +21,23 @@ C1과 C3에서, `shouldComponentUpdate`를 `true`를 리턴한다. 그래서 Rea
 
 React는 C6의 DOM 변경만을 해야만 한다. C8의 경우 제외되고, C2의 서브트리와 C7도 제외된다.
 
-
-
-
 > shouldComponentUpdate란
+
 ```javascript
 shouldComponentUpdate(nextProps, nextState){
     console.log("shouldComponentUpdate: " + JSON.stringify(nextProps) + " " + JSON.stringify(nextState));
     return true;
 }
 ```
+
 prop 혹은 state 가 변경 되었을 때, 리렌더링을 할지 말지 정하는 메소드입니다.
 위 예제에선 무조건 true 를 반환 하도록 하였지만, 실제로 사용 할 떄는 필요한 비교를 하고 값을 반환하도록 하시길 바랍니다. (
+
 ```javascript
 return nextProps.id !== this.props.id;
 ```
+
 를 쓰면 여러 field 를 편하게 비교 할 수 있답니다.
-
-
 
 ## Examples
 
@@ -49,7 +48,7 @@ Component의 변경 방식이 `props.color` or `state.count` 변수가 바뀔 �
 class CounterButton extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {count: 1};
+    this.state = { count: 1 };
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -66,7 +65,7 @@ class CounterButton extends React.Component {
     return (
       <button
         color={this.props.color}
-        onClick={() => this.setState(state => ({count: state.count + 1}))}>
+        onClick={() => this.setState(state => ({ count: state.count + 1 }))}>
         Count: {this.state.count}
       </button>
     );
@@ -80,14 +79,14 @@ class CounterButton extends React.Component {
 class CounterButton extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {count: 1};
+    this.state = { count: 1 };
   }
 
   render() {
     return (
       <button
         color={this.props.color}
-        onClick={() => this.setState(state => ({count: state.count + 1}))}>
+        onClick={() => this.setState(state => ({ count: state.count + 1 }))}>
         Count: {this.state.count}
       </button>
     );
@@ -100,7 +99,6 @@ class CounterButton extends React.PureComponent {
 
 더 복잡한 데이터 구조에 경우 문제가 될 수 있다. 예를 들어 `ListOfWords` Component가 comma로 구분된 단어 리스트로 렌더링 되기를 원한다고 해보자. (버튼을 클릭하면 list에 단어를 추가하는 `WordAdder`라는 부모 component와 함께). 다음 코드는 올바르게 동작하지 않을 것이다.
 
-
 ```javascript
 class ListOfWords extends React.PureComponent {
   render() {
@@ -112,7 +110,7 @@ class WordAdder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      words: ['marklar']
+      words: ['marklar'],
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -121,7 +119,7 @@ class WordAdder extends React.Component {
     // This section is bad style and causes a bug
     const words = this.state.words;
     words.push('marklar');
-    this.setState({words: words});
+    this.setState({ words: words });
   }
 
   render() {
@@ -148,9 +146,9 @@ class WordAdder extends React.Component {
 Immutable.js는 이 방법을 풀 수 있는 다른 방법이다.
 이것은 **구조적 공유를 통해 작동하는** immutable, persistent collections을 제공한다.
 
-- *Immutable* : 한 번 생성된 collection은 다른 시점에서 변경될 수 없다.
-- *persistent* : 이전 collection으로 new collection을 생성한다. 원래 컬렉션은 새로운 컬렉션이 생성되고 나서도 여전히 유효하다.
-- *Structural Sharing* : new collections은 가능한 original collection과 동일하게 생성된다. (이것은 복사를 최소화하여 성능을 향상시킨다.)
+- _Immutable_ : 한 번 생성된 collection은 다른 시점에서 변경될 수 없다.
+- _persistent_ : 이전 collection으로 new collection을 생성한다. 원래 컬렉션은 새로운 컬렉션이 생성되고 나서도 여전히 유효하다.
+- _Structural Sharing_ : new collections은 가능한 original collection과 동일하게 생성된다. (이것은 복사를 최소화하여 성능을 향상시킨다.)
 
 Immutability는 tracking의 변경을 cheap하게 만든다. 변경은 항상 새로운 object의 결과를 낳아서 우리는 오브젝트에 대한 참조가 변경되었는지 확인만 하면된다. 예를 들어 다음 코드를 보자.
 
@@ -165,8 +163,8 @@ x === y; // true
 `immutable.js`로 동일한 코드를 작성할 수 있다.
 
 ```javascript
-const SomeRecord = Immutable.Record({foo: null});
-const x = new SomeRecord({foo: 'bar'});
+const SomeRecord = Immutable.Record({ foo: null });
+const x = new SomeRecord({ foo: 'bar' });
 const y = x.set('foo', 'baz');
 x === y; // false
 ```
@@ -178,8 +176,6 @@ immutable data를 사용하도록 돕는 2개의 라이브러리는 `seamless-im
 Immutable data 구조는 너에게 object에 대한 변화를 추적하기 위해 cheap way를 제공한다.
 이것은 `shouldComponentUpdate`를 구현하기 위해 필요한 모든것이다.
 이것은 너에게 nice performance boost를 제공한다.
-
-
 
 ---
 
