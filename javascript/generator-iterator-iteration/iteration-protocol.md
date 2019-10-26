@@ -172,7 +172,7 @@ Q. generator 함수는 뭔가?
 A. 제너레이터 함수는 제너레이터 객체를 반환한다. 제너레이터 객체는 iterable 프로토콜과 iterator 프로토콜을 따른다.
 
 Q. 각 프로토클에 대해 설명해달라.
-A. iterable프로토콜은 iterator 객체를 반환하는 함수다. iterable은 객체들의 어떤 값들이 loop되는 것과 같은 반복 동작을 정의하도록 한다. built-in으로 iterable잉 정의된 객체는 Array, Map, Set, String 등잉 있다. 객체가 iterable 하기 위해서는 Symbol.iterator 프로퍼티를 정의해야한다. 이것은 앞에서 설명한 iterator 객체를 반환하는 함수다.
+A. iterable프로토콜은 iterator 객체를 반환하는 함수다. iterable은 객체들의 어떤 값들이 loop되는 것과 같은 반복 동작을 정의하도록 한다. built-in으로 iterable이 정의된 객체는 Array, Map, Set, String 등잉 있다. 객체가 iterable 하기 위해서는 Symbol.iterator 프로퍼티를 정의해야한다. 이것은 앞에서 설명한 iterator 객체를 반환하는 함수다.
 
 iterator 객체는 값들의 sequence를 만드는 표준 방법을 정의한다. 이 객체는 next 메서드를 가지는데 이 메서드가 반환하는 객체는 done과 value 프로퍼티를 가진다.
 
@@ -190,6 +190,6 @@ typeof obj.next;
 typeof obj[Symbol.iterator];
 // function,  iterable이다.
 obj[Symbol.iterator]() === obj
-// 자기자신(iterator) 을 리턴하니까 iterable
+// 웃긴건데 제너레이터 객체에서 iterator 객체를 반환하면, 자기자신이다. 자기자신(iterator) 을 리턴하니까 iterable
 [...obj];
 ```

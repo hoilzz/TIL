@@ -4,7 +4,7 @@
 
 - 애플리케이션에서 필요한 사이드 이펙트를 별도의 스레드로 분리해서 관리 가능
 
-  - 리덕스의 미들웨어로 리덕스 액션은 스레드를 시작, 중지, 취소 시킬 수 있다.
+- 리덕스의 미들웨어로 리덕스 액션은 스레드를 시작, 중지, 취소 시킬 수 있다.
 
 - Saga는 각 작업을 어떻게 관리할지에 대해 관심을 둔다.
 
@@ -53,8 +53,8 @@ switch (action) {
 비동기 동작인 2,3번은 Saga를 이용해 구현할 수 있다.(generator function을 사용하는 이유)
 
 ```js
-import { delay } from "redux-saga"; // 참고: delay는 단순히 1초후에 Resolve가 되는 Promise다.
-import { put, takeEvery } from "redux-saga/effects";
+import { delay } from 'redux-saga'; // 참고: delay는 단순히 1초후에 Resolve가 되는 Promise다.
+import { put, takeEvery } from 'redux-saga/effects';
 
 // INCREMENT_ASYNC 액션이 Dispatch 되면 `incrementAsync`를 수행하도록 등록한다.
 export function* watchIncrementAsync() {
