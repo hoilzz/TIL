@@ -4,11 +4,11 @@
 
 - then, catch 체이닝 없이 await로 간단하게 작성가능해요
   - 그리구 모양도 동기 코드랑 비슷하구요.
-- 그리고 에러 커버 범위가 catch보다 try catch로 감싼 await가 더 커요(?) 라고 이상하게 말함
+- 그리고 에러 커버 범위가 .catch 메서드보다 try catch로 감싼 await가 더 커요(?) 라고 이상하게 말함
 
 이상하게 말한거 정확히 재확인하고 싶어서 쓴글
 
-[참고한 글](https://medium.com/@constell99/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EC%9D%98-async-await-%EA%B0%80-promises%EB%A5%BC-%EC%82%AC%EB%9D%BC%EC%A7%80%EA%B2%8C-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EB%8A%94-6%EA%B0%80%EC%A7%80-%EC%9D%B4%EC%9C%A0-c5fe0add656c글
+[참고한 글](https://medium.com/@constell99/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EC%9D%98-async-await-%EA%B0%80-promises%EB%A5%BC-%EC%82%AC%EB%9D%BC%EC%A7%80%EA%B2%8C-%EB%A7%8C%EB%93%A4-%EC%88%98-%EC%9E%88%EB%8A%94-6%EA%B0%80%EC%A7%80-%EC%9D%B4%EC%9C%A0-c5fe0add656c)
 
 ## syntax 비교하기
 
@@ -19,7 +19,7 @@ var fetchSomethingAPI = new Promise(resolve => {
   setTimeout(() => {
     // JSON 객체라고 생각하자.
     resolve({
-      ok: true
+      ok: true,
     });
   }, 1500);
 });
@@ -76,7 +76,7 @@ fetchSomething.then(result => console.log(result));
 
 async-await 는 동기와 비동기 에러 모두를 `try/catch`로 처리할 수 있다.
 promise는 `try/catch`로 promise 내부에서 발생한 에러(즉, 비동기 코드 내에서)는 잡아내지 못한다.
-catch를 호출하여 제어해야한다. (당연하지만 catch는 promise 외부에서 발생한 에러 잡아내지 못한다.)
+.catch 체이닝을 호출하여 제어해야한다. (당연하지만 catch는 promise 외부에서 발생한 에러 잡아내지 못한다.)
 
 이렇게 되면 promise는 `try/catch`와 `.catch` 두 곳에서 에러 핸들링을 해야한다.
 
