@@ -12,6 +12,8 @@ CJS는 (\* as something)으로 import 해야한다.
 exports = moment;
 ```
 
+ssssss
+
 ```js
 // index.ts file in our app
 import * as moment from 'moment';
